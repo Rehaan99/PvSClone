@@ -17,16 +17,23 @@ let gameOver = false;
 const projectiles = [];
 let score = 0;
 const resources = [];
-const winningScore = 100;
+const winningScore = 200;
+let chosenDefender = 0;
 //mouse
 const mouse = {
   x: undefined,
   y: undefined,
   width: 0.1,
   height: 0.1,
+  clicked: false,
 };
 let canvasPosition = canvas.getBoundingClientRect();
-console.log(canvasPosition);
+canvas.addEventListener("mousedown", function () {
+  mouse.clicked = true;
+});
+canvas.addEventListener("mouseup", function () {
+  mouse.clicked = false;
+});
 canvas.addEventListener("mousemove", function (e) {
   mouse.x = e.x - canvasPosition.left;
   mouse.y = e.y - canvasPosition.top;
@@ -49,7 +56,7 @@ class Cell {
   }
   draw() {
     if (mouse.x && mouse.y && collision(this, mouse)) {
-      ctx.strokeStyle = "black";
+      ctx.strokeStyle = "blue";
       ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
   }
@@ -68,6 +75,10 @@ function handleGameGrid() {
   }
 }
 //projectiles
+const projectileTypes = [];
+const projectile1 = new Image();
+projectile1.src = "/images/towerProjectile.png";
+projectileTypes.push(projectile1);
 class Projectiles {
   constructor(x, y) {
     this.x = x;
@@ -76,12 +87,33 @@ class Projectiles {
     this.height = 10;
     this.power = 20;
     this.speed = 5;
+    this.projectileType = projectileTypes[0];
+    this.frameX = 0; // to cycle through frames for animation (Dont currently have any)
+    this.frameY = 0; // same as above
+    this.minFrame = 0; //also cycles
+    this.maxFrame = 4; //^^
+    this.spriteWidth = 62;
+    this.spriteHeight = 57;
   }
   update() {
     this.x += this.speed;
+    //if (frame % 10 === 0 ){
+    // if (this.frameX < this.maxFrame){this.frameX++;}
+    //else {this.frameX = this.minFrame;}
+    //}
   }
   draw() {
-    ctx.fillStyle = "black";
+    ctx.drawImage(
+      this.projectileType,
+      this.frameX * this.spriteWidth,
+      this.frameY * this.spriteHeight,
+      this.spriteWidth,
+      this.spriteHeight,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
     ctx.fill();
@@ -111,6 +143,16 @@ function handleProjectiles() {
   }
 }
 //defenders/ towers
+const defenderTypes = [];
+const defender1 = new Image();
+defender1.src = "/images/tower1.png";
+defenderTypes.push(defender1);
+const defender2 = new Image();
+defender2.src = "/images/tower2.png";
+defenderTypes.push(defender2);
+const defender3 = new Image();
+defender3.src = "/images/tower3.png";
+defenderTypes.push(defender3);
 class Defender {
   constructor(x, y) {
     this.x = x;
@@ -121,13 +163,29 @@ class Defender {
     this.health = 100;
     this.projectiles = [];
     this.timer = 0;
+    this.defenderType = defenderTypes[chosenDefender];
+    this.frameX = 0; // to cycle through frames for animation (Dont currently have any)
+    this.frameY = 0; // same as above
+    this.minFrame = 0; //also cycles
+    this.maxFrame = 4; //^^
+    this.spriteWidth = 164;
+    this.spriteHeight = 187;
   }
   draw() {
-    ctx.fillStyle = "blue";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = "gold";
+    ctx.fillStyle = "limegreen";
     ctx.font = "20px Arial";
     ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 30);
+    ctx.drawImage(
+      this.defenderType,
+      this.frameX * this.spriteWidth,
+      this.frameY * this.spriteHeight,
+      this.spriteWidth,
+      this.spriteHeight,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
   }
   update() {
     if (this.shooting) {
@@ -138,7 +196,69 @@ class Defender {
     } else {
       this.timer = 0;
     }
+    //if (frame % 10 === 0 ){
+    // if (this.frameX < this.maxFrame){this.frameX++;}
+    //else {this.frameX = this.minFrame;}
+    //}
   }
+}
+const card1 = {
+  x: 10,
+  y: 10,
+  width: 70,
+  height: 85,
+  color: "gold",
+};
+const card2 = {
+  x: 90,
+  y: 10,
+  width: 70,
+  height: 85,
+  color: "black",
+};
+function chooseDefender() {
+  if (collision(mouse, card1) && mouse.clicked) {
+    chosenDefender = 0;
+  } else if (collision(mouse, card2) && mouse.clicked) {
+    chosenDefender = 1;
+  }
+  if (chosenDefender === 0) {
+    card1.color = "gold";
+    card2.color = "black";
+  } else if (chosenDefender === 1) {
+    card2.color = "gold";
+    card1.color = "black";
+  }
+  ctx.lineWidth = 2;
+  ctx.fillStyle = "rgba(0,0,0,0.5)";
+  ctx.fillRect(card1.x, card1.y, card1.width, card1.height);
+  ctx.strokeStyle = card1.color;
+  ctx.strokeRect(card1.x, card1.y, card1.width, card1.height);
+  ctx.drawImage(
+    defender1,
+    0,
+    0,
+    164,
+    187,
+    20,
+    15,
+    card1.width * 0.8,
+    card1.height * 0.8
+  );
+  ctx.fillRect(card2.x, card2.y, card2.width, card2.height);
+  ctx.strokeStyle = card2.color;
+  ctx.strokeRect(card2.x, card2.y, card2.width, card2.height);
+  ctx.drawImage(
+    defender2,
+    0,
+    0,
+    164,
+    187,
+    100,
+    15,
+    card2.width * 0.8,
+    card2.height * 0.8
+  );
 }
 canvas.addEventListener("click", function () {
   const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
@@ -152,6 +272,16 @@ canvas.addEventListener("click", function () {
   if (numberOfResources >= defenderCost) {
     defenders.push(new Defender(gridPositionX, gridPositionY));
     numberOfResources -= defenderCost;
+  } else {
+    floatingMessages.push(
+      new FloatingMessage(
+        "More Resources Required",
+        mouse.x,
+        mouse.y,
+        15,
+        "red"
+      )
+    );
   }
 });
 function handleDefenders() {
@@ -176,7 +306,43 @@ function handleDefenders() {
     }
   }
 }
-
+//floating messages
+const floatingMessages = [];
+class FloatingMessage {
+  constructor(value, x, y, size, color) {
+    this.value = value;
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.lifeSpan = 0;
+    this.color = color;
+    this.opacity = 1;
+  }
+  update() {
+    this.y -= 0.3;
+    this.lifeSpan += 1;
+    if (this.opacity > 0.02) {
+      this.opacity -= 0.02;
+    }
+  }
+  draw() {
+    ctx.globalAlpha = this.opacity;
+    ctx.fillStyle = this.color;
+    ctx.font = this.size + "px Arial";
+    ctx.fillText(this.value, this.x, this.y);
+    ctx.globalAlpha = 1;
+  }
+}
+function handleFloatingMessages() {
+  for (let i = 0; i < floatingMessages.length; i++) {
+    floatingMessages[i].update();
+    floatingMessages[i].draw();
+    if (floatingMessages[i].lifeSpan >= 50) {
+      floatingMessages.splice(i, 1);
+      i--;
+    }
+  }
+}
 //enemies
 class Enemy {
   constructor(verticalPosition) {
@@ -210,6 +376,9 @@ function handleEnemies() {
     if (enemies[i].health <= 0) {
       const gainedResources = enemies[i].maxHealth / 10;
       numberOfResources += gainedResources;
+      floatingMessages.push(
+        new FloatingMessage("+" + gainedResources, 250, 50, 30, "gold")
+      );
       score += gainedResources;
       enemyPosition.splice(enemyPosition.indexOf(enemies[i].y), 1);
       enemies.splice(i, 1);
@@ -252,6 +421,18 @@ function handleResources() {
     resources[i].draw();
     if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)) {
       numberOfResources += resources[i].amount;
+      floatingMessages.push(
+        new FloatingMessage(
+          "+" + resources[i].amount,
+          resources[i].x,
+          resources[i].y,
+          30,
+          "gold"
+        )
+      );
+      floatingMessages.push(
+        new FloatingMessage("+" + resources[i].amount, 250, 50, 30, "gold")
+      );
       resources.splice(i, 1);
       i--;
     }
@@ -261,18 +442,19 @@ function handleResources() {
 function handleGameStatus() {
   ctx.fillStyle = "gold";
   ctx.font = "30px Arial";
-  ctx.fillText("Score: " + score, 20, 40);
-  ctx.fillText("Resources: " + numberOfResources, 20, 80);
+  ctx.fillText("Score: " + score, 180, 40);
+  ctx.fillText("Resources: " + numberOfResources, 180, 80);
   if (gameOver) {
     ctx.fillStyle = "black";
     ctx.font = "90px Arial";
     ctx.fillText("GAME OVER", 135, 330);
   }
   if (score >= winningScore && enemies.length === 0) {
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "green";
     ctx.font = "60px Arial";
-    ctx.fillText("Level Complete", 130, 300);
-    ctx.fillText("You Win With A Score Of " + score + "!", 134, 340);
+    ctx.fillText("Level Complete!", 300, 300);
+    ctx.font = "15px Arial";
+    ctx.fillText("You Win With A Score Of " + score, 305, 325);
   }
 }
 function animate() {
@@ -280,11 +462,13 @@ function animate() {
   ctx.fillStyle = "blue";
   ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
   handleGameGrid();
+  chooseDefender();
   handleDefenders();
   handleProjectiles();
   handleEnemies();
   handleResources();
   handleGameStatus();
+  handleFloatingMessages();
   frame++;
   if (!gameOver) {
     requestAnimationFrame(animate);
