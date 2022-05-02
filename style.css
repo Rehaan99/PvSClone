@@ -94,6 +94,10 @@ h1 {
 }
 
 .title:nth-child(3) {
+  color: rgba(0, 0, 0, 0.418);
+}
+
+.title:nth-child(4) {
   color: #f1c83c;
 }
 /*# sourceMappingURL=style.css.map */
