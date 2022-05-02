@@ -57,7 +57,7 @@ class Cell {
     this.height = cellSize;
   }
   draw() {
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = "darkgreen";
     ctx.strokeRect(this.x, this.y, this.width, this.height);
     if (mouse.x && mouse.y && collision(this, mouse)) {
       ctx.strokeStyle = "blue";
@@ -494,7 +494,7 @@ function animate() {
   const background = new Image();
   background.src = "./images/battleground.png";
   ctx.drawImage(background, 0, 0, 900, 600);
-  ctx.fillStyle = "blue";
+  ctx.fillStyle = "darkgreen";
   ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
   handleGameGrid();
   chooseDefender();
