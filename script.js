@@ -12,8 +12,10 @@ let numberOfResources = 300;
 const enemies = [];
 let frame = 0;
 const enemyPosition = [];
+let enemiesToSpawn = 3;
 let enemiesInterval = 600;
 let gameOver = false;
+let level = 1;
 const projectiles = [];
 let score = 0;
 const resources = [];
@@ -55,10 +57,14 @@ class Cell {
     this.height = cellSize;
   }
   draw() {
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(this.x, this.y, this.width, this.height);
     if (mouse.x && mouse.y && collision(this, mouse)) {
       ctx.strokeStyle = "blue";
-      ctx.strokeRect(this.x, this.y, this.width, this.height);
+      ctx.globalAlpha = 0.2;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
     }
+    ctx.globalAlpha = 1;
   }
 }
 function createGrid() {
@@ -111,12 +117,11 @@ class Projectiles {
       this.spriteHeight,
       this.x,
       this.y,
-      this.width,
-      this.height
+      this.width + 10,
+      this.height + 10
     );
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
-    ctx.fill();
   }
 }
 function handleProjectiles() {
@@ -163,13 +168,14 @@ class Defender {
     this.health = 100;
     this.projectiles = [];
     this.timer = 0;
+    this.fireRate = 100;
     this.defenderType = defenderTypes[chosenDefender];
     this.frameX = 0; // to cycle through frames for animation (Dont currently have any)
     this.frameY = 0; // same as above
     this.minFrame = 0; //also cycles
     this.maxFrame = 4; //^^
     this.spriteWidth = 164;
-    this.spriteHeight = 187;
+    this.spriteHeight = 195;
   }
   draw() {
     ctx.fillStyle = "limegreen";
@@ -181,18 +187,18 @@ class Defender {
       this.frameY * this.spriteHeight,
       this.spriteWidth,
       this.spriteHeight,
-      this.x,
+      this.x + 10,
       this.y,
-      this.width,
+      this.width - 20,
       this.height
     );
   }
   update() {
     if (this.shooting) {
-      this.timer++;
-      if (this.timer % 100 == 0) {
+      if (this.timer % this.fireRate === 0 || this.timer === 0) {
         projectiles.push(new Projectiles(this.x + 50, this.y + 50));
       }
+      this.timer++;
     } else {
       this.timer = 0;
     }
@@ -366,6 +372,7 @@ class Enemy {
     ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 30);
   }
 }
+let spawnedEnemies = 1;
 function handleEnemies() {
   for (let i = 0; i < enemies.length; i++) {
     enemies[i].update();
@@ -385,11 +392,12 @@ function handleEnemies() {
       i--;
     }
   }
-  if (frame % enemiesInterval === 0 && score < winningScore) {
+  if (frame % enemiesInterval === 0 && spawnedEnemies <= enemiesToSpawn) {
     let verticalPosition =
       Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
     enemies.push(new Enemy(verticalPosition));
     enemyPosition.push(verticalPosition);
+    spawnedEnemies++;
     if (enemiesInterval > 120) {
       enemiesInterval -= 50;
     }
@@ -448,13 +456,13 @@ function handleGameStatus() {
     ctx.fillStyle = "black";
     ctx.font = "90px Arial";
     ctx.fillText("GAME OVER", 135, 330);
+    ctx;
   }
-  if (score >= winningScore && enemies.length === 0) {
+  if (enemiesToSpawn <= spawnedEnemies && enemies.length === 0) {
     ctx.fillStyle = "green";
     ctx.font = "60px Arial";
     ctx.fillText("Level Complete!", 300, 300);
-    ctx.font = "15px Arial";
-    ctx.fillText("You Win With A Score Of " + score, 305, 325);
+    gameOver = true;
   }
 }
 function animate() {
