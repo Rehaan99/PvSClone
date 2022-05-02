@@ -269,7 +269,9 @@ function chooseDefender() {
 canvas.addEventListener("click", function () {
   const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
   const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
-  if (gridPositionY < cellSize) return;
+  if (gridPositionY < cellSize) {
+    return;
+  }
   for (let i = 0; i < defenders.length; i++) {
     if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY)
       return;
@@ -350,6 +352,12 @@ function handleFloatingMessages() {
   }
 }
 //enemies
+const enemySprites = [];
+for (let i = 0; i < 11; i++) {
+  let enemySprite = new Image();
+  enemySprite.src = "./images/Goblin/Running/0_Goblin_Running_" + i + ".png";
+  enemySprites.push(enemySprite);
+}
 class Enemy {
   constructor(verticalPosition) {
     this.x = canvas.width;
@@ -360,16 +368,33 @@ class Enemy {
     this.movement = this.speed;
     this.health = 100;
     this.maxHealth = this.health;
+    this.frameX = 0;
+    this.frameY = 0;
+    this.minFrame = 0;
+    this.maxFrame = 10;
   }
   update() {
+    if (frame % 10 === 0) {
+      if (this.frameX < this.maxFrame) {
+        this.frameX++;
+      } else {
+        this.frameX = this.minFrame;
+      }
+    }
     this.x -= this.movement;
   }
   draw() {
-    ctx.fillStyle = "red";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = "black";
+    ctx.drawImage(
+      enemySprites[this.frameX],
+      this.x - 30,
+      this.y,
+      this.width,
+      this.height
+    );
+
+    ctx.fillStyle = "darkred";
     ctx.font = "20px Arial";
-    ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 30);
+    ctx.fillText(Math.floor(this.health), this.x, this.y + 20);
   }
 }
 let spawnedEnemies = 1;
