@@ -178,9 +178,9 @@ class Defender {
     this.spriteHeight = 195;
   }
   draw() {
-    ctx.fillStyle = "limegreen";
-    ctx.font = "20px Arial";
-    ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 30);
+    ctx.fillStyle = "lightgreen";
+    ctx.font = "15px Arial";
+    ctx.fillText(Math.floor(this.health), this.x + 30, this.y + 15);
     ctx.drawImage(
       this.defenderType,
       this.frameX * this.spriteWidth,
@@ -466,7 +466,9 @@ function handleGameStatus() {
   }
 }
 function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const background = new Image();
+  background.src = "/images/battleground.png";
+  ctx.drawImage(background, 0, 0, 900, 600);
   ctx.fillStyle = "blue";
   ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
   handleGameGrid();
