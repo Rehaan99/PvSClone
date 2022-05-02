@@ -44,6 +44,11 @@ class Defender {
     this.maxFrame = 5; //^^
     this.spriteWidth = 164;
     this.spriteHeight = 195;
+    this.firingRange;
+    this.travelRange;
+    this.production = false;
+    this.productionSpeed; // for adding resource producers
+    this.hardness = 0; // for adding wall types
   }
   draw() {
     ctx.fillStyle = "lightgreen";
