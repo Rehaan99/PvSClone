@@ -173,7 +173,7 @@ class Defender {
     this.frameX = 0; // to cycle through frames for animation (Dont currently have any)
     this.frameY = 0; // same as above
     this.minFrame = 0; //also cycles
-    this.maxFrame = 4; //^^
+    this.maxFrame = 5; //^^
     this.spriteWidth = 164;
     this.spriteHeight = 195;
   }
@@ -404,21 +404,45 @@ function handleEnemies() {
   }
 }
 //resources
+const coinSprites = [];
+for (let i = 1; i < 11; i++) {
+  let coinSprite = new Image();
+  coinSprite.src = "/images/Gold_" + i + ".png";
+  coinSprites.push(coinSprite);
+}
 const amounts = [20, 30, 40];
 class Resource {
   constructor() {
     this.x = Math.random() * (canvas.width - cellSize);
     this.y = (Math.floor(Math.random() * 5) + 1) * cellSize + 25;
-    this.width = cellSize * 0.6;
-    this.height = cellSize * 0.6;
+    this.width = cellSize * 0.4;
+    this.height = cellSize * 0.4;
     this.amount = amounts[Math.floor(Math.random() * amounts.length)];
+    this.frameX = 0;
+    this.frameY = 0;
+    this.minFrame = 0;
+    this.maxFrame = 9;
   }
   draw() {
+    ctx.drawImage(
+      coinSprites[this.frameX],
+      this.x,
+      this.y,
+      coinSprites[this.frameX].width / 15,
+      this.height
+    );
     ctx.fillStyle = "yellow";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = "black";
     ctx.font = "20px Arial";
-    ctx.fillText(this.amount, this.x + 15, this.y + 25);
+    ctx.fillText(this.amount, this.x - 5, this.y);
+  }
+  update() {
+    if (frame % 10 === 0) {
+      if (this.frameX < this.maxFrame) {
+        this.frameX++;
+      } else {
+        this.frameX = this.minFrame;
+      }
+    }
   }
 }
 function handleResources() {
@@ -427,6 +451,7 @@ function handleResources() {
   }
   for (let i = 0; i < resources.length; i++) {
     resources[i].draw();
+    resources[i].update();
     if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)) {
       numberOfResources += resources[i].amount;
       floatingMessages.push(
@@ -447,22 +472,22 @@ function handleResources() {
   }
 }
 //utilities
-function handleGameStatus() {
-  ctx.fillStyle = "gold";
-  ctx.font = "30px Arial";
-  ctx.fillText("Score: " + score, 180, 40);
-  ctx.fillText("Resources: " + numberOfResources, 180, 80);
-  if (gameOver) {
-    ctx.fillStyle = "black";
-    ctx.font = "90px Arial";
-    ctx.fillText("GAME OVER", 135, 330);
-    ctx;
+function handleGameStatus(gameComplete) {
+  if (!gameComplete) {
+    ctx.fillStyle = "gold";
+    ctx.font = "30px Arial";
+    ctx.fillText("Score: " + score, 180, 40);
+    ctx.fillText("Resources: " + numberOfResources, 180, 80);
   }
   if (enemiesToSpawn <= spawnedEnemies && enemies.length === 0) {
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "blue";
     ctx.font = "60px Arial";
     ctx.fillText("Level Complete!", 300, 300);
     gameOver = true;
+  } else if (gameOver) {
+    ctx.fillStyle = "black";
+    ctx.font = "90px Arial";
+    ctx.fillText("GAME OVER", 135, 330);
   }
 }
 function animate() {
@@ -477,14 +502,20 @@ function animate() {
   handleProjectiles();
   handleEnemies();
   handleResources();
-  handleGameStatus();
+  handleGameStatus(false);
   handleFloatingMessages();
   frame++;
   if (!gameOver) {
     requestAnimationFrame(animate);
+  } else {
+    levelOverScreen();
+    handleGameStatus(true);
   }
 }
-animate();
+function levelOverScreen() {
+  ctx.fillStyle = "green";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
 function collision(first, second) {
   if (
     !(
@@ -498,6 +529,7 @@ function collision(first, second) {
   }
   return false;
 }
+animate();
 window.addEventListener("resize", function () {
   canvasPosition = canvas.getBoundingClientRect();
 });
