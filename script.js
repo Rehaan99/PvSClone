@@ -83,7 +83,7 @@ function handleGameGrid() {
 //projectiles
 const projectileTypes = [];
 const projectile1 = new Image();
-projectile1.src = "/images/towerProjectile.png";
+projectile1.src = "./images/towerProjectile.png";
 projectileTypes.push(projectile1);
 class Projectiles {
   constructor(x, y) {
@@ -150,13 +150,13 @@ function handleProjectiles() {
 //defenders/ towers
 const defenderTypes = [];
 const defender1 = new Image();
-defender1.src = "/images/tower1.png";
+defender1.src = "./images/tower1.png";
 defenderTypes.push(defender1);
 const defender2 = new Image();
-defender2.src = "/images/tower2.png";
+defender2.src = "./images/tower2.png";
 defenderTypes.push(defender2);
 const defender3 = new Image();
-defender3.src = "/images/tower3.png";
+defender3.src = "./images/tower3.png";
 defenderTypes.push(defender3);
 class Defender {
   constructor(x, y) {
@@ -407,7 +407,7 @@ function handleEnemies() {
 const coinSprites = [];
 for (let i = 1; i < 11; i++) {
   let coinSprite = new Image();
-  coinSprite.src = "/images/Gold_" + i + ".png";
+  coinSprite.src = "./images/Gold_" + i + ".png";
   coinSprites.push(coinSprite);
 }
 const amounts = [20, 30, 40];
@@ -492,7 +492,7 @@ function handleGameStatus(gameComplete) {
 }
 function animate() {
   const background = new Image();
-  background.src = "/images/battleground.png";
+  background.src = "./images/battleground.png";
   ctx.drawImage(background, 0, 0, 900, 600);
   ctx.fillStyle = "blue";
   ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
