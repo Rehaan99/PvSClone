@@ -59,7 +59,7 @@ function handleProjectiles() {
       }
     }
 
-    if (projectiles[i] && projectiles[i].x > canvas.width - cellSize) {
+    if (projectiles[i] && projectiles[i].x > canvas.width) {
       projectiles.splice(i, 1);
       i--;
     }
