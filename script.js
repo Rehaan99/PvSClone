@@ -6,7 +6,7 @@ let canvasPosition = canvas.getBoundingClientRect();
 const cellSize = 100;
 const cellGap = 3;
 const gameGrid = [];
-let level = 0;
+let level = 9;
 let numberOfResources = levelData[level].numberOfResources;
 let frame = 0;
 let enemiesToSpawn = levelData[level].enemiesToSpawn;
@@ -14,29 +14,6 @@ let enemiesInterval = levelData[level].enemiesInterval;
 let gameOver = false;
 let score = 0;
 
-$(document).ready(function () {
-  $(".title").lettering();
-  $(".button").lettering();
-});
-$(document).ready(function () {
-  animation();
-  $(".button").click(function () {
-    animation();
-  });
-}, 1000);
-
-function animation() {
-  var title1 = new TimelineMax();
-  title1.to(".button", 0, { visibility: "hidden", opacity: 0 });
-  title1.staggerFromTo(
-    ".title span",
-    0.5,
-    { ease: Back.easeOut.config(1.7), opacity: 0, bottom: -80 },
-    { ease: Back.easeOut.config(1.7), opacity: 1, bottom: 0 },
-    0.05
-  );
-  title1.to(".button", 0.2, { visibility: "visible", opacity: 1 });
-}
 const mouse = {
   x: undefined,
   y: undefined,
@@ -128,6 +105,7 @@ function handleGameStatus(gameComplete) {
     ctx.font = "30px Arial";
     ctx.fillText("Score: " + score, 180, 40);
     ctx.fillText("Resources: " + numberOfResources, 180, 80);
+    ctx.fillText("Level " + level, 780, 60);
   }
   if (enemiesToSpawn <= spawnedEnemies && enemies.length === 0) {
     ctx.fillStyle = "blue";
