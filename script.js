@@ -69,6 +69,7 @@ function createListeners() {
   });
   frame = 0;
   enemies.splice(0, enemies.length);
+  enemyPosition.splice(0, enemyPosition.length);
 }
 
 class Cell {
