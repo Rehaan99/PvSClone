@@ -25,6 +25,6 @@ levelData.push(new LevelInfo(300, 30, 600));
 //level 9
 levelData.push(new LevelInfo(300, 30, 600));
 //level 10
-levelData.push(new LevelInfo(500, 1, 200));
+levelData.push(new LevelInfo(500, 150, 200));
 //level 11
 levelData.push(new LevelInfo(300, 30, 600));
