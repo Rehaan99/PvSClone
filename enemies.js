@@ -12,7 +12,7 @@ class Enemy {
     this.y = verticalPosition;
     this.width = cellSize - cellGap * 2;
     this.height = cellSize - cellGap * 2;
-    this.speed = Math.random() * 0.2 + 0.4;
+    this.speed = Math.random() * 0.2 + 0.8;
     this.movement = this.speed;
     this.health = 100;
     this.maxHealth = this.health;

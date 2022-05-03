@@ -36,7 +36,7 @@ class Defender {
     this.health = 100;
     this.projectiles = [];
     this.timer = 0;
-    this.fireRate = 100;
+    this.fireRate = 50;
     this.defenderType = defenderTypes[chosenDefender];
     this.frameX = 0; // to cycle through frames for animation (Dont currently have any)
     this.frameY = 0; // same as above
