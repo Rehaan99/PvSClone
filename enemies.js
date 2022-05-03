@@ -16,13 +16,14 @@ class Enemy {
     this.movement = this.speed;
     this.health = 100;
     this.maxHealth = this.health;
+    this.damage = 0.2;
     this.frameX = 0;
     this.frameY = 0;
     this.minFrame = 0;
     this.maxFrame = 10;
   }
   update() {
-    if (frame % 10 === 0) {
+    if (frame % 5 === 0) {
       if (this.frameX < this.maxFrame) {
         this.frameX++;
       } else {
@@ -77,7 +78,7 @@ function handleEnemies() {
     if (enemiesInterval >= 1000 && gameStarted) {
       enemiesInterval = levelData[level].enemiesInterval;
     }
-    if (gameStarted) {
+    if (gameStarted && !hordeMode) {
       spawnedEnemies++;
       if (enemiesInterval > 120) {
         enemiesInterval -= 50;

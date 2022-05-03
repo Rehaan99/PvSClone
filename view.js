@@ -3,16 +3,19 @@ function levelOverScreen() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 let gameStarted = false;
+let hordeMode = false;
 $(document).ready(function () {
   $(".title").lettering();
   $(".button").lettering();
   animation();
-  $(".start").click(function () {
+  $(".button").click(function () {
     $(".container").hide();
     $(".button").hide();
     gameStarted = true;
     createListeners();
   });
+  $(".horde").click(function () {});
+  hordeMode = true;
 }, 1000);
 
 function animation() {
