@@ -49,6 +49,7 @@ class Defender {
     this.production = false;
     this.productionSpeed; // for adding resource producers
     this.hardness = 0; // for adding wall types
+    this.damage = 20;
   }
   draw() {
     ctx.fillStyle = "lightgreen";
@@ -69,7 +70,9 @@ class Defender {
   update() {
     if (this.shooting) {
       if (this.timer % this.fireRate === 0 || this.timer === 0) {
-        projectiles.push(new Projectiles(this.x + 50, this.y + 50));
+        projectiles.push(
+          new Projectiles(this.x + 50, this.y + 50, this.damage)
+        );
       }
       this.timer++;
     } else {
@@ -93,7 +96,7 @@ function handleDefenders() {
     for (let j = 0; j < enemies.length; j++) {
       if (defenders[i] && collision(defenders[i], enemies[j])) {
         enemies[j].movement = 0;
-        defenders[i].health -= 0.2;
+        defenders[i].health -= enemies[j].damage;
       }
       if (defenders[i] && defenders[i].health <= 0) {
         defenders.splice(i, 1);

@@ -4,12 +4,12 @@ const projectile1 = new Image();
 projectile1.src = "./images/towerProjectile.png";
 projectileTypes.push(projectile1);
 class Projectiles {
-  constructor(x, y) {
+  constructor(x, y, damage) {
     this.x = x;
     this.y = y;
     this.width = 10;
     this.height = 10;
-    this.power = 20;
+    this.power = damage;
     this.speed = 5;
     this.projectileType = projectileTypes[0];
     this.frameX = 0; // to cycle through frames for animation (Dont currently have any)
