@@ -37,12 +37,14 @@ body {
   max-width: 250px;
   text-align: center;
 }
-
+.button:hover{
+  color:red;
+}
 .button {
   float: left;
   position: relative;
   bottom: -65px;
-  left: 50%;
+  left: 45%;
   display: block;
   transform: translateX(-50%);
   color: $red;
