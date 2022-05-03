@@ -65,7 +65,11 @@ function handleEnemies() {
       i--;
     }
   }
-  if (frame % enemiesInterval === 0 && spawnedEnemies <= enemiesToSpawn) {
+  if (
+    frame % enemiesInterval === 0 &&
+    spawnedEnemies <= enemiesToSpawn &&
+    (frame > 0 || !gameStarted)
+  ) {
     let verticalPosition =
       Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
     enemies.push(new Enemy(verticalPosition));
