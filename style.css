@@ -85,6 +85,13 @@ h1 {
   position: relative;
 }
 
+.noselect {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
 .title:nth-child(1) {
   color: #e55643;
 }

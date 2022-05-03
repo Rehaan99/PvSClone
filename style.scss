@@ -85,6 +85,9 @@ h1 {
     position: relative;
   }
 }
+.noselect{
+  user-select: none;
+}
 
 .title {
   &:nth-child(1) {
