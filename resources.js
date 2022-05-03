@@ -8,7 +8,7 @@ for (let i = 1; i < 11; i++) {
 const amounts = [20, 30, 40];
 class Resource {
   constructor() {
-    this.x = Math.random() * (canvas.width - cellSize);
+    this.x = Math.random() * (canvas.width - 60) + 30;
     this.y = (Math.floor(Math.random() * 5) + 1) * cellSize + 25;
     this.width = cellSize * 0.4;
     this.height = cellSize * 0.4;
@@ -21,7 +21,7 @@ class Resource {
   draw() {
     ctx.drawImage(
       coinSprites[this.frameX],
-      this.x,
+      this.x - coinSprites[this.frameX].width / 100,
       this.y,
       coinSprites[this.frameX].width / 15,
       this.height
@@ -40,8 +40,9 @@ class Resource {
     }
   }
 }
+
 function handleResources() {
-  if (frame % 500 === 0 && !gameOver && gameStarted) {
+  if (frame % 500 === 0 && !gameOver && gameStarted && frame > 0) {
     resources.push(new Resource());
   }
   for (let i = 0; i < resources.length; i++) {
