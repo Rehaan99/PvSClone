@@ -34,20 +34,20 @@ body {
   left: 50%;
   display: block;
   position: absolute;
-  max-width: 225px;
+  max-width: 250px;
+  text-align: center;
 }
 
 .button {
-  float: right;
-  position: relative;
+  position: absolute;
   bottom: -65px;
-  left: 50%;
   transform: translateX(-50%);
   color: $red;
   text-transform: uppercase;
   opacity: 0;
   visibility: hidden;
   cursor: pointer;
+  font-size: 30px;
 
   span {
     transform: skew(-10deg);
@@ -56,6 +56,18 @@ body {
     text-shadow: $shadow 1px 1px, $shadow 2px 2px, $shadow 3px 3px,
       $shadow 4px 4px;
   }
+}
+.start{
+  top: 65%;
+  left: 30%;
+}
+.b2{
+  top: 65%;
+  left: 50%;
+}
+.b3{
+  top: 65%;
+  left: 70%;
 }
 
 h1 {

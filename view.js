@@ -7,8 +7,9 @@ $(document).ready(function () {
   $(".title").lettering();
   $(".button").lettering();
   animation();
-  $(".button").click(function () {
+  $(".start").click(function () {
     $(".container").hide();
+    $(".button").hide();
     gameStarted = true;
     createListeners();
   });
