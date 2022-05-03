@@ -85,7 +85,10 @@ function handleDefenders() {
   for (let i = 0; i < defenders.length; i++) {
     defenders[i].draw();
     defenders[i].update();
-    if (enemyPosition.indexOf(defenders[i].y) !== -1) {
+    if (
+      enemyPosition.indexOf(defenders[i].y) &&
+      enemyPosition.indexOf(defenders[i].y) !== -1
+    ) {
       defenders[i].shooting = true;
     } else {
       defenders[i].shooting = false;
