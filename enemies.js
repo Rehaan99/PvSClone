@@ -74,6 +74,9 @@ function handleEnemies() {
       Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
     enemies.push(new Enemy(verticalPosition));
     enemyPosition.push(verticalPosition);
+    if (enemiesInterval >= 1000 && gameStarted) {
+      enemiesInterval = levelData[level].enemiesInterval;
+    }
     if (gameStarted) {
       spawnedEnemies++;
       if (enemiesInterval > 120) {

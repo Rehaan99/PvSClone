@@ -10,7 +10,7 @@ let level = 9;
 let numberOfResources = levelData[level].numberOfResources;
 let frame = 0;
 let enemiesToSpawn = levelData[level].enemiesToSpawn;
-let enemiesInterval = levelData[level].enemiesInterval;
+let enemiesInterval = 1000;
 let gameOver = false;
 let score = 0;
 //framerate
