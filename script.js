@@ -77,8 +77,6 @@ class Cell {
     this.height = cellSize;
   }
   draw() {
-    ctx.strokeStyle = "darkgreen";
-    ctx.strokeRect(this.x, this.y, this.width, this.height);
     if (mouse.x && mouse.y && collision(this, mouse)) {
       ctx.strokeStyle = "blue";
       ctx.globalAlpha = 0.2;
