@@ -164,7 +164,7 @@ function animate(newtime) {
     handleGameStatus(true);
   }
 }
-function collision(first, second) {
+function collision(first, second, value) {
   if (
     !(
       first.x > second.x + second.width ||
@@ -173,9 +173,12 @@ function collision(first, second) {
       first.y + first.height < second.y
     )
   ) {
-    return true;
+    if (!value) {
+      return 1;
+    }
+    return value;
   }
-  return false;
+  return 0;
 }
 window.addEventListener("resize", function () {
   canvasPosition = canvas.getBoundingClientRect();

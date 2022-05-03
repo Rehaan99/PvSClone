@@ -106,16 +106,14 @@ function handleDefenders() {
 function chooseDefender() {
   if (collision(mouse, card1) && mouse.clicked) {
     chosenDefender = 0;
-  } else if (collision(mouse, card2) && mouse.clicked) {
-    chosenDefender = 1;
-  }
-  if (chosenDefender === 0) {
     card1.color = "gold";
     card2.color = "black";
-  } else if (chosenDefender === 1) {
+  } else if (collision(mouse, card2) && mouse.clicked) {
+    chosenDefender = 1;
     card2.color = "gold";
     card1.color = "black";
   }
+
   ctx.lineWidth = 2;
   ctx.fillStyle = "rgba(0,0,0,0.5)";
   ctx.fillRect(card1.x, card1.y, card1.width, card1.height);
