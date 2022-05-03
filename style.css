@@ -32,18 +32,21 @@ body {
   display: block;
   position: absolute;
   max-width: 250px;
+  text-align: center;
 }
 
 .button {
-  position: absolute;
+  float: left;
+  position: relative;
   bottom: -65px;
+  left: 50%;
+  display: block;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
   color: #e55643;
   text-transform: uppercase;
   opacity: 0;
   visibility: hidden;
-  cursor: pointer;
   font-size: 30px;
 }
 
@@ -53,21 +56,12 @@ body {
   display: block;
   float: left;
   text-shadow: #533d4a 1px 1px, #533d4a 2px 2px, #533d4a 3px 3px, #533d4a 4px 4px;
+  min-width: 10px;
+  min-height: 10px;
 }
 
 .start {
-  top: 65%;
-  left: 40%;
-}
-
-.b2 {
-  top: 65%;
-  left: 50%;
-}
-
-.b3 {
-  top: 65%;
-  left: 60%;
+  left: 10px;
 }
 
 h1 {
