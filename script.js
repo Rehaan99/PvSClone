@@ -13,7 +13,9 @@ let enemiesToSpawn = levelData[level].enemiesToSpawn;
 let enemiesInterval = levelData[level].enemiesInterval;
 let gameOver = false;
 let score = 0;
-
+//framerate
+var fpsInterval, startTime, now, then, elapsed;
+//
 const mouse = {
   x: undefined,
   y: undefined,
@@ -125,27 +127,40 @@ const controlsBar = {
   height: cellSize,
 };
 createGrid();
-animate();
-function animate() {
-  const background = new Image();
-  background.src = "./images/battleground.png";
-  ctx.drawImage(background, 0, 0, 900, 600);
-  ctx.fillStyle = "darkgreen";
-  ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
-  handleGameGrid();
-  chooseDefender();
-  handleDefenders();
-  handleProjectiles();
-  handleEnemies();
-  handleResources();
-  handleGameStatus(false);
-  handleFloatingMessages();
-  frame++;
+startAnimating();
+function startAnimating() {
+  fps = 60;
+  fpsInterval = 1000 / fps;
+  then = window.performance.now();
+  startTime = then;
+  animate();
+}
+
+function animate(newtime) {
   if (!gameOver) {
     requestAnimationFrame(animate);
   } else {
     levelOverScreen();
     handleGameStatus(true);
+  }
+  now = newtime;
+  elapsed = now - then;
+  if (elapsed > fpsInterval) {
+    then = now - (elapsed % fpsInterval);
+    const background = new Image();
+    background.src = "./images/battleground.png";
+    ctx.drawImage(background, 0, 0, 900, 600);
+    ctx.fillStyle = "darkgreen";
+    ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
+    handleGameGrid();
+    chooseDefender();
+    handleDefenders();
+    handleProjectiles();
+    handleEnemies();
+    handleResources();
+    handleGameStatus(false);
+    handleFloatingMessages();
+    frame++;
   }
 }
 function collision(first, second) {
