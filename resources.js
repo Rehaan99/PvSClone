@@ -31,7 +31,7 @@ class Resource {
     ctx.fillText(this.amount, this.x - 5, this.y);
   }
   update() {
-    if (frame % 10 === 0) {
+    if (frame % 5 === 0) {
       if (this.frameX < this.maxFrame) {
         this.frameX++;
       } else {
