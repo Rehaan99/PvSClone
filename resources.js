@@ -41,7 +41,7 @@ class Resource {
   }
 }
 function handleResources() {
-  if (frame % 500 === 0 && !gameOver) {
+  if (frame % 500 === 0 && !gameOver && gameStarted) {
     resources.push(new Resource());
   }
   for (let i = 0; i < resources.length; i++) {

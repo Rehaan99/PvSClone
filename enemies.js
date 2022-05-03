@@ -50,7 +50,7 @@ function handleEnemies() {
   for (let i = 0; i < enemies.length; i++) {
     enemies[i].update();
     enemies[i].draw();
-    if (enemies[i].x < 0) {
+    if (enemies[i].x < 0 && gameStarted) {
       gameOver = true;
     }
     if (enemies[i].health <= 0) {
@@ -70,9 +70,11 @@ function handleEnemies() {
       Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
     enemies.push(new Enemy(verticalPosition));
     enemyPosition.push(verticalPosition);
-    spawnedEnemies++;
-    if (enemiesInterval > 120) {
-      enemiesInterval -= 50;
+    if (gameStarted) {
+      spawnedEnemies++;
+      if (enemiesInterval > 120) {
+        enemiesInterval -= 50;
+      }
     }
   }
 }

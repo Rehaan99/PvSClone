@@ -65,6 +65,7 @@ function createListeners() {
       );
     }
   });
+  frame = 0;
 }
 
 class Cell {

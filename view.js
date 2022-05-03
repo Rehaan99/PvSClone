@@ -2,12 +2,14 @@ function levelOverScreen() {
   ctx.fillStyle = "green";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+let gameStarted = false;
 $(document).ready(function () {
   $(".title").lettering();
   $(".button").lettering();
   animation();
   $(".button").click(function () {
     $(".container").hide();
+    gameStarted = true;
     createListeners();
   });
 }, 1000);
