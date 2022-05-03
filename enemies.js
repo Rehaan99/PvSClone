@@ -45,7 +45,7 @@ class Enemy {
     ctx.fillText(Math.floor(this.health), this.x, this.y + 20);
   }
 }
-let spawnedEnemies = 1;
+let spawnedEnemies = 0;
 function handleEnemies() {
   for (let i = 0; i < enemies.length; i++) {
     enemies[i].update();
@@ -67,7 +67,7 @@ function handleEnemies() {
   }
   if (
     frame % enemiesInterval === 0 &&
-    spawnedEnemies <= enemiesToSpawn &&
+    spawnedEnemies < enemiesToSpawn &&
     (frame > 0 || !gameStarted)
   ) {
     let verticalPosition =

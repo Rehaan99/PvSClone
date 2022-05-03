@@ -111,7 +111,7 @@ function handleGameStatus(gameComplete) {
     ctx.fillText("Resources: " + numberOfResources, 180, 80);
     ctx.fillText("Level " + level, 780, 60);
   }
-  if (enemiesToSpawn <= spawnedEnemies && enemies.length === 0) {
+  if (enemiesToSpawn <= spawnedEnemies && enemies.length <= 0) {
     ctx.fillStyle = "blue";
     ctx.font = "60px Arial";
     ctx.fillText("Level Complete!", 300, 300);
@@ -137,12 +137,6 @@ function startAnimating() {
 }
 
 function animate(newtime) {
-  if (!gameOver) {
-    requestAnimationFrame(animate);
-  } else {
-    levelOverScreen();
-    handleGameStatus(true);
-  }
   now = newtime;
   elapsed = now - then;
   if (elapsed > fpsInterval) {
@@ -161,6 +155,12 @@ function animate(newtime) {
     handleGameStatus(false);
     handleFloatingMessages();
     frame++;
+  }
+  if (!gameOver) {
+    requestAnimationFrame(animate);
+  } else {
+    levelOverScreen();
+    handleGameStatus(true);
   }
 }
 function collision(first, second) {
