@@ -21,24 +21,51 @@ const mouse = {
   height: 0.1,
   clicked: false,
 };
+function createListeners() {
+  canvas.addEventListener("mousedown", function () {
+    mouse.clicked = true;
+  });
 
-canvas.addEventListener("mousedown", function () {
-  mouse.clicked = true;
-});
+  canvas.addEventListener("mouseup", function () {
+    mouse.clicked = false;
+  });
 
-canvas.addEventListener("mouseup", function () {
-  mouse.clicked = false;
-});
+  canvas.addEventListener("mousemove", function (e) {
+    mouse.x = e.x - canvasPosition.left;
+    mouse.y = e.y - canvasPosition.top;
+  });
 
-canvas.addEventListener("mousemove", function (e) {
-  mouse.x = e.x - canvasPosition.left;
-  mouse.y = e.y - canvasPosition.top;
-});
+  canvas.addEventListener("mouseleave", function () {
+    mouse.x = undefined;
+    mouse.y = undefined;
+  });
 
-canvas.addEventListener("mouseleave", function () {
-  mouse.x = undefined;
-  mouse.y = undefined;
-});
+  canvas.addEventListener("click", function () {
+    const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
+    const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
+    if (gridPositionY < cellSize) {
+      return;
+    }
+    for (let i = 0; i < defenders.length; i++) {
+      if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY)
+        return;
+    }
+    if (numberOfResources >= defenderCost) {
+      defenders.push(new Defender(gridPositionX, gridPositionY));
+      numberOfResources -= defenderCost;
+    } else {
+      floatingMessages.push(
+        new FloatingMessage(
+          "More Resources Required",
+          mouse.x,
+          mouse.y,
+          12,
+          "red"
+        )
+      );
+    }
+  });
+}
 
 class Cell {
   constructor(x, y) {
@@ -73,31 +100,6 @@ function handleGameGrid() {
   }
 }
 
-canvas.addEventListener("click", function () {
-  const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
-  const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
-  if (gridPositionY < cellSize) {
-    return;
-  }
-  for (let i = 0; i < defenders.length; i++) {
-    if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY)
-      return;
-  }
-  if (numberOfResources >= defenderCost) {
-    defenders.push(new Defender(gridPositionX, gridPositionY));
-    numberOfResources -= defenderCost;
-  } else {
-    floatingMessages.push(
-      new FloatingMessage(
-        "More Resources Required",
-        mouse.x,
-        mouse.y,
-        12,
-        "red"
-      )
-    );
-  }
-});
 //utilities
 function handleGameStatus(gameComplete) {
   if (!gameComplete) {

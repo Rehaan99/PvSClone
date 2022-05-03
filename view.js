@@ -8,6 +8,7 @@ $(document).ready(function () {
   animation();
   $(".button").click(function () {
     $(".container").hide();
+    createListeners();
   });
 }, 1000);
 
