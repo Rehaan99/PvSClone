@@ -66,6 +66,7 @@ function createListeners() {
     }
   });
   frame = 0;
+  enemies.splice(0, enemies.length);
 }
 
 class Cell {
