@@ -152,13 +152,16 @@ function chooseDefender() {
       defenderTypes[i].width,
       defenderTypes[i].height
     );
-    ctx.strokeStyle = defenderTypes[i].isSelected ? "gold" : "black";
+    ctx.strokeStyle = defenderTypes[i].isSelected ? "white" : "black";
+    ctx.shadowBlur = defenderTypes[i].isSelected ? 10 : 0;
+    ctx.shadowColor = "white";
     ctx.strokeRect(
       defenderTypes[i].x,
       defenderTypes[i].y,
       defenderTypes[i].width,
       defenderTypes[i].height
     );
+    ctx.shadowBlur = 0;
     ctx.drawImage(
       defenderSpriteTypes[i],
       0,
