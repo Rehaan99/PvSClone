@@ -27,16 +27,27 @@ const card2 = {
 };
 
 class Defender {
-  constructor(x, y) {
+  constructor(
+    x,
+    y,
+    health = 100,
+    fireRate = 50,
+    hardness = 0,
+    firingRange = 5,
+    travelRange = 5,
+    productionSpeed = 0,
+    production = false,
+    damage = 20
+  ) {
     this.x = x;
     this.y = y;
     this.width = cellSize - cellGap * 2;
     this.height = cellSize - cellGap * 2;
     this.shooting = false;
-    this.health = 100;
+    this.health = health;
     this.projectiles = [];
     this.timer = 0;
-    this.fireRate = 50;
+    this.fireRate = fireRate;
     this.defenderType = defenderTypes[chosenDefender];
     this.frameX = 0; // to cycle through frames for animation (Dont currently have any)
     this.frameY = 0; // same as above
@@ -44,12 +55,12 @@ class Defender {
     this.maxFrame = 5; //^^
     this.spriteWidth = 164;
     this.spriteHeight = 195;
-    this.firingRange;
-    this.travelRange;
-    this.production = false;
-    this.productionSpeed; // for adding resource producers
-    this.hardness = 0; // for adding wall types
-    this.damage = 20;
+    this.firingRange = firingRange;
+    this.travelRange = travelRange;
+    this.production = production;
+    this.productionSpeed = productionSpeed; // for adding resource producers
+    this.hardness = hardness; // for adding wall types
+    this.damage = damage;
   }
   draw() {
     ctx.fillStyle = "lightgreen";
