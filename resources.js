@@ -9,7 +9,7 @@ const amounts = [20, 30, 40];
 class Resource {
   constructor() {
     this.x = Math.random() * (canvas.width - 60) + 30;
-    this.y = (Math.floor(Math.random() * 5) + 1) * cellSize + 25;
+    this.y = Math.random() * 0.8 * (canvas.height - 100) + 1 * cellSize + 25;
     this.width = cellSize * 0.4;
     this.height = cellSize * 0.4;
     this.amount = amounts[Math.floor(Math.random() * amounts.length)];
