@@ -14,8 +14,9 @@ $(document).ready(function () {
     gameStarted = true;
     createListeners();
   });
-  $(".horde").click(function () {});
-  hordeMode = true;
+  $(".horde").click(function () {
+    hordeMode = true;
+  });
 }, 1000);
 
 function animation() {
