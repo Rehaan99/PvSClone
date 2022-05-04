@@ -44,29 +44,7 @@ function createListeners() {
   });
 
   canvas.addEventListener("click", function () {
-    const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
-    const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
-    if (gridPositionY < cellSize) {
-      return;
-    }
-    for (let i = 0; i < defenders.length; i++) {
-      if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY)
-        return;
-    }
-    if (numberOfResources >= defenderCost) {
-      defenders.push(new Defender(gridPositionX, gridPositionY));
-      numberOfResources -= defenderCost;
-    } else {
-      floatingMessages.push(
-        new FloatingMessage(
-          "More Resources Required",
-          mouse.x,
-          mouse.y,
-          12,
-          "red"
-        )
-      );
-    }
+    createDefender();
   });
   frame = 0;
   enemies.splice(0, enemies.length);
@@ -109,9 +87,19 @@ function handleGameStatus(gameComplete) {
   if (!gameComplete) {
     ctx.fillStyle = "gold";
     ctx.font = "30px Arial";
-    ctx.fillText("Score: " + score, 180, 40);
-    ctx.fillText("Resources: " + numberOfResources, 180, 80);
-    ctx.fillText("Level " + level, 780, 60);
+    ctx.fillText(
+      "Score: " + score,
+      defenderTypes[defenderTypes.length - 1].x + 90,
+      40
+    );
+    ctx.fillText(
+      "Resources: " + numberOfResources,
+      defenderTypes[defenderTypes.length - 1].x + 90,
+      80
+    );
+    hordeMode
+      ? ctx.fillText("Horde Mode", 700, 60)
+      : ctx.fillText("Level " + level, 780, 60);
   }
   if (
     enemiesToSpawn <= spawnedEnemies &&

@@ -1,35 +1,43 @@
-const defenderTypes = [];
+const defenderSpriteTypes = [];
 const defenders = [];
 let chosenDefender = 0;
-let defenderCost = 100;
-const defender1 = new Image();
-defender1.src = "./images/tower1.png";
-defenderTypes.push(defender1);
-const defender2 = new Image();
-defender2.src = "./images/tower2.png";
-defenderTypes.push(defender2);
-const defender3 = new Image();
-defender3.src = "./images/tower3.png";
-defenderTypes.push(defender3);
-const card1 = {
-  x: 10,
-  y: 10,
-  width: 70,
-  height: 85,
-  color: "gold",
-};
-const card2 = {
-  x: 90,
-  y: 10,
-  width: 70,
-  height: 85,
-  color: "black",
-};
+const defenderTypes = [];
+for (let i = 1; i < 4; i++) {
+  const defenderSprite = new Image();
+  defenderSprite.src = "./images/tower" + i + ".png";
+  defenderSpriteTypes.push(defenderSprite);
+  const positioning = {
+    x: 10 + 80 * (i - 1),
+    y: 10,
+    width: 70,
+    height: 85,
+    chosenDefender: i - 1,
+    isSelected: i === 1,
+    cost: 100,
+  };
+  defenderTypes.push(positioning);
+}
+
+/** 
+  isSelected: true,
+  health: 100,
+  fireRate: 50,
+  hardness: 0,
+  firingRange: 5,
+  travelRange: 5,
+  productionSpeed: 0,
+  production: false,
+  damage: 20,
+  chosenDefender: 0,
+  description: "Basic Tower - Average firing rate, Average Health, Cost: 100",
+ */
 
 class Defender {
   constructor(
     x,
     y,
+    chosenDefender = 0,
+    cost = 100,
     health = 100,
     fireRate = 50,
     hardness = 0,
@@ -37,7 +45,8 @@ class Defender {
     travelRange = 5,
     productionSpeed = 0,
     production = false,
-    damage = 20
+    damage = 20,
+    description = "N/A"
   ) {
     this.x = x;
     this.y = y;
@@ -45,10 +54,11 @@ class Defender {
     this.height = cellSize - cellGap * 2;
     this.shooting = false;
     this.health = health;
+    this.cost = cost;
     this.projectiles = [];
     this.timer = 0;
     this.fireRate = fireRate;
-    this.defenderType = defenderTypes[chosenDefender];
+    this.defenderType = defenderSpriteTypes[chosenDefender];
     this.frameX = 0; // to cycle through frames for animation (Dont currently have any)
     this.frameY = 0; // same as above
     this.minFrame = 0; //also cycles
@@ -61,6 +71,7 @@ class Defender {
     this.productionSpeed = productionSpeed; // for adding resource producers
     this.hardness = hardness; // for adding wall types
     this.damage = damage;
+    this.description = description;
   }
   draw() {
     ctx.fillStyle = "lightgreen";
@@ -121,44 +132,74 @@ function handleDefenders() {
   }
 }
 function chooseDefender() {
-  if (collision(mouse, card1) && mouse.clicked) {
-    chosenDefender = 0;
-    card1.color = "gold";
-    card2.color = "black";
-  } else if (collision(mouse, card2) && mouse.clicked) {
-    chosenDefender = 1;
-    card2.color = "gold";
-    card1.color = "black";
+  for (let i = 0; i < defenderTypes.length; i++) {
+    if (collision(mouse, defenderTypes[i]) && mouse.clicked) {
+      for (let j = 0; j < defenderTypes.length; j++) {
+        defenderTypes[j].isSelected = false;
+      }
+      defenderTypes[i].isSelected = true;
+      chosenDefender = i;
+      break;
+    }
   }
 
   ctx.lineWidth = 2;
   ctx.fillStyle = "rgba(0,0,0,0.5)";
-  ctx.fillRect(card1.x, card1.y, card1.width, card1.height);
-  ctx.strokeStyle = card1.color;
-  ctx.strokeRect(card1.x, card1.y, card1.width, card1.height);
-  ctx.drawImage(
-    defender1,
-    0,
-    0,
-    164,
-    187,
-    20,
-    15,
-    card1.width * 0.8,
-    card1.height * 0.8
-  );
-  ctx.fillRect(card2.x, card2.y, card2.width, card2.height);
-  ctx.strokeStyle = card2.color;
-  ctx.strokeRect(card2.x, card2.y, card2.width, card2.height);
-  ctx.drawImage(
-    defender2,
-    0,
-    0,
-    164,
-    187,
-    100,
-    15,
-    card2.width * 0.8,
-    card2.height * 0.8
-  );
+  for (let i = 0; i < defenderTypes.length; i++) {
+    ctx.fillRect(
+      defenderTypes[i].x,
+      defenderTypes[i].y,
+      defenderTypes[i].width,
+      defenderTypes[i].height
+    );
+    ctx.strokeStyle = defenderTypes[i].isSelected ? "gold" : "black";
+    ctx.strokeRect(
+      defenderTypes[i].x,
+      defenderTypes[i].y,
+      defenderTypes[i].width,
+      defenderTypes[i].height
+    );
+    ctx.drawImage(
+      defenderSpriteTypes[i],
+      0,
+      0,
+      164,
+      187,
+      20 + 80 * i,
+      15,
+      defenderTypes[1].width * 0.8,
+      defenderTypes[1].height * 0.8
+    );
+  }
+}
+function createDefender() {
+  const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
+  const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
+  if (gridPositionY < cellSize) {
+    return;
+  }
+  for (let i = 0; i < defenders.length; i++) {
+    if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY)
+      return;
+  }
+  if (numberOfResources >= defenderTypes[chosenDefender].cost) {
+    defenders.push(
+      new Defender(
+        gridPositionX,
+        gridPositionY,
+        defenderTypes[chosenDefender].chosenDefender
+      )
+    );
+    numberOfResources -= defenderTypes[chosenDefender].cost;
+  } else {
+    floatingMessages.push(
+      new FloatingMessage(
+        "More Resources Required",
+        mouse.x,
+        mouse.y,
+        12,
+        "red"
+      )
+    );
+  }
 }
