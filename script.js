@@ -2,10 +2,11 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 canvas.width = 900;
 canvas.height = 600;
-let canvasPosition = canvas.getBoundingClientRect();
 const cellSize = 100;
 const cellGap = 3;
 const gameGrid = [];
+
+let canvasPosition = canvas.getBoundingClientRect();
 let level = 9;
 let numberOfResources = levelData[level].numberOfResources;
 let frame = 0;
@@ -112,7 +113,11 @@ function handleGameStatus(gameComplete) {
     ctx.fillText("Resources: " + numberOfResources, 180, 80);
     ctx.fillText("Level " + level, 780, 60);
   }
-  if (enemiesToSpawn <= spawnedEnemies && enemies.length <= 0) {
+  if (
+    enemiesToSpawn <= spawnedEnemies &&
+    enemies.length <= 0 &&
+    deadEnemies.length <= 0
+  ) {
     ctx.fillStyle = "blue";
     ctx.font = "60px Arial";
     ctx.fillText("Level Complete!", 300, 300);
