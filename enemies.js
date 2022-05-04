@@ -22,7 +22,7 @@ class Enemy {
   constructor(
     verticalPosition,
     x = canvas.width,
-    speed = Math.random() * 0.2 + 0.8,
+    speed = 1.2,
     health = 100,
     dead = false,
     damage = 0.2
@@ -31,7 +31,7 @@ class Enemy {
     this.y = verticalPosition;
     this.width = cellSize - cellGap * 2;
     this.height = cellSize - cellGap * 2;
-    this.speed = speed;
+    this.speed = Math.random() * 0.2 + speed;
     this.movement = this.speed;
     this.health = health;
     this.maxHealth = this.health;
