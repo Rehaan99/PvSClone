@@ -80,6 +80,8 @@ function handleEnemies() {
     }
     if (gameStarted && !hordeMode) {
       spawnedEnemies++;
+    }
+    if (gameStarted) {
       if (enemiesInterval > 120) {
         enemiesInterval -= 50;
       }
