@@ -11,7 +11,7 @@ let level = 9;
 let numberOfResources = levelData[level].numberOfResources;
 let frame = 0;
 let enemiesToSpawn = levelData[level].enemiesToSpawn;
-let enemiesInterval = 1000;
+let enemiesInterval = 100;
 let gameOver = false;
 let score = 0;
 //framerate
@@ -49,6 +49,7 @@ function createListeners() {
   frame = 0;
   enemies.splice(0, enemies.length);
   enemyPosition.splice(0, enemyPosition.length);
+  enemiesInterval = levelData[level].enemiesInterval;
 }
 
 class Cell {
@@ -60,7 +61,7 @@ class Cell {
   }
   draw() {
     if (mouse.x && mouse.y && collision(this, mouse)) {
-      ctx.strokeStyle = "blue";
+      ctx.fillStyle = "darkgreen";
       ctx.globalAlpha = 0.2;
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
@@ -138,15 +139,18 @@ function animate(newtime) {
     const background = new Image();
     background.src = "./images/battleground.png";
     ctx.drawImage(background, 0, 0, 900, 600);
-    ctx.fillStyle = "darkgreen";
-    ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
     handleGameGrid();
-    chooseDefender();
-    handleDefenders();
+    if (gameStarted) {
+      ctx.fillStyle = "darkgreen";
+      ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
+      chooseDefender();
+      handleDefenders();
+      handleResources();
+      handleGameStatus(false);
+    }
     handleProjectiles();
     handleEnemies();
-    handleResources();
-    handleGameStatus(false);
+
     handleFloatingMessages();
     frame++;
   }
