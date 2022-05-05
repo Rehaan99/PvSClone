@@ -1,7 +1,7 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
-canvas.width = 900;
-canvas.height = 600;
+canvas.width = 1000;
+canvas.height = 700;
 const cellSize = 100;
 const cellGap = 3;
 const gameGrid = [];
@@ -70,8 +70,8 @@ class Cell {
 }
 
 function createGrid() {
-  for (let y = cellSize; y < canvas.height; y += cellSize) {
-    for (let x = 0; x < canvas.width; x += cellSize) {
+  for (let y = cellSize; y < 600; y += cellSize) {
+    for (let x = 0; x < 900; x += cellSize) {
       gameGrid.push(new Cell(x, y));
     }
   }
@@ -99,8 +99,8 @@ function handleGameStatus(gameComplete) {
       80
     );
     hordeMode
-      ? ctx.fillText("Horde Mode", 700, 60)
-      : ctx.fillText("Level " + level, 780, 60);
+      ? ctx.fillText("Horde Mode", canvas.width - 200, 60)
+      : ctx.fillText("Level " + level, canvas.width - 120, 60);
   }
   if (
     enemiesToSpawn <= spawnedEnemies &&
@@ -137,12 +137,12 @@ function animate(newtime) {
     then = now - (elapsed % fpsInterval);
     const background = new Image();
     background.src = "./images/battleground.png";
-    ctx.drawImage(background, 0, 0, 900, 600);
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     handleGameGrid();
     handleProjectiles();
     handleEnemies();
     if (gameStarted) {
-      ctx.fillStyle = "darkgreen";
+      ctx.fillStyle = "darkgreen"; //#5D682F - colour of battleground (lighter area) #545D2A - darker area
       ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
       chooseDefender();
       handleDefenders();
