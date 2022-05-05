@@ -139,6 +139,8 @@ function animate(newtime) {
     background.src = "./images/battleground.png";
     ctx.drawImage(background, 0, 0, 900, 600);
     handleGameGrid();
+    handleProjectiles();
+    handleEnemies();
     if (gameStarted) {
       ctx.fillStyle = "darkgreen";
       ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
@@ -147,8 +149,6 @@ function animate(newtime) {
       handleResources();
       handleGameStatus(false);
     }
-    handleProjectiles();
-    handleEnemies();
 
     handleFloatingMessages();
     frame++;

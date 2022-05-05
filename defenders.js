@@ -157,6 +157,7 @@ function handleDefenders() {
     }
   }
 }
+let buildDefender = false;
 function chooseDefender() {
   for (let i = 0; i < defenderTypes.length; i++) {
     if (collision(mouse, defenderTypes[i]) && mouse.clicked) {
@@ -165,6 +166,7 @@ function chooseDefender() {
       }
       defenderTypes[i].isSelected = true;
       globalChosenDefender = i;
+      buildDefender = true;
       break;
     }
   }
@@ -178,9 +180,13 @@ function chooseDefender() {
       defenderTypes[i].width,
       defenderTypes[i].height
     );
-    ctx.strokeStyle = defenderTypes[i].isSelected ? "white" : "black";
-    ctx.shadowBlur = defenderTypes[i].isSelected ? 10 : 0;
-    ctx.shadowColor = "white";
+    if (buildDefender) {
+      ctx.strokeStyle = defenderTypes[i].isSelected ? "white" : "black";
+      ctx.shadowBlur = defenderTypes[i].isSelected ? 10 : 0;
+      ctx.shadowColor = "white";
+    } else {
+      ctx.strokeStyle = "black";
+    }
     ctx.strokeRect(
       defenderTypes[i].x,
       defenderTypes[i].y,
@@ -188,6 +194,7 @@ function chooseDefender() {
       defenderTypes[i].height
     );
     ctx.shadowBlur = 0;
+
     ctx.drawImage(
       defenderSpriteTypes[i],
       0,
@@ -202,6 +209,9 @@ function chooseDefender() {
   }
 }
 function createDefender() {
+  if (!buildDefender) {
+    return;
+  }
   const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
   const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
   if (gridPositionY < cellSize) {
@@ -264,4 +274,5 @@ function instantiateDefender(
       )
     );
   }
+  buildDefender = false;
 }
