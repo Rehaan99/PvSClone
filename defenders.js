@@ -1,6 +1,6 @@
 const defenderSpriteTypes = [];
 const defenders = [];
-let chosenDefender = 0;
+let globalChosenDefender = 0;
 const defenderTypes = [];
 for (let i = 1; i < 4; i++) {
   const defenderSprite = new Image();
@@ -13,24 +13,50 @@ for (let i = 1; i < 4; i++) {
     height: 85,
     chosenDefender: i - 1,
     isSelected: i === 1,
-    cost: 100,
   };
-  defenderTypes.push(positioning);
+  let defenderValues;
+  switch (i) {
+    case 2:
+      defenderValues = {
+        ...positioning,
+        cost: 200,
+        health: 40,
+        fireRate: 50,
+        hardness: 0,
+        firingRange: 5,
+        travelRange: 5,
+        productionSpeed: 0,
+        production: false,
+        damage: 50,
+        description:
+          "Level 2 Tower - Average firing rate, Low Health, High Damage, Cost: 200",
+      };
+      break;
+    case 3:
+      defenderValues = {
+        ...positioning,
+        cost: 300,
+        health: 500,
+        fireRate: 90,
+        hardness: 0,
+        firingRange: 5,
+        travelRange: 5,
+        productionSpeed: 0,
+        production: false,
+        damage: 30,
+        description:
+          "Level 3 Tower - Average firing rate, High Health, average damage Cost: 300",
+      };
+      break;
+    //add more cases for more defender types
+    default:
+      defenderValues = {
+        ...positioning,
+        cost: 100,
+      };
+  }
+  defenderTypes.push(defenderValues);
 }
-
-/** 
-  isSelected: true,
-  health: 100,
-  fireRate: 50,
-  hardness: 0,
-  firingRange: 5,
-  travelRange: 5,
-  productionSpeed: 0,
-  production: false,
-  damage: 20,
-  chosenDefender: 0,
-  description: "Basic Tower - Average firing rate, Average Health, Cost: 100",
- */
 
 class Defender {
   constructor(
@@ -138,7 +164,7 @@ function chooseDefender() {
         defenderTypes[j].isSelected = false;
       }
       defenderTypes[i].isSelected = true;
-      chosenDefender = i;
+      globalChosenDefender = i;
       break;
     }
   }
@@ -185,15 +211,48 @@ function createDefender() {
     if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY)
       return;
   }
-  if (numberOfResources >= defenderTypes[chosenDefender].cost) {
+  instantiateDefender(
+    gridPositionX,
+    gridPositionY,
+    defenderTypes[globalChosenDefender]
+  );
+}
+function instantiateDefender(
+  gridPositionX,
+  gridPositionY,
+  {
+    cost,
+    chosenDefender,
+    health,
+    fireRate,
+    hardness,
+    firingRange,
+    travelRange,
+    productionSpeed,
+    production,
+    damage,
+    description,
+  }
+) {
+  if (numberOfResources >= cost) {
     defenders.push(
       new Defender(
         gridPositionX,
         gridPositionY,
-        defenderTypes[chosenDefender].chosenDefender
+        chosenDefender,
+        cost,
+        health,
+        fireRate,
+        hardness,
+        firingRange,
+        travelRange,
+        productionSpeed,
+        production,
+        damage,
+        description
       )
     );
-    numberOfResources -= defenderTypes[chosenDefender].cost;
+    numberOfResources -= cost;
   } else {
     floatingMessages.push(
       new FloatingMessage(
