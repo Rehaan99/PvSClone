@@ -17,7 +17,7 @@ for (let i = 0; i < 12; i++) {
   enemySprite.src = "./images/Goblin/Slashing/0_Goblin_Slashing_" + i + ".png";
   enemySprites.push(enemySprite);
 }
-console.log("hello");
+
 class Enemy {
   constructor(
     verticalPosition,

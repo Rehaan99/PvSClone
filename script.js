@@ -8,14 +8,14 @@ const gameGrid = [];
 
 let canvasPosition = canvas.getBoundingClientRect();
 let level = 9;
-let numberOfResources = levelData[level].numberOfResources;
-let frame = 0;
-let enemiesToSpawn = levelData[level].enemiesToSpawn;
-let enemiesInterval = 100;
-let gameOver = false;
-let score = 0;
+let numberOfResources = levelData[level].numberOfResources; // seperation of concerns!
+let frame = 0; // SoC
+let enemiesToSpawn = levelData[level].enemiesToSpawn; //SoC
+let enemiesInterval = 100; //SoC
+let gameOver = false; // SoC
+let score = 0; // SoC
 //framerate
-var fpsInterval, startTime, now, then, elapsed;
+var fpsInterval, now, then, elapsed;
 //
 const mouse = {
   x: undefined,
@@ -127,7 +127,6 @@ function startAnimating() {
   fps = 60;
   fpsInterval = 1000 / fps;
   then = window.performance.now();
-  startTime = then;
   animate();
 }
 
