@@ -36,7 +36,7 @@ for (let i = 1; i < 4; i++) {
       defenderValues = {
         ...positioning,
         cost: 300,
-        health: 500,
+        health: 200,
         fireRate: 90,
         hardness: 0,
         firingRange: 5,
@@ -123,8 +123,12 @@ class Defender {
         );
       }
       this.timer++;
-    } else {
+      return;
+    }
+    if (this.timer === this.fireRate) {
       this.timer = 0;
+    } else if (this.timer !== 0) {
+      this.timer++;
     }
     //if (frame % 10 === 0 ){
     // if (this.frameX < this.maxFrame){this.frameX++;}
@@ -214,7 +218,11 @@ function createDefender() {
   }
   const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
   const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
-  if (gridPositionY < cellSize) {
+  if (
+    gridPositionY < cellSize ||
+    gridPositionY > cellSize * 6 ||
+    gridPositionX > cellSize * 9
+  ) {
     return;
   }
   for (let i = 0; i < defenders.length; i++) {
