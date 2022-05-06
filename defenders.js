@@ -12,7 +12,7 @@ for (let i = 1; i < 4; i++) {
     width: 70,
     height: 85,
     chosenDefender: i - 1,
-    isSelected: i === 1,
+    isSelected: false,
   };
   let defenderValues;
   switch (i) {
@@ -164,13 +164,21 @@ function handleDefenders() {
 let buildDefender = false;
 function chooseDefender() {
   for (let i = 0; i < defenderTypes.length; i++) {
-    if (collision(mouse, defenderTypes[i]) && mouse.clicked) {
-      for (let j = 0; j < defenderTypes.length; j++) {
-        defenderTypes[j].isSelected = false;
-      }
-      defenderTypes[i].isSelected = true;
-      globalChosenDefender = i;
-      buildDefender = true;
+    if (collision(mouse, defenderTypes[i])) {
+      if (mouse.clicked)
+        if (defenderTypes[i].isSelected) {
+          for (let j = 0; j < defenderTypes.length; j++) {
+            defenderTypes[j].isSelected = false;
+          }
+          buildDefender = false;
+        } else {
+          for (let j = 0; j < defenderTypes.length; j++) {
+            defenderTypes[j].isSelected = false;
+          }
+          defenderTypes[i].isSelected = true;
+          globalChosenDefender = i;
+          buildDefender = true;
+        }
       break;
     }
   }
@@ -229,6 +237,7 @@ function createDefender() {
     if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY)
       return;
   }
+  defenderTypes[globalChosenDefender].isSelected = false;
   instantiateDefender(
     gridPositionX,
     gridPositionY,
