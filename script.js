@@ -25,12 +25,8 @@ const mouse = {
   clicked: false,
 };
 function createListeners() {
-  canvas.addEventListener("mousedown", function () {
-    mouse.clicked = true;
-  });
-
   canvas.addEventListener("mouseup", function () {
-    mouse.clicked = false;
+    mouse.clicked = true;
   });
 
   canvas.addEventListener("mousemove", function (e) {
@@ -152,6 +148,7 @@ function animate(newtime) {
 
     handleFloatingMessages();
     frame++;
+    mouse.clicked = false;
   }
   if (!gameOver) {
     requestAnimationFrame(animate);
@@ -160,8 +157,12 @@ function animate(newtime) {
     handleGameStatus(true);
   }
 }
-function collision(first, second, value) {
+function collision(first, second) {
   if (
+    first.x !== undefined &&
+    first.y !== undefined &&
+    second.x !== undefined &&
+    second.y !== undefined &&
     !(
       first.x > second.x + second.width ||
       first.x + first.width < second.x ||
@@ -169,12 +170,9 @@ function collision(first, second, value) {
       first.y + first.height < second.y
     )
   ) {
-    if (!value) {
-      return 1;
-    }
-    return value;
+    return true;
   }
-  return 0;
+  return false;
 }
 window.addEventListener("resize", function () {
   canvasPosition = canvas.getBoundingClientRect();
