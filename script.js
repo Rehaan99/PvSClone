@@ -75,7 +75,9 @@ function createGrid() {
 
 function handleGameGrid() {
   for (let i = 0; i < gameGrid.length; i++) {
-    gameGrid[i].draw();
+    if (!drawGhost(gameGrid[i])) {
+      gameGrid[i].draw();
+    }
   }
 }
 

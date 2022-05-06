@@ -162,6 +162,23 @@ function handleDefenders() {
   }
 }
 let buildDefender = false;
+function drawGhost(gridCell) {
+  if (buildDefender) {
+    if (collision(gridCell, mouse)) {
+      ctx.globalAlpha = 0.4;
+      ctx.drawImage(
+        defenderSpriteTypes[globalChosenDefender],
+        gridCell.x + 10,
+        gridCell.y,
+        cellSize - cellGap * 2 - 20,
+        cellSize - cellGap * 2
+      );
+      ctx.globalAlpha = 1;
+      return true;
+    }
+  }
+  return false;
+}
 function chooseDefender() {
   for (let i = 0; i < defenderTypes.length; i++) {
     if (collision(mouse, defenderTypes[i])) {

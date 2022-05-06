@@ -21,7 +21,7 @@ class Resource {
   draw() {
     ctx.drawImage(
       coinSprites[this.frameX],
-      this.x - coinSprites[this.frameX].width / 100,
+      this.x,
       this.y,
       coinSprites[this.frameX].width / 15,
       this.height
