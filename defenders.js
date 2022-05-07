@@ -163,20 +163,23 @@ function handleDefenders() {
 }
 let buildDefender = false;
 function drawGhost(gridCell) {
-  if (buildDefender) {
-    if (collision(gridCell, mouse)) {
-      ctx.globalAlpha = 0.4;
-      ctx.drawImage(
-        defenderSpriteTypes[globalChosenDefender],
-        gridCell.x + 10,
-        gridCell.y,
-        cellSize - cellGap * 2 - 20,
-        cellSize - cellGap * 2
-      );
-      ctx.globalAlpha = 1;
-      return true;
-    }
+  if (
+    buildDefender &&
+    collision(gridCell, mouse) &&
+    doesDefenderOccupySpace(gridCell.x, gridCell.y)
+  ) {
+    ctx.globalAlpha = 0.4;
+    ctx.drawImage(
+      defenderSpriteTypes[globalChosenDefender],
+      gridCell.x + 10,
+      gridCell.y,
+      cellSize - cellGap * 2 - 20,
+      cellSize - cellGap * 2
+    );
+    ctx.globalAlpha = 1;
+    return true;
   }
+
   return false;
 }
 function chooseDefender() {
@@ -237,6 +240,19 @@ function chooseDefender() {
     );
   }
 }
+
+function doesDefenderOccupySpace(gridPositionX, gridPositionY) {
+  for (let i = 0; i < defenders.length; i++) {
+    if (
+      defenders[i].x === gridPositionX + cellGap &&
+      defenders[i].y === gridPositionY + cellGap
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function createDefender() {
   if (!buildDefender) {
     return;
@@ -250,9 +266,8 @@ function createDefender() {
   ) {
     return;
   }
-  for (let i = 0; i < defenders.length; i++) {
-    if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY)
-      return;
+  if (!doesDefenderOccupySpace(gridPositionX, gridPositionY)) {
+    return;
   }
   defenderTypes[globalChosenDefender].isSelected = false;
   instantiateDefender(
@@ -261,6 +276,7 @@ function createDefender() {
     defenderTypes[globalChosenDefender]
   );
 }
+
 function instantiateDefender(
   gridPositionX,
   gridPositionY,
