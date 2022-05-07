@@ -53,6 +53,8 @@ for (let i = 1; i < 4; i++) {
       defenderValues = {
         ...positioning,
         cost: 100,
+        description:
+          "Level 1 Tower - Basic Tower average Firing rate, average health, low damage. Cost : 100",
       };
   }
   defenderTypes.push(defenderValues);
@@ -162,6 +164,9 @@ function handleDefenders() {
   }
 }
 let buildDefender = false;
+let tooltipTimer = 0;
+let displayTooltip = false;
+let currentHover;
 function drawGhost(gridCell) {
   if (
     buildDefender &&
@@ -185,7 +190,8 @@ function drawGhost(gridCell) {
 function chooseDefender() {
   for (let i = 0; i < defenderTypes.length; i++) {
     if (collision(mouse, defenderTypes[i])) {
-      if (mouse.clicked)
+      currentHover = i;
+      if (mouse.clicked) {
         if (defenderTypes[i].isSelected) {
           for (let j = 0; j < defenderTypes.length; j++) {
             defenderTypes[j].isSelected = false;
@@ -199,7 +205,23 @@ function chooseDefender() {
           globalChosenDefender = i;
           buildDefender = true;
         }
-      break;
+        break;
+      } else {
+        if (!displayTooltip && tooltipTimer >= 200) {
+          tooltipTimer = 0;
+          displayTooltip = true;
+          console.log(defenderTypes[currentHover].description);
+        } else {
+          tooltipTimer++;
+        }
+      }
+    }
+    if (
+      currentHover != undefined &&
+      !collision(mouse, defenderTypes[currentHover])
+    ) {
+      displayTooltip = false;
+      tooltipTimer = 0;
     }
   }
 
