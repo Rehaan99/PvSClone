@@ -142,8 +142,8 @@ function animate(newtime) {
     if (gameStarted) {
       ctx.fillStyle = "darkgreen"; //#5D682F - colour of battleground (lighter area) #545D2A - darker area
       ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
-      chooseDefender();
       handleDefenders();
+      chooseDefender();
       handleResources();
       handleGameStatus(false);
     }

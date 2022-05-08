@@ -207,10 +207,9 @@ function chooseDefender() {
         }
         break;
       } else {
-        if (!displayTooltip && tooltipTimer >= 200) {
+        if (!displayTooltip && tooltipTimer >= 80) {
           tooltipTimer = 0;
           displayTooltip = true;
-          console.log(defenderTypes[currentHover].description);
         } else {
           tooltipTimer++;
         }
@@ -259,6 +258,19 @@ function chooseDefender() {
       15,
       defenderTypes[1].width * 0.8,
       defenderTypes[1].height * 0.8
+    );
+  }
+  if (displayTooltip) {
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = "black";
+    ctx.fillRect(mouse.x + 5, mouse.y + 10, 200, 200);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "white";
+    ctx.font = "15px Arial";
+    ctx.fillText(
+      defenderTypes[currentHover].description,
+      mouse.x + 10,
+      mouse.y + 35
     );
   }
 }
