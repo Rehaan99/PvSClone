@@ -171,7 +171,7 @@ function drawGhost(gridCell) {
   if (
     buildDefender &&
     collision(gridCell, mouse) &&
-    doesDefenderOccupySpace(gridCell.x, gridCell.y)
+    !doesDefenderOccupySpace(gridCell.x + cellGap, gridCell.y + cellGap)
   ) {
     ctx.globalAlpha = 0.4;
     ctx.drawImage(
@@ -277,14 +277,11 @@ function chooseDefender() {
 
 function doesDefenderOccupySpace(gridPositionX, gridPositionY) {
   for (let i = 0; i < defenders.length; i++) {
-    if (
-      defenders[i].x === gridPositionX + cellGap &&
-      defenders[i].y === gridPositionY + cellGap
-    ) {
-      return false;
+    if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY) {
+      return true;
     }
   }
-  return true;
+  return false;
 }
 
 function createDefender() {
@@ -300,7 +297,7 @@ function createDefender() {
   ) {
     return;
   }
-  if (!doesDefenderOccupySpace(gridPositionX, gridPositionY)) {
+  if (doesDefenderOccupySpace(gridPositionX, gridPositionY)) {
     return;
   }
   defenderTypes[globalChosenDefender].isSelected = false;
