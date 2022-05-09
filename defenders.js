@@ -168,16 +168,22 @@ let tooltipTimer = 0;
 let displayTooltip = false;
 let currentHover;
 function drawGhost(gridCell) {
+  const gridPositionX = gridCell.x + cellGap,
+    gridPositionY = gridCell.y + cellGap;
   if (
     buildDefender &&
     collision(gridCell, mouse) &&
-    !doesDefenderOccupySpace(gridCell.x + cellGap, gridCell.y + cellGap)
+    !doesDefenderOccupySpace(gridPositionX, gridPositionY)
   ) {
     ctx.globalAlpha = 0.4;
     ctx.drawImage(
       defenderSpriteTypes[globalChosenDefender],
-      gridCell.x + 10,
-      gridCell.y,
+      0,
+      0,
+      164,
+      195,
+      gridPositionX + 10,
+      gridPositionY,
       cellSize - cellGap * 2 - 20,
       cellSize - cellGap * 2
     );
