@@ -270,23 +270,24 @@ function chooseDefender() {
     const tooltipX = mouse.x + 5,
       tooltipY = mouse.y + 10,
       fontSize = 15;
-    ctx.globalAlpha = 0.3;
-    ctx.fillStyle = "black";
-    ctx.fillRect(tooltipX, tooltipY, 200, 200);
-    ctx.globalAlpha = 1;
     ctx.fillStyle = "white";
     ctx.font = fontSize + "px Arial";
-    wrapText(
-      tooltipX,
-      tooltipY,
-      200,
-      defenderTypes[currentHover].description,
-      fontSize
-    );
+    const tooltipTextYLength =
+      wrapText(
+        tooltipX,
+        tooltipY,
+        200,
+        defenderTypes[currentHover].description,
+        fontSize
+      ) - tooltipY;
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = "black";
+    ctx.fillRect(tooltipX, tooltipY, 200, tooltipTextYLength);
+    ctx.globalAlpha = 1;
   }
 }
 
-function wrapText(tooltipX, tooltipY, tooltipWidth, text, fontSize) {
+function wrapText(tooltipX, textYPos, tooltipWidth, text, fontSize) {
   const words = text.split(" ");
   let line = "";
   for (let i = 0; i < words.length; i++) {
@@ -302,9 +303,10 @@ function wrapText(tooltipX, tooltipY, tooltipWidth, text, fontSize) {
     }
   }
   if (line != words[words.length]) {
-    ctx.fillText(line, tooltipX + 10, tooltipY + fontSize);
-    tooltipY += fontSize;
+    ctx.fillText(line, tooltipX + 5, textYPos + fontSize);
+    textYPos += fontSize * 2;
   }
+  return textYPos;
 }
 
 function doesDefenderOccupySpace(gridPositionX, gridPositionY) {
