@@ -269,28 +269,38 @@ function chooseDefender() {
   if (displayTooltip) {
     const tooltipX = mouse.x + 5,
       tooltipY = mouse.y + 10,
-      fontSize = 15;
-    ctx.fillStyle = "white";
+      fontSize = 15,
+      text = defenderTypes[currentHover].description;
     ctx.font = fontSize + "px Arial";
-    const tooltipTextYLength =
-      wrapText(
-        tooltipX,
-        tooltipY,
-        200,
-        defenderTypes[currentHover].description,
-        fontSize
-      ) - tooltipY;
+    const tooltipParameters = wrapText(tooltipY, 200, text, fontSize);
     ctx.globalAlpha = 0.3;
     ctx.fillStyle = "black";
-    ctx.fillRect(tooltipX, tooltipY, 200, tooltipTextYLength);
+    ctx.fillRect(
+      tooltipX,
+      tooltipY,
+      200,
+      tooltipParameters.yPos[tooltipParameters.yPos.length - 1] +
+        2 * fontSize -
+        tooltipY
+    );
     ctx.globalAlpha = 1;
+    ctx.fillStyle = "white";
+    for (let i = 0; i < tooltipParameters.line.length; i++) {
+      ctx.fillText(
+        tooltipParameters.line[i],
+        tooltipX + 5,
+        tooltipParameters.yPos[i]
+      );
+    }
   }
 }
 
-function wrapText(tooltipX, textYPos, tooltipWidth, text, fontSize) {
+function wrapText(textYPos, tooltipWidth, text, fontSize) {
   const words = text.split(" ");
+  let parameters = { line: [], yPos: [] };
   let line = "",
     newLine;
+  let index = 0;
   for (let i = 0; i < words.length; i++) {
     if (words[i] === "/n") {
       words[i] = "";
@@ -299,7 +309,9 @@ function wrapText(tooltipX, textYPos, tooltipWidth, text, fontSize) {
     let testLine = line + words[i] + " ",
       testWidth = ctx.measureText(testLine).width;
     if ((testWidth > tooltipWidth - 5 && i > 0) || newLine) {
-      ctx.fillText(line, tooltipX + 5, textYPos + fontSize);
+      parameters.line[index] = line;
+      parameters.yPos[index] = textYPos + fontSize;
+      index++;
       line = newLine ? words[i] : words[i] + " ";
       newLine = false;
       textYPos += fontSize;
@@ -308,10 +320,10 @@ function wrapText(tooltipX, textYPos, tooltipWidth, text, fontSize) {
     }
   }
   if (line != words[words.length]) {
-    ctx.fillText(line, tooltipX + 5, textYPos + fontSize);
-    textYPos += fontSize * 2;
+    parameters.line[index] = line;
+    parameters.yPos[index] = textYPos + fontSize;
   }
-  return textYPos;
+  return parameters;
 }
 
 function doesDefenderOccupySpace(gridPositionX, gridPositionY) {
