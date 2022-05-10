@@ -29,7 +29,7 @@ for (let i = 1; i < 4; i++) {
         production: false,
         damage: 50,
         description:
-          "Level 2 Tower - Average firing rate, Low Health, High Damage, Cost: 200",
+          "Level 2 Tower /n Average firing rate, Low Health, High Damage. /n Cost: 200",
       };
       break;
     case 3:
@@ -45,7 +45,7 @@ for (let i = 1; i < 4; i++) {
         production: false,
         damage: 30,
         description:
-          "Level 3 Tower - Average firing rate, High Health, average damage Cost: 300",
+          "Level 3 Tower /n Average firing rate, High Health, average damage. /n Cost: 300",
       };
       break;
     //add more cases for more defender types
@@ -54,7 +54,7 @@ for (let i = 1; i < 4; i++) {
         ...positioning,
         cost: 100,
         description:
-          "Level 1 Tower - Basic Tower average Firing rate, average health, low damage. Cost : 100",
+          "Level 1 Tower /n Basic Tower average Firing rate, average health, low damage. /n Cost : 100",
       };
   }
   defenderTypes.push(defenderValues);
@@ -289,15 +289,20 @@ function chooseDefender() {
 
 function wrapText(tooltipX, textYPos, tooltipWidth, text, fontSize) {
   const words = text.split(" ");
-  let line = "";
+  let line = "",
+    newLine;
   for (let i = 0; i < words.length; i++) {
-    let testLine = line + words[i] + " ";
-    let metrics = ctx.measureText(testLine);
-    let testWidth = metrics.width;
-    if (testWidth > tooltipWidth && i > 0) {
-      ctx.fillText(line, tooltipX + 10, tooltipY + fontSize);
-      line = words[i] + " ";
-      tooltipY += fontSize;
+    if (words[i] === "/n") {
+      words[i] = "";
+      newLine = true;
+    }
+    let testLine = line + words[i] + " ",
+      testWidth = ctx.measureText(testLine).width;
+    if ((testWidth > tooltipWidth - 5 && i > 0) || newLine) {
+      ctx.fillText(line, tooltipX + 5, textYPos + fontSize);
+      line = newLine ? words[i] : words[i] + " ";
+      newLine = false;
+      textYPos += fontSize;
     } else {
       line = testLine;
     }
