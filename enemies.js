@@ -1,7 +1,9 @@
-const enemySprites = [];
-const enemyPosition = [];
-const enemies = [];
-const deadEnemies = [];
+const enemySprites = [],
+  enemyPosition = [],
+  enemies = [],
+  deadEnemies = [];
+let spawnedEnemies = 0;
+
 for (let i = 0; i < 12; i++) {
   let enemySprite = new Image();
   enemySprite.src = "./images/Goblin/Running/0_Goblin_Running_" + i + ".png";
@@ -53,6 +55,7 @@ class Enemy {
     }
     this.x -= this.movement;
   }
+
   draw() {
     ctx.drawImage(
       this.dead
@@ -65,6 +68,7 @@ class Enemy {
       this.width,
       this.height
     );
+
     if (!this.dead) {
       ctx.fillStyle = "darkred";
       ctx.font = "20px Arial";
@@ -72,7 +76,7 @@ class Enemy {
     }
   }
 }
-let spawnedEnemies = 0;
+
 function handleEnemies() {
   for (let i = 0; i < enemies.length; i++) {
     enemies[i].update();
