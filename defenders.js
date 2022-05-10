@@ -1,20 +1,27 @@
-const defenderSpriteTypes = [];
-const defenders = [];
-let globalChosenDefender = 0;
-const defenderTypes = [];
+const defenderSpriteTypes = [],
+  defenders = [],
+  defenderTypes = [];
+let globalChosenDefender = 0,
+  buildDefender = false,
+  tooltipTimer = 0,
+  displayTooltip = false,
+  currentHover;
+
 for (let i = 1; i < 4; i++) {
-  const defenderSprite = new Image();
+  const defenderSprite = new Image(),
+    positioning = {
+      x: 10 + 80 * (i - 1),
+      y: 10,
+      width: 70,
+      height: 85,
+      chosenDefender: i - 1,
+      isSelected: false,
+    };
+  let defenderValues;
+
   defenderSprite.src = "./images/tower" + i + ".png";
   defenderSpriteTypes.push(defenderSprite);
-  const positioning = {
-    x: 10 + 80 * (i - 1),
-    y: 10,
-    width: 70,
-    height: 85,
-    chosenDefender: i - 1,
-    isSelected: false,
-  };
-  let defenderValues;
+
   switch (i) {
     case 2:
       defenderValues = {
@@ -101,6 +108,7 @@ class Defender {
     this.damage = damage;
     this.description = description;
   }
+
   draw() {
     ctx.fillStyle = "lightgreen";
     ctx.font = "15px Arial";
@@ -117,6 +125,7 @@ class Defender {
       this.height
     );
   }
+
   update() {
     if (this.shooting) {
       if (this.timer % this.fireRate === 0 || this.timer === 0) {
@@ -132,12 +141,9 @@ class Defender {
     } else if (this.timer !== 0) {
       this.timer++;
     }
-    //if (frame % 10 === 0 ){
-    // if (this.frameX < this.maxFrame){this.frameX++;}
-    //else {this.frameX = this.minFrame;}
-    //}
   }
 }
+
 function handleDefenders() {
   for (let i = 0; i < defenders.length; i++) {
     defenders[i].draw();
@@ -163,10 +169,7 @@ function handleDefenders() {
     }
   }
 }
-let buildDefender = false;
-let tooltipTimer = 0;
-let displayTooltip = false;
-let currentHover;
+
 function drawGhost(gridCell) {
   const gridPositionX = gridCell.x + cellGap,
     gridPositionY = gridCell.y + cellGap;
@@ -193,6 +196,7 @@ function drawGhost(gridCell) {
 
   return false;
 }
+
 function chooseDefender() {
   for (let i = 0; i < defenderTypes.length; i++) {
     if (collision(mouse, defenderTypes[i])) {
@@ -271,10 +275,12 @@ function chooseDefender() {
       tooltipY = mouse.y + 10,
       fontSize = 15,
       text = defenderTypes[currentHover].description;
+
     ctx.font = fontSize + "px Arial";
-    const tooltipParameters = wrapText(tooltipY, 200, text, fontSize);
     ctx.globalAlpha = 0.3;
     ctx.fillStyle = "black";
+    const tooltipParameters = wrapText(tooltipY, 200, text, fontSize);
+
     ctx.fillRect(
       tooltipX,
       tooltipY,
@@ -283,6 +289,7 @@ function chooseDefender() {
         2 * fontSize -
         tooltipY
     );
+
     ctx.globalAlpha = 1;
     ctx.fillStyle = "white";
     for (let i = 0; i < tooltipParameters.line.length; i++) {
@@ -297,10 +304,11 @@ function chooseDefender() {
 
 function wrapText(textYPos, tooltipWidth, text, fontSize) {
   const words = text.split(" ");
-  let parameters = { line: [], yPos: [] };
-  let line = "",
-    newLine;
-  let index = 0;
+  let parameters = { line: [], yPos: [] },
+    line = "",
+    newLine,
+    index = 0;
+
   for (let i = 0; i < words.length; i++) {
     if (words[i] === "/n") {
       words[i] = "";
@@ -339,8 +347,8 @@ function createDefender() {
   if (!buildDefender) {
     return;
   }
-  const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
-  const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
+  const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap,
+    gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
   if (
     gridPositionY < cellSize ||
     gridPositionY > cellSize * 6 ||
