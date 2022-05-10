@@ -29,7 +29,7 @@ for (let i = 1; i < 4; i++) {
         production: false,
         damage: 50,
         description:
-          "Level 2 Tower - Average firing rate, Low Health, High Damage, Cost: 200",
+          "Level 2 Tower /n Average firing rate, Low Health, High Damage. /n Cost: 200",
       };
       break;
     case 3:
@@ -45,7 +45,7 @@ for (let i = 1; i < 4; i++) {
         production: false,
         damage: 30,
         description:
-          "Level 3 Tower - Average firing rate, High Health, average damage Cost: 300",
+          "Level 3 Tower /n Average firing rate, High Health, average damage. /n Cost: 300",
       };
       break;
     //add more cases for more defender types
@@ -54,7 +54,7 @@ for (let i = 1; i < 4; i++) {
         ...positioning,
         cost: 100,
         description:
-          "Level 1 Tower - Basic Tower average Firing rate, average health, low damage. Cost : 100",
+          "Level 1 Tower /n Basic Tower average Firing rate, average health, low damage. /n Cost : 100",
       };
   }
   defenderTypes.push(defenderValues);
@@ -267,18 +267,63 @@ function chooseDefender() {
     );
   }
   if (displayTooltip) {
+    const tooltipX = mouse.x + 5,
+      tooltipY = mouse.y + 10,
+      fontSize = 15,
+      text = defenderTypes[currentHover].description;
+    ctx.font = fontSize + "px Arial";
+    const tooltipParameters = wrapText(tooltipY, 200, text, fontSize);
     ctx.globalAlpha = 0.3;
     ctx.fillStyle = "black";
-    ctx.fillRect(mouse.x + 5, mouse.y + 10, 200, 200);
+    ctx.fillRect(
+      tooltipX,
+      tooltipY,
+      200,
+      tooltipParameters.yPos[tooltipParameters.yPos.length - 1] +
+        2 * fontSize -
+        tooltipY
+    );
     ctx.globalAlpha = 1;
     ctx.fillStyle = "white";
-    ctx.font = "15px Arial";
-    ctx.fillText(
-      defenderTypes[currentHover].description,
-      mouse.x + 10,
-      mouse.y + 35
-    );
+    for (let i = 0; i < tooltipParameters.line.length; i++) {
+      ctx.fillText(
+        tooltipParameters.line[i],
+        tooltipX + 5,
+        tooltipParameters.yPos[i]
+      );
+    }
   }
+}
+
+function wrapText(textYPos, tooltipWidth, text, fontSize) {
+  const words = text.split(" ");
+  let parameters = { line: [], yPos: [] };
+  let line = "",
+    newLine;
+  let index = 0;
+  for (let i = 0; i < words.length; i++) {
+    if (words[i] === "/n") {
+      words[i] = "";
+      newLine = true;
+    }
+    let testLine = line + words[i] + " ",
+      testWidth = ctx.measureText(testLine).width;
+    if ((testWidth > tooltipWidth - 5 && i > 0) || newLine) {
+      parameters.line[index] = line;
+      parameters.yPos[index] = textYPos + fontSize;
+      index++;
+      line = newLine ? words[i] : words[i] + " ";
+      newLine = false;
+      textYPos += fontSize;
+    } else {
+      line = testLine;
+    }
+  }
+  if (line != words[words.length]) {
+    parameters.line[index] = line;
+    parameters.yPos[index] = textYPos + fontSize;
+  }
+  return parameters;
 }
 
 function doesDefenderOccupySpace(gridPositionX, gridPositionY) {
