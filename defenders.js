@@ -267,17 +267,43 @@ function chooseDefender() {
     );
   }
   if (displayTooltip) {
+    const tooltipX = mouse.x + 5,
+      tooltipY = mouse.y + 10,
+      fontSize = 15;
     ctx.globalAlpha = 0.3;
     ctx.fillStyle = "black";
-    ctx.fillRect(mouse.x + 5, mouse.y + 10, 200, 200);
+    ctx.fillRect(tooltipX, tooltipY, 200, 200);
     ctx.globalAlpha = 1;
     ctx.fillStyle = "white";
-    ctx.font = "15px Arial";
-    ctx.fillText(
+    ctx.font = fontSize + "px Arial";
+    wrapText(
+      tooltipX,
+      tooltipY,
+      200,
       defenderTypes[currentHover].description,
-      mouse.x + 10,
-      mouse.y + 35
+      fontSize
     );
+  }
+}
+
+function wrapText(tooltipX, tooltipY, tooltipWidth, text, fontSize) {
+  const words = text.split(" ");
+  let line = "";
+  for (let i = 0; i < words.length; i++) {
+    let testLine = line + words[i] + " ";
+    let metrics = ctx.measureText(testLine);
+    let testWidth = metrics.width;
+    if (testWidth > tooltipWidth && i > 0) {
+      ctx.fillText(line, tooltipX + 10, tooltipY + fontSize);
+      line = words[i] + " ";
+      tooltipY += fontSize;
+    } else {
+      line = testLine;
+    }
+  }
+  if (line != words[words.length]) {
+    ctx.fillText(line, tooltipX + 10, tooltipY + fontSize);
+    tooltipY += fontSize;
   }
 }
 
