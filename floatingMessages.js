@@ -42,17 +42,50 @@ function handleTooltips() {
 
   // Displaying tooltips of defender informations...
   if (displayTooltip) {
-    ctx.globalAlpha = 0.3;
+    ctx.globalAlpha = 0.4;
     ctx.fillStyle = "black";
-    ctx.fillRect(mouse.x + 5, mouse.y + 10, 200, 200);
+    
+    //wrapping rectangle to match text
+    const maxWidth = 250;
+    const lineHeight = 17;
+    const tooltipMessage = defenderTypes[currentHover].description;
+    const words = tooltipMessage.split(" ");
+    const incrementFactor = 5; // adds this many pixels to rect for each word
+    const wordCount = words.length; // define the word count
+    const rectHeight =  wordCount*incrementFactor;
+    ctx.fillRect(mouse.x + 5, mouse.y + 10, maxWidth, rectHeight);
+
     ctx.globalAlpha = 1;
     ctx.fillStyle = "white";
     ctx.font = "15px Arial";
-    ctx.fillText(
-      defenderTypes[currentHover].description,
-      mouse.x + 10,
-      mouse.y + 35
-    );
-  }
+    drawText(mouse.x + 10, mouse.y + 35, tooltipMessage, maxWidth, lineHeight )
   
+  }
+}
+
+  //Helper function to print text on to the canvas
+  function drawText(x, y, message, maxWidth, lineHeight, words = null){
+
+    if(!words){
+      words = message.split(" ");
+    }    
+    line = '';
+    // Checking if the lines needs to be broken to fit the text inside the maxWidth
+    for (var n = 0; n < words.length; n++) {
+      var testLine = line + words[n] + ' '; // Appending next word in the message to the current line 
+      var testLineMatrics = ctx.measureText(testLine);
+      var testLineWidth = testLineMatrics.width;
+      if (testLineWidth > maxWidth && n > 0) { // if testLine's width is bigger than maxWidth
+          ctx.fillText(line, x, y);//draw the line without the next word
+          line = words[n] + ' '; //clear and set the next word to the 'line'
+          y += lineHeight; //increase the y of the next line by the line height
+      } else {
+          line = testLine;
+      }
+  
+    ctx.fillText(line, x, y);
+
+
+  }
+
 }
