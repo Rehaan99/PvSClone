@@ -1,6 +1,6 @@
-const projectileTypes = [];
-const projectiles = [];
-const projectile1 = new Image();
+const projectileTypes = [],
+  projectiles = [],
+  projectile1 = new Image();
 projectile1.src = "./images/towerProjectile.png";
 projectileTypes.push(projectile1);
 class Projectiles {
@@ -19,13 +19,11 @@ class Projectiles {
     this.spriteWidth = 62;
     this.spriteHeight = 57;
   }
+
   update() {
     this.x += this.speed;
-    //if (frame % 10 === 0 ){
-    // if (this.frameX < this.maxFrame){this.frameX++;}
-    //else {this.frameX = this.minFrame;}
-    //}
   }
+
   draw() {
     ctx.drawImage(
       this.projectileType,
@@ -42,6 +40,7 @@ class Projectiles {
     ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
   }
 }
+
 function handleProjectiles() {
   for (let i = 0; i < projectiles.length; i++) {
     projectiles[i].update();

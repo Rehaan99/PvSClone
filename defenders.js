@@ -1,20 +1,27 @@
-const defenderSpriteTypes = [];
-const defenders = [];
-let globalChosenDefender = 0;
-const defenderTypes = [];
+const defenderSpriteTypes = [],
+  defenders = [],
+  defenderTypes = [];
+let globalChosenDefender = 0,
+  buildDefender = false,
+  tooltipTimer = 0,
+  displayTooltip = false,
+  currentHover;
+
 for (let i = 1; i < 4; i++) {
-  const defenderSprite = new Image();
+  const defenderSprite = new Image(),
+    positioning = {
+      x: 10 + 80 * (i - 1),
+      y: 10,
+      width: 70,
+      height: 85,
+      chosenDefender: i - 1,
+      isSelected: false,
+    };
+  let defenderValues;
+
   defenderSprite.src = "./images/tower" + i + ".png";
   defenderSpriteTypes.push(defenderSprite);
-  const positioning = {
-    x: 10 + 80 * (i - 1),
-    y: 10,
-    width: 70,
-    height: 85,
-    chosenDefender: i - 1,
-    isSelected: false,
-  };
-  let defenderValues;
+
   switch (i) {
     case 2:
       defenderValues = {
@@ -29,7 +36,7 @@ for (let i = 1; i < 4; i++) {
         production: false,
         damage: 50,
         description:
-          "Level 2 Tower - Average firing rate, Low Health, High Damage, Cost: 200",
+          "Level 2 Tower /n Average firing rate, Low Health, High Damage. /n Cost: 200",
       };
       break;
     case 3:
@@ -45,7 +52,7 @@ for (let i = 1; i < 4; i++) {
         production: false,
         damage: 30,
         description:
-          "Level 3 Tower - Average firing rate, High Health, average damage Cost: 300",
+          "Level 3 Tower /n Average firing rate, High Health, average damage. /n Cost: 300",
       };
       break;
     //add more cases for more defender types
@@ -54,7 +61,7 @@ for (let i = 1; i < 4; i++) {
         ...positioning,
         cost: 100,
         description:
-          "Level 1 Tower - Basic Tower average Firing rate, average health, low damage. Cost : 100",
+          "Level 1 Tower /n Basic Tower average Firing rate, average health, low damage. /n Cost : 100",
       };
   }
   defenderTypes.push(defenderValues);
@@ -101,6 +108,7 @@ class Defender {
     this.damage = damage;
     this.description = description;
   }
+
   draw() {
     ctx.fillStyle = "lightgreen";
     ctx.font = "15px Arial";
@@ -117,6 +125,7 @@ class Defender {
       this.height
     );
   }
+
   update() {
     if (this.shooting) {
       if (this.timer % this.fireRate === 0 || this.timer === 0) {
@@ -132,12 +141,9 @@ class Defender {
     } else if (this.timer !== 0) {
       this.timer++;
     }
-    //if (frame % 10 === 0 ){
-    // if (this.frameX < this.maxFrame){this.frameX++;}
-    //else {this.frameX = this.minFrame;}
-    //}
   }
 }
+
 function handleDefenders() {
   for (let i = 0; i < defenders.length; i++) {
     defenders[i].draw();
@@ -163,10 +169,7 @@ function handleDefenders() {
     }
   }
 }
-let buildDefender = false;
-let tooltipTimer = 0;
-let displayTooltip = false;
-let currentHover;
+
 function drawGhost(gridCell) {
   const gridPositionX = gridCell.x + cellGap,
     gridPositionY = gridCell.y + cellGap;
@@ -193,6 +196,7 @@ function drawGhost(gridCell) {
 
   return false;
 }
+
 function chooseDefender() {
   for (let i = 0; i < defenderTypes.length; i++) {
     if (collision(mouse, defenderTypes[i])) {
@@ -269,6 +273,38 @@ function chooseDefender() {
   
 }
 
+function wrapText(textYPos, tooltipWidth, text, fontSize) {
+  const words = text.split(" ");
+  let parameters = { line: [], yPos: [] },
+    line = "",
+    newLine,
+    index = 0;
+
+  for (let i = 0; i < words.length; i++) {
+    if (words[i] === "/n") {
+      words[i] = "";
+      newLine = true;
+    }
+    let testLine = line + words[i] + " ",
+      testWidth = ctx.measureText(testLine).width;
+    if ((testWidth > tooltipWidth - 5 && i > 0) || newLine) {
+      parameters.line[index] = line;
+      parameters.yPos[index] = textYPos + fontSize;
+      index++;
+      line = newLine ? words[i] : words[i] + " ";
+      newLine = false;
+      textYPos += fontSize;
+    } else {
+      line = testLine;
+    }
+  }
+  if (line != words[words.length]) {
+    parameters.line[index] = line;
+    parameters.yPos[index] = textYPos + fontSize;
+  }
+  return parameters;
+}
+
 function doesDefenderOccupySpace(gridPositionX, gridPositionY) {
   for (let i = 0; i < defenders.length; i++) {
     if (defenders[i].x === gridPositionX && defenders[i].y === gridPositionY) {
@@ -282,8 +318,8 @@ function createDefender() {
   if (!buildDefender) {
     return;
   }
-  const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
-  const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
+  const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap,
+    gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
   if (
     gridPositionY < cellSize ||
     gridPositionY > cellSize * 6 ||
