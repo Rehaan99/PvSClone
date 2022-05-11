@@ -1,9 +1,6 @@
-function levelOverScreen() {
-  ctx.fillStyle = "green";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-let gameStarted = false;
-let hordeMode = false;
+let gameStarted = false,
+  hordeMode = false;
+
 $(document).ready(function () {
   $(".title").lettering();
   $(".button").lettering();
@@ -18,6 +15,11 @@ $(document).ready(function () {
     hordeMode = true;
   });
 }, 1000);
+
+function levelOverScreen() {
+  ctx.fillStyle = "green";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
 
 function animation() {
   var title1 = new TimelineMax();
