@@ -4,6 +4,14 @@ const enemySprites = [],
   deadEnemies = [];
 let spawnedEnemies = 0;
 
+const healthColor = {
+  100: "green",
+  80: "yellow",
+  60: "orange",
+  40: "red",
+  20: "darkred",
+}
+
 for (let i = 0; i < 12; i++) {
   let enemySprite = new Image();
   enemySprite.src = "./images/Goblin/Running/0_Goblin_Running_" + i + ".png";
@@ -21,6 +29,9 @@ for (let i = 0; i < 12; i++) {
 }
 
 class Enemy {
+  healthbarWidth = 60;
+  healthbarHeight = 6;
+
   constructor(
     verticalPosition,
     x = canvas.width,
@@ -70,10 +81,16 @@ class Enemy {
     );
 
     if (!this.dead) {
-      ctx.fillStyle = "darkred";
-      ctx.font = "20px Arial";
-      ctx.fillText(Math.floor(this.health), this.x, this.y + 20);
+        this.drawHealthbar();
     }
+}
+
+  drawHealthbar() {
+    ctx.beginPath();
+    ctx.rect(this.x-10, this.y, this.healthbarWidth*(this.health/100), this.healthbarHeight);
+    ctx.fillStyle = healthColor[this.health];
+    ctx.closePath();
+    ctx.fill();
   }
 }
 
