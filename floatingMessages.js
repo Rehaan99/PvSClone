@@ -33,4 +33,26 @@ function handleFloatingMessages() {
       i--;
     }
   }
+
+  handleTooltips();
+  
+}
+
+function handleTooltips() {
+
+  // Displaying tooltips of defender informations...
+  if (displayTooltip) {
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = "black";
+    ctx.fillRect(mouse.x + 5, mouse.y + 10, 200, 200);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "white";
+    ctx.font = "15px Arial";
+    ctx.fillText(
+      defenderTypes[currentHover].description,
+      mouse.x + 10,
+      mouse.y + 35
+    );
+  }
+  
 }
