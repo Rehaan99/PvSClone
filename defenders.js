@@ -270,36 +270,7 @@ function chooseDefender() {
       defenderTypes[1].height * 0.8
     );
   }
-  if (displayTooltip) {
-    const tooltipX = mouse.x + 5,
-      tooltipY = mouse.y + 10,
-      fontSize = 15,
-      text = defenderTypes[currentHover].description;
-
-    ctx.font = fontSize + "px Arial";
-    ctx.globalAlpha = 0.3;
-    ctx.fillStyle = "black";
-    const tooltipParameters = wrapText(tooltipY, 200, text, fontSize);
-
-    ctx.fillRect(
-      tooltipX,
-      tooltipY,
-      200,
-      tooltipParameters.yPos[tooltipParameters.yPos.length - 1] +
-        2 * fontSize -
-        tooltipY
-    );
-
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = "white";
-    for (let i = 0; i < tooltipParameters.line.length; i++) {
-      ctx.fillText(
-        tooltipParameters.line[i],
-        tooltipX + 5,
-        tooltipParameters.yPos[i]
-      );
-    }
-  }
+  
 }
 
 function wrapText(textYPos, tooltipWidth, text, fontSize) {

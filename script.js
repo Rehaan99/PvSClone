@@ -155,6 +155,7 @@ function animate(newtime) {
     }
 
     handleFloatingMessages();
+    handleTooltips();
     frame++;
     mouse.clicked = false;
   }
