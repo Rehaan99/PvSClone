@@ -34,7 +34,7 @@ function handleFloatingMessages() {
     }
   }
 
-  handleTooltips();
+ 
   
 }
 
