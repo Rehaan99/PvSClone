@@ -24,6 +24,7 @@ class FloatingMessage {
     ctx.globalAlpha = 1;
   }
 }
+
 function handleFloatingMessages() {
   for (let i = 0; i < floatingMessages.length; i++) {
     floatingMessages[i].update();
@@ -33,13 +34,9 @@ function handleFloatingMessages() {
       i--;
     }
   }
-
- 
-  
 }
 
 function handleTooltips() {
-
   if (displayTooltip) {
     const tooltipX = mouse.x + 5,
       tooltipY = mouse.y + 10,
@@ -70,7 +67,36 @@ function handleTooltips() {
       );
     }
   }
+}
 
+function wrapText(textYPos, tooltipWidth, text, fontSize) {
+  const words = text.split(" ");
+  let parameters = { line: [], yPos: [] },
+    line = "",
+    newLine,
+    index = 0;
 
-
+  for (let i = 0; i < words.length; i++) {
+    if (words[i] === "/n") {
+      words[i] = "";
+      newLine = true;
+    }
+    let testLine = line + words[i] + " ",
+      testWidth = ctx.measureText(testLine).width;
+    if ((testWidth > tooltipWidth - 5 && i > 0) || newLine) {
+      parameters.line[index] = line;
+      parameters.yPos[index] = textYPos + fontSize;
+      index++;
+      line = newLine ? words[i] : words[i] + " ";
+      newLine = false;
+      textYPos += fontSize;
+    } else {
+      line = testLine;
+    }
+  }
+  if (line != words[words.length]) {
+    parameters.line[index] = line;
+    parameters.yPos[index] = textYPos + fontSize;
+  }
+  return parameters;
 }
