@@ -1,11 +1,12 @@
-const coinSprites = [];
-const resources = [];
+const coinSprites = [],
+  resources = [],
+  amounts = [20, 30, 40];
 for (let i = 1; i < 11; i++) {
   let coinSprite = new Image();
   coinSprite.src = "./images/Gold_" + i + ".png";
   coinSprites.push(coinSprite);
 }
-const amounts = [20, 30, 40];
+
 class Resource {
   constructor() {
     this.x = Math.random() * (canvas.width - 60) + 30;
@@ -18,6 +19,7 @@ class Resource {
     this.minFrame = 0;
     this.maxFrame = 9;
   }
+
   draw() {
     ctx.drawImage(
       coinSprites[this.frameX],
@@ -30,6 +32,7 @@ class Resource {
     ctx.font = "20px Arial";
     ctx.fillText(this.amount, this.x - 5, this.y);
   }
+
   update() {
     if (frame % 5 === 0) {
       if (this.frameX < this.maxFrame) {

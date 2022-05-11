@@ -1,29 +1,57 @@
-const canvas = document.getElementById("canvas1");
-const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("canvas1"),
+  ctx = canvas.getContext("2d");
 canvas.width = 1000;
 canvas.height = 700;
-const cellSize = 100;
-const cellGap = 3;
-const gameGrid = [];
 
-let canvasPosition = canvas.getBoundingClientRect();
-let level = 9;
-let numberOfResources = levelData[level].numberOfResources; // seperation of concerns!
-let frame = 0; // SoC
-let enemiesToSpawn = levelData[level].enemiesToSpawn; //SoC
-let enemiesInterval = 100; //SoC
-let gameOver = false; // SoC
-let score = 0; // SoC
-//framerate
-var fpsInterval, now, then, elapsed;
-//
-const mouse = {
-  x: undefined,
-  y: undefined,
-  width: 0.1,
-  height: 0.1,
-  clicked: false,
-};
+const cellSize = 100,
+  cellGap = 3,
+  gameGrid = [],
+  mouse = {
+    x: undefined,
+    y: undefined,
+    width: 0.1,
+    height: 0.1,
+    clicked: false,
+  },
+  controlsBar = {
+    width: canvas.width,
+    height: cellSize,
+  };
+let canvasPosition = canvas.getBoundingClientRect(),
+  level = 9,
+  numberOfResources = levelData[level].numberOfResources, // seperation of concerns!
+  frame = 0, // SoC
+  enemiesToSpawn = levelData[level].enemiesToSpawn, //SoC
+  enemiesInterval = 100, //SoC
+  gameOver = false, // SoC
+  score = 0, // SoC
+  //framerate
+  fpsInterval,
+  now,
+  then,
+  elapsed;
+
+class Cell {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.width = cellSize;
+    this.height = cellSize;
+  }
+  draw() {
+    if (mouse.x && mouse.y && collision(this, mouse)) {
+      ctx.fillStyle = "darkgreen";
+      ctx.globalAlpha = 0.2;
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+    ctx.globalAlpha = 1;
+  }
+}
+
+window.addEventListener("resize", function () {
+  canvasPosition = canvas.getBoundingClientRect();
+});
+
 function createListeners() {
   canvas.addEventListener("mouseup", function () {
     mouse.clicked = true;
@@ -46,23 +74,6 @@ function createListeners() {
   enemies.splice(0, enemies.length);
   enemyPosition.splice(0, enemyPosition.length);
   enemiesInterval = levelData[level].enemiesInterval;
-}
-
-class Cell {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.width = cellSize;
-    this.height = cellSize;
-  }
-  draw() {
-    if (mouse.x && mouse.y && collision(this, mouse)) {
-      ctx.fillStyle = "darkgreen";
-      ctx.globalAlpha = 0.2;
-      ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-    ctx.globalAlpha = 1;
-  }
 }
 
 function createGrid() {
@@ -115,12 +126,7 @@ function handleGameStatus(gameComplete) {
     ctx.fillText("GAME OVER", 135, 330);
   }
 }
-const controlsBar = {
-  width: canvas.width,
-  height: cellSize,
-};
-createGrid();
-startAnimating();
+
 function startAnimating() {
   fps = 60;
   fpsInterval = 1000 / fps;
@@ -159,6 +165,7 @@ function animate(newtime) {
     handleGameStatus(true);
   }
 }
+
 function collision(first, second) {
   if (
     first.x !== undefined &&
@@ -176,6 +183,6 @@ function collision(first, second) {
   }
   return false;
 }
-window.addEventListener("resize", function () {
-  canvasPosition = canvas.getBoundingClientRect();
-});
+
+createGrid();
+startAnimating();
