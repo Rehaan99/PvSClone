@@ -1,4 +1,9 @@
-const levelData = [];
+const levelData = [],
+  canvas = document.getElementById("canvas1"),
+  ctx = canvas.getContext("2d");
+canvas.width = 1000;
+canvas.height = 700;
+
 class LevelInfo {
   constructor(resources, enemies, spawn) {
     this.numberOfResources = resources;
