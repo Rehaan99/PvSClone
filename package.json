@@ -1,0 +1,19 @@
+{
+	"name": "pvz-clone",
+	"version": "0.0.1",
+	"description": "HTML Canvas project to create a webpage game similar in concept to the popular game \"Plants Vs Zombies\" : https://en.wikipedia.org/wiki/Plants_vs._Zombies",
+	"main": "index.html",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Rehaan99/PvZClone.git"
+	},
+	"author": "Rehaan99",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Rehaan99/PvZClone/issues"
+	},
+	"homepage": "https://github.com/Rehaan99/PvZClone#readme"
+}
