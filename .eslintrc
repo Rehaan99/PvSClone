@@ -1,0 +1,53 @@
+{
+	"rules": {
+		"arrow-body-style": "warn",
+		"camelcase": "off",
+		"new-cap": "off",
+		"default-case": "warn",
+		"guard-for-in": "warn",
+		"import/namespace": "warn",
+		"no-duplicate-imports": "warn",
+		"no-loop-func": "warn",
+        "no-param-reassign": "warn",
+        "no-use-before-define": "warn",
+        "no-unused-vars": [
+            "warn",
+            {
+                "args": "after-used",
+                "vars": "all"
+            }
+        ],
+        "object-shorthand": "warn",
+        "prefer-destructuring": [
+            "warn",
+            {
+                "array": false,
+                "object": true
+            },
+            {
+                "enforceForRenamedProperties": false
+            }
+        ],
+        "require-await": "warn",
+        "valid-jsdoc": "error"
+    },
+    "overrides": [
+        {
+            "extends": [
+                "plugin:jest/style"
+            ],
+            "files": [
+                "**/__tests__/**"
+            ],
+            "rules": {
+                "no-unused-expressions": [
+                    "error",
+                    {
+                        "allowTernary": true
+                    }
+                ],
+                "one-var": "off"
+            }
+        }
+    ]
+}
