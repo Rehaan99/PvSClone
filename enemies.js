@@ -21,14 +21,7 @@ for (let i = 0; i < 12; i++) {
 }
 
 class Enemy {
-	constructor(
-		verticalPosition,
-		x = canvas.width,
-		speed = 1.2,
-		health = 100,
-		dead = false,
-		damage = 0.2
-	) {
+	constructor(verticalPosition, x = canvas.width, speed = 1.2, health = 100, dead = false, damage = 0.2) {
 		this.x = x;
 		this.y = verticalPosition;
 		this.width = cellSize - cellGap * 2;
@@ -103,11 +96,7 @@ function handleEnemies() {
 			i--;
 		}
 	}
-	if (
-		frame % enemiesInterval === 0 &&
-		spawnedEnemies < enemiesToSpawn &&
-		(frame > 0 || !gameStarted)
-	) {
+	if (frame % enemiesInterval === 0 && spawnedEnemies < enemiesToSpawn && (frame > 0 || !gameStarted)) {
 		let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
 		enemies.push(new Enemy(verticalPosition));
 		enemyPosition.push(verticalPosition);

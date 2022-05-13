@@ -21,13 +21,7 @@ class Resource {
 	}
 
 	draw() {
-		ctx.drawImage(
-			coinSprites[this.frameX],
-			this.x,
-			this.y,
-			coinSprites[this.frameX].width / 15,
-			this.height
-		);
+		ctx.drawImage(coinSprites[this.frameX], this.x, this.y, coinSprites[this.frameX].width / 15, this.height);
 		ctx.fillStyle = 'yellow';
 		ctx.font = '20px Arial';
 		ctx.fillText(this.amount, this.x - 5, this.y);
@@ -54,17 +48,9 @@ function handleResources() {
 		if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)) {
 			numberOfResources += resources[i].amount;
 			floatingMessages.push(
-				new FloatingMessage(
-					'+' + resources[i].amount,
-					resources[i].x,
-					resources[i].y,
-					30,
-					'gold'
-				)
+				new FloatingMessage('+' + resources[i].amount, resources[i].x, resources[i].y, 30, 'gold')
 			);
-			floatingMessages.push(
-				new FloatingMessage('+' + resources[i].amount, 250, 50, 30, 'gold')
-			);
+			floatingMessages.push(new FloatingMessage('+' + resources[i].amount, 250, 50, 30, 'gold'));
 			resources.splice(i, 1);
 			i--;
 		}

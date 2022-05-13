@@ -37,8 +37,7 @@ for (let i = 1; i < 4; i++) {
 				productionSpeed: 0,
 				production: false,
 				damage: 50,
-				description:
-					'Level 2 Tower /n Average firing rate, Low Health, High Damage. /n Cost: 200'
+				description: 'Level 2 Tower /n Average firing rate, Low Health, High Damage. /n Cost: 200'
 			};
 			break;
 		case 3:
@@ -53,8 +52,7 @@ for (let i = 1; i < 4; i++) {
 				productionSpeed: 0,
 				production: false,
 				damage: 30,
-				description:
-					'Level 3 Tower /n Average firing rate, High Health, average damage. /n Cost: 300'
+				description: 'Level 3 Tower /n Average firing rate, High Health, average damage. /n Cost: 300'
 			};
 			break;
 		//add more cases for more defender types
@@ -173,11 +171,7 @@ function handleDefenders() {
 function drawGhost(gridCell) {
 	const gridPositionX = gridCell.x + cellGap,
 		gridPositionY = gridCell.y + cellGap;
-	if (
-		buildDefender &&
-		collision(gridCell, mouse) &&
-		!doesDefenderOccupySpace(gridPositionX, gridPositionY)
-	) {
+	if (buildDefender && collision(gridCell, mouse) && !doesDefenderOccupySpace(gridPositionX, gridPositionY)) {
 		ctx.globalAlpha = 0.4;
 		ctx.drawImage(
 			defenderSpriteTypes[globalChosenDefender],
@@ -234,12 +228,7 @@ function chooseDefender() {
 	ctx.lineWidth = 2;
 	ctx.fillStyle = 'rgba(0,0,0,0.5)';
 	for (let i = 0; i < defenderTypes.length; i++) {
-		ctx.fillRect(
-			defenderTypes[i].x,
-			defenderTypes[i].y,
-			defenderTypes[i].width,
-			defenderTypes[i].height
-		);
+		ctx.fillRect(defenderTypes[i].x, defenderTypes[i].y, defenderTypes[i].width, defenderTypes[i].height);
 		if (buildDefender) {
 			ctx.strokeStyle = defenderTypes[i].isSelected ? 'white' : 'black';
 			ctx.shadowBlur = defenderTypes[i].isSelected ? 10 : 0;
@@ -247,12 +236,7 @@ function chooseDefender() {
 		} else {
 			ctx.strokeStyle = 'black';
 		}
-		ctx.strokeRect(
-			defenderTypes[i].x,
-			defenderTypes[i].y,
-			defenderTypes[i].width,
-			defenderTypes[i].height
-		);
+		ctx.strokeRect(defenderTypes[i].x, defenderTypes[i].y, defenderTypes[i].width, defenderTypes[i].height);
 		ctx.shadowBlur = 0;
 
 		ctx.drawImage(
@@ -331,9 +315,7 @@ function instantiateDefender(
 		);
 		numberOfResources -= cost;
 	} else {
-		floatingMessages.push(
-			new FloatingMessage('More Resources Required', mouse.x, mouse.y, 12, 'red')
-		);
+		floatingMessages.push(new FloatingMessage('More Resources Required', mouse.x, mouse.y, 12, 'red'));
 	}
 	buildDefender = false;
 }
