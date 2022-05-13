@@ -5,22 +5,24 @@ let globalChosenDefender = 0,
   buildDefender = false,
   tooltipTimer = 0,
   displayTooltip = false,
-  currentHover;
+  currentHover,
+  defenderValues;
 
 for (let i = 1; i < 4; i++) {
-  const defenderSprite = new Image(),
-    positioning = {
-      x: 10 + 80 * (i - 1),
-      y: 10,
-      width: 70,
-      height: 85,
-      chosenDefender: i - 1,
-      isSelected: false,
-    };
-  let defenderValues;
-
+  const defenderSprite = new Image();
   defenderSprite.src = "./images/tower" + i + ".png";
   defenderSpriteTypes.push(defenderSprite);
+}
+
+for (let i = 1; i < 4; i++) {
+  const positioning = {
+    x: 10 + 80 * (i - 1),
+    y: 10,
+    width: 70,
+    height: 85,
+    chosenDefender: i - 1,
+    isSelected: false,
+  };
 
   switch (i) {
     case 2:
