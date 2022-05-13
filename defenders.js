@@ -1,14 +1,13 @@
 import { cellSize, ctx, mouse, cellGap } from './globalConstants.js';
-
+import collision from './methodUtil.js';
 const defenderSpriteTypes = [],
 	defenders = [],
 	defenderTypes = [];
 let globalChosenDefender = 0,
 	buildDefender = false,
-	tooltipTimer = 0,
-	displayTooltip = false,
 	currentHover,
 	defenderValues;
+export let tooltip = { displayTooltip: false, tooltipTimer: 0 };
 
 for (let i = 1; i < 4; i++) {
 	const defenderSprite = new Image();
@@ -67,6 +66,9 @@ for (let i = 1; i < 4; i++) {
 			};
 	}
 	defenderTypes.push(defenderValues);
+}
+function getDefenderDescription() {
+	return defenderTypes[currentHover].description;
 }
 
 class Defender {
@@ -213,17 +215,17 @@ function chooseDefender() {
 				}
 				break;
 			} else {
-				if (!displayTooltip && tooltipTimer >= 80) {
-					tooltipTimer = 0;
-					displayTooltip = true;
+				if (!tooltip.displayTooltip && tooltip.tooltipTimer >= 80) {
+					tooltip.tooltipTimer = 0;
+					tooltip.displayTooltip = true;
 				} else {
-					tooltipTimer++;
+					tooltip.tooltipTimer++;
 				}
 			}
 		}
 		if (currentHover != undefined && !collision(mouse, defenderTypes[currentHover])) {
-			displayTooltip = false;
-			tooltipTimer = 0;
+			tooltip.displayTooltip = false;
+			tooltip.tooltipTimer = 0;
 		}
 	}
 
@@ -322,4 +324,4 @@ function instantiateDefender(
 	buildDefender = false;
 }
 
-export { drawGhost };
+export { drawGhost, getDefenderDescription, chooseDefender, handleDefenders };

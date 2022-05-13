@@ -1,3 +1,4 @@
+import collision from './methodUtil.js';
 const projectileTypes = [],
 	projectiles = [],
 	projectile1 = new Image();

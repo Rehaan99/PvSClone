@@ -1,3 +1,5 @@
+import { getDefenderDescription, tooltip } from './defenders.js';
+
 const floatingMessages = [];
 class FloatingMessage {
 	constructor(value, x, y, size, color) {
@@ -37,11 +39,11 @@ export default function handleFloatingMessages() {
 }
 
 function handleTooltips() {
-	if (displayTooltip) {
+	if (tooltip.displayTooltip) {
 		const tooltipX = mouse.x + 5,
 			tooltipY = mouse.y + 10,
 			fontSize = 15,
-			text = defenderTypes[currentHover].description;
+			text = getDefenderDescription();
 
 		ctx.font = fontSize + 'px Arial';
 		ctx.globalAlpha = 0.3;

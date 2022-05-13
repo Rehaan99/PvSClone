@@ -1,9 +1,11 @@
 import { canvas, cellSize, controlsBar, ctx, gameGrid, mouse } from './globalConstants.js';
 import levelData from './levelData.json' assert { type: 'json' };
-import drawGhost from './defenders.js';
+import { drawGhost, handleDefenders, chooseDefender } from './defenders.js';
 import handleProjectiles from './projectiles.js';
 import handleEnemies from './enemies.js';
 import { handleFloatingMessages, handleTooltips } from './floatingMessages.js';
+import collision from './methodUtil.js';
+import handleResources from './resources.js';
 
 let canvasPosition = canvas.getBoundingClientRect(),
 	currentLevel = 0,
@@ -126,7 +128,7 @@ function animate(newtime) {
 			ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
 			handleDefenders();
 			chooseDefender();
-			handleResources();
+			handleResources(frame);
 			handleGameStatus(false, enemiesInterval);
 		}
 
@@ -141,24 +143,6 @@ function animate(newtime) {
 		levelOverScreen();
 		handleGameStatus(true);
 	}
-}
-
-function collision(first, second) {
-	if (
-		first.x !== undefined &&
-		first.y !== undefined &&
-		second.x !== undefined &&
-		second.y !== undefined &&
-		!(
-			first.x > second.x + second.width ||
-			first.x + first.width < second.x ||
-			first.y > second.y + second.height ||
-			first.y + first.height < second.y
-		)
-	) {
-		return true;
-	}
-	return false;
 }
 
 createGrid();

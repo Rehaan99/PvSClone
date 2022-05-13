@@ -1,3 +1,4 @@
+import collision from './methodUtil.js';
 const coinSprites = [],
 	resources = [],
 	amounts = [20, 30, 40];
@@ -27,7 +28,7 @@ class Resource {
 		ctx.fillText(this.amount, this.x - 5, this.y);
 	}
 
-	update() {
+	update(frame) {
 		if (frame % 5 === 0) {
 			if (this.frameX < this.maxFrame) {
 				this.frameX++;
@@ -38,13 +39,13 @@ class Resource {
 	}
 }
 
-function handleResources() {
+export default function handleResources(frame) {
 	if (frame % 500 === 0 && !gameOver && gameStarted && frame > 0) {
 		resources.push(new Resource());
 	}
 	for (let i = 0; i < resources.length; i++) {
 		resources[i].draw();
-		resources[i].update();
+		resources[i].update(frame);
 		if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)) {
 			numberOfResources += resources[i].amount;
 			floatingMessages.push(
@@ -56,3 +57,5 @@ function handleResources() {
 		}
 	}
 }
+
+export { handleResources };
