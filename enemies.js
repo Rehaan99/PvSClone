@@ -37,6 +37,9 @@ for (let i = 0; i < 12; i++) {
 class Enemy {
   healthbarWidth = 60;
   healthbarHeight = 6;
+  drawHealthbar = drawHealthbar.bind(this);
+  healthbarXOffset = -10;
+  healthbarYOffset = 0;
 
   constructor(
     verticalPosition,
@@ -89,14 +92,6 @@ class Enemy {
     if (!this.dead) {
         this.drawHealthbar();
     }
-}
-
-  drawHealthbar() {
-    ctx.beginPath();
-    ctx.rect(this.x-10, this.y, this.healthbarWidth*(this.health/100), this.healthbarHeight);
-    ctx.fillStyle = calculateHealthBarColor(this.health, this.maxHealth);
-    ctx.closePath();
-    ctx.fill();
   }
 }
 
