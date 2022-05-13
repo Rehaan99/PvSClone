@@ -5,18 +5,18 @@ const enemySprites = [],
 let spawnedEnemies = 0;
 
 const calculateHealthBarColor = (health, maxHealth) => {
-    const healthPercentage = health / maxHealth;
+  const healthPercentage = health / maxHealth;
 
-    if (healthPercentage > 0.8) {
-        return "green";
-    } else if (healthPercentage > 0.6) {
-        return "yellow";
-    } else if (healthPercentage > 0.4) {
-        return "orange";
-    } else {
-        return "red";
-    }
-}
+  if (healthPercentage > 0.8) {
+    return "green";
+  } else if (healthPercentage > 0.6) {
+    return "yellow";
+  } else if (healthPercentage > 0.4) {
+    return "orange";
+  } else {
+    return "red";
+  }
+};
 
 for (let i = 0; i < 12; i++) {
   let enemySprite = new Image();
@@ -86,14 +86,19 @@ class Enemy {
       this.height
     );
 
-    if (!this.dead) {
-        this.drawHealthbar();
+    if (!this.dead && this.health >= 0) {
+      this.drawHealthbar();
     }
-}
+  }
 
   drawHealthbar() {
     ctx.beginPath();
-    ctx.rect(this.x-10, this.y, this.healthbarWidth*(this.health/100), this.healthbarHeight);
+    ctx.rect(
+      this.x - 10,
+      this.y,
+      this.healthbarWidth * (this.health / 100),
+      this.healthbarHeight
+    );
     ctx.fillStyle = calculateHealthBarColor(this.health, this.maxHealth);
     ctx.closePath();
     ctx.fill();
