@@ -93,19 +93,6 @@ class Enemy {
       this.drawHealthbar();
     }
   }
-
-  drawHealthbar() {
-    ctx.beginPath();
-    ctx.rect(
-      this.x - 10,
-      this.y,
-      this.healthbarWidth * (this.health / 100),
-      this.healthbarHeight
-    );
-    ctx.fillStyle = calculateHealthBarColor(this.health, this.maxHealth);
-    ctx.closePath();
-    ctx.fill();
-  }
 }
 
 function handleEnemies() {

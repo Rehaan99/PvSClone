@@ -73,8 +73,8 @@ class Defender {
   healthbarWidth = 60;
   healthbarHeight = 6;
   drawHealthbar = drawHealthbar.bind(this);
-  healthbarXOffset = 14
-  healthbarYOffset = -17;
+  healthbarXOffset = 14;
+  healthbarYOffset = -5;
 
   constructor(
     x,
@@ -134,13 +134,13 @@ class Defender {
     );
   }
 
-//   drawHealthbar() {
-//     ctx.beginPath();
-//     ctx.rect(this.x+14, this.y-17, this.healthbarWidth*(this.health/this.maxHealth), this.healthbarHeight);
-//     ctx.fillStyle = calculateHealthBarColor(this.health, this.maxHealth);
-//     ctx.closePath();
-//     ctx.fill();
-//   }
+  //   drawHealthbar() {
+  //     ctx.beginPath();
+  //     ctx.rect(this.x+14, this.y-17, this.healthbarWidth*(this.health/this.maxHealth), this.healthbarHeight);
+  //     ctx.fillStyle = calculateHealthBarColor(this.health, this.maxHealth);
+  //     ctx.closePath();
+  //     ctx.fill();
+  //   }
 
   update() {
     if (this.shooting) {
@@ -286,7 +286,6 @@ function chooseDefender() {
       defenderTypes[1].height * 0.8
     );
   }
-  
 }
 
 function wrapText(textYPos, tooltipWidth, text, fontSize) {
@@ -361,6 +360,7 @@ function instantiateDefender(
     cost,
     chosenDefender,
     health,
+    maxHealth,
     fireRate,
     hardness,
     firingRange,
@@ -379,6 +379,7 @@ function instantiateDefender(
         chosenDefender,
         cost,
         health,
+        maxHealth,
         fireRate,
         hardness,
         firingRange,
