@@ -4,14 +4,6 @@ const enemySprites = [],
   deadEnemies = [];
 let spawnedEnemies = 0;
 
-const healthColor = {
-    100: "green",
-    80: "yellow",
-    60: "orange",
-    40: "red",
-    20: "darkred",
-}
-
 const calculateHealthBarColor = (health, maxHealth) => {
     const healthPercentage = health / maxHealth;
 
