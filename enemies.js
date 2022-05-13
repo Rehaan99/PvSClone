@@ -37,6 +37,9 @@ for (let i = 0; i < 12; i++) {
 class Enemy {
   healthbarWidth = 60;
   healthbarHeight = 6;
+  drawHealthbar = drawHealthbar.bind(this);
+  healthbarXOffset = -10;
+  healthbarYOffset = 0;
 
   constructor(
     verticalPosition,
