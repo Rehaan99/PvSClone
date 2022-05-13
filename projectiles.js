@@ -41,7 +41,7 @@ class Projectiles {
 	}
 }
 
-function handleProjectiles() {
+export default function handleProjectiles() {
 	for (let i = 0; i < projectiles.length; i++) {
 		projectiles[i].update();
 		projectiles[i].draw();

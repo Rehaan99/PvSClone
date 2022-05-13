@@ -25,7 +25,7 @@ class FloatingMessage {
 	}
 }
 
-function handleFloatingMessages() {
+export default function handleFloatingMessages() {
 	for (let i = 0; i < floatingMessages.length; i++) {
 		floatingMessages[i].update();
 		floatingMessages[i].draw();
@@ -94,3 +94,5 @@ function wrapText(textYPos, tooltipWidth, text, fontSize) {
 	}
 	return parameters;
 }
+
+export { handleTooltips, handleFloatingMessages };

@@ -1,25 +1,18 @@
-const cellSize = 100,
-	cellGap = 3,
-	gameGrid = [],
-	mouse = {
-		x: undefined,
-		y: undefined,
-		width: 0.1,
-		height: 0.1,
-		clicked: false
-	},
-	controlsBar = {
-		width: canvas.width,
-		height: cellSize
-	};
+import { canvas, cellSize, controlsBar, ctx, gameGrid, mouse } from './globalConstants.js';
+import levelData from './levelData.json' assert { type: 'json' };
+import drawGhost from './defenders.js';
+import handleProjectiles from './projectiles.js';
+import handleEnemies from './enemies.js';
+import { handleFloatingMessages, handleTooltips } from './floatingMessages.js';
+
 let canvasPosition = canvas.getBoundingClientRect(),
-	level = 9,
-	numberOfResources = levelData[level].numberOfResources, // seperation of concerns!
-	frame = 0, // SoC
-	enemiesToSpawn = levelData[level].enemiesToSpawn, //SoC
-	enemiesInterval = 100, //SoC
-	gameOver = false, // SoC
-	score = 0, // SoC
+	currentLevel = 0,
+	{ resources: numberOfResources } = levelData.level[currentLevel],
+	frame = 0,
+	enemiesToSpawn = levelData.level[currentLevel].enemiesToSpawn,
+	enemiesInterval = 100,
+	gameOver = false,
+	score = 0,
 	//framerate
 	fpsInterval,
 	now,
@@ -68,7 +61,7 @@ function createListeners() {
 	frame = 0;
 	enemies.splice(0, enemies.length);
 	enemyPosition.splice(0, enemyPosition.length);
-	enemiesInterval = levelData[level].enemiesInterval;
+	enemiesInterval = levelData[currentLevel].enemiesInterval;
 }
 
 function createGrid() {
@@ -93,14 +86,10 @@ function handleGameStatus(gameComplete) {
 		ctx.fillStyle = 'gold';
 		ctx.font = '30px Arial';
 		ctx.fillText('Score: ' + score, defenderTypes[defenderTypes.length - 1].x + 90, 40);
-		ctx.fillText(
-			'Resources: ' + numberOfResources,
-			defenderTypes[defenderTypes.length - 1].x + 90,
-			80
-		);
+		ctx.fillText('Resources: ' + numberOfResources, defenderTypes[defenderTypes.length - 1].x + 90, 80);
 		hordeMode
 			? ctx.fillText('Horde Mode', canvas.width - 200, 60)
-			: ctx.fillText('Level ' + level, canvas.width - 120, 60);
+			: ctx.fillText('Level ' + levelData[currentLevel].levelNumber, canvas.width - 120, 60);
 	}
 	if (enemiesToSpawn <= spawnedEnemies && enemies.length <= 0 && deadEnemies.length <= 0) {
 		ctx.fillStyle = 'blue';
@@ -115,7 +104,7 @@ function handleGameStatus(gameComplete) {
 }
 
 function startAnimating() {
-	fps = 60;
+	const fps = 60;
 	fpsInterval = 1000 / fps;
 	then = window.performance.now();
 	animate();
@@ -131,14 +120,14 @@ function animate(newtime) {
 		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 		handleGameGrid();
 		handleProjectiles();
-		handleEnemies();
+		handleEnemies(frame);
 		if (gameStarted) {
 			ctx.fillStyle = 'darkgreen'; //#5D682F - colour of battleground (lighter area) #545D2A - darker area
 			ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
 			handleDefenders();
 			chooseDefender();
 			handleResources();
-			handleGameStatus(false);
+			handleGameStatus(false, enemiesInterval);
 		}
 
 		handleFloatingMessages();

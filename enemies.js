@@ -38,7 +38,7 @@ class Enemy {
 		this.dead = dead;
 	}
 
-	update() {
+	update(frame) {
 		if (frame % 5 === 0 || (this.dead && frame % 3 === 0)) {
 			if (this.frameX < this.maxFrame) {
 				this.frameX++;
@@ -70,9 +70,9 @@ class Enemy {
 	}
 }
 
-function handleEnemies() {
+export default function handleEnemies(frame, enemiesInterval) {
 	for (let i = 0; i < enemies.length; i++) {
-		enemies[i].update();
+		enemies[i].update(frame);
 		enemies[i].draw();
 		if (enemies[i].x < 0 && gameStarted) {
 			gameOver = true;
@@ -89,7 +89,7 @@ function handleEnemies() {
 		}
 	}
 	for (let i = 0; i < deadEnemies.length; i++) {
-		deadEnemies[i].update();
+		deadEnemies[i].update(frame);
 		deadEnemies[i].draw();
 		if (deadEnemies[i].frameX === deadEnemies[i].maxFrame) {
 			deadEnemies.splice(i, 1);

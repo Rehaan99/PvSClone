@@ -1,3 +1,5 @@
+import { cellSize, ctx, mouse, cellGap } from './globalConstants.js';
+
 const defenderSpriteTypes = [],
 	defenders = [],
 	defenderTypes = [];
@@ -142,7 +144,7 @@ class Defender {
 	}
 }
 
-function handleDefenders() {
+export default function handleDefenders() {
 	for (let i = 0; i < defenders.length; i++) {
 		defenders[i].draw();
 		defenders[i].update();
@@ -319,3 +321,5 @@ function instantiateDefender(
 	}
 	buildDefender = false;
 }
+
+export { drawGhost };
