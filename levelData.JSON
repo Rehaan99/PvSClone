@@ -1,0 +1,15 @@
+{
+	"level": 1,
+	"resources": 100,
+	"enemies": [
+		{
+			"enemyType": 1,
+			"spawnAmount": 30
+		},
+		{
+			"enemyType": 2,
+			"spawnAmount": 5
+		}
+	],
+	"spawnRate": 600
+}

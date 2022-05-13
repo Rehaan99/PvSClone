@@ -1,14 +1,14 @@
 body {
-  background: black;
+	background: black;
 }
 #canvas1 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1000px;
-  height: 700px;
-  background: white;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 1000px;
+	height: 700px;
+	background: white;
 }
 
 @import url(https://fonts.googleapis.com/css?family=Fjalla+One);
@@ -20,96 +20,94 @@ $yellow: #f1c83c;
 $shadow: #533d4a;
 
 html {
-  height: 100%;
+	height: 100%;
 }
 
 body {
-  font-family: "Fjalla One", sans-serif;
-  background: $background;
+	font-family: 'Fjalla One', sans-serif;
+	background: $background;
 }
 
 .container {
-  transform: translate(-50%, -50%);
-  top: 50%;
-  left: 50%;
-  display: block;
-  position: absolute;
-  max-width: 250px;
-  text-align: center;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	display: block;
+	position: absolute;
+	max-width: 250px;
+	text-align: center;
 }
-.button:hover{
-  color:red;
+.button:hover {
+	color: red;
 }
 .button {
-  float: left;
-  position: relative;
-  bottom: -65px;
-  left: 45%;
-  display: block;
-  transform: translateX(-50%);
-  color: $red;
-  text-transform: uppercase;
-  opacity: 0;
-  visibility: hidden;
-  font-size: 30px;
+	float: left;
+	position: relative;
+	bottom: -65px;
+	left: 45%;
+	display: block;
+	transform: translateX(-50%);
+	color: $red;
+	text-transform: uppercase;
+	opacity: 0;
+	visibility: hidden;
+	font-size: 30px;
 
-  span {
-    transform: skew(-10deg);
-    display: block;
-    float: left;
-    text-shadow: $shadow 1px 1px, $shadow 2px 2px, $shadow 3px 3px,
-      $shadow 4px 4px;
-      min-width: 10px;
-      min-height: 10px;
-  }
+	span {
+		transform: skew(-10deg);
+		display: block;
+		float: left;
+		text-shadow: $shadow 1px 1px, $shadow 2px 2px, $shadow 3px 3px, $shadow 4px 4px;
+		min-width: 10px;
+		min-height: 10px;
+	}
 }
-.start{
-  left: 10px;
+.start {
+	left: 10px;
 }
-
 
 h1 {
-  color: #fff;
-  text-transform: uppercase;
-  font-size: 42px;
-  margin: 0;
-  line-height: 47px;
-  letter-spacing: 2px;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 42px;
+	margin: 0;
+	line-height: 47px;
+	letter-spacing: 2px;
 }
 
 .title {
-  transform: translateX(-50%);
-  display: block;
-  float: left;
-  left: 50%;
-  position: relative;
+	transform: translateX(-50%);
+	display: block;
+	float: left;
+	left: 50%;
+	position: relative;
 
-  span {
-    transform: skew(-10deg);
-    display: block;
-    float: left;
-    text-shadow: $shadow 1px 1px, $shadow 2px 2px, $shadow 3px 3px,
-      $shadow 4px 4px, $shadow 5px 5px, $shadow 6px 6px;
-    min-width: 10px;
-    min-height: 10px;
-    position: relative;
-  }
+	span {
+		transform: skew(-10deg);
+		display: block;
+		float: left;
+		text-shadow: $shadow 1px 1px, $shadow 2px 2px, $shadow 3px 3px, $shadow 4px 4px,
+			$shadow 5px 5px, $shadow 6px 6px;
+		min-width: 10px;
+		min-height: 10px;
+		position: relative;
+	}
 }
-.noselect{
-  user-select: none;
+.noselect {
+	user-select: none;
 }
 
 .title {
-  &:nth-child(1) {
-    color: $red;
-  }
-  &:nth-child(2) {
-    color: $green;
-  }
-  &:nth-child(3) {
-    color: rgba(0, 0, 0, 0.418);
-  }
-  &:nth-child(4) {
-    color: $yellow;
-  }
+	&:nth-child(1) {
+		color: $red;
+	}
+	&:nth-child(2) {
+		color: $green;
+	}
+	&:nth-child(3) {
+		color: rgba(0, 0, 0, 0.418);
+	}
+	&:nth-child(4) {
+		color: $yellow;
+	}
 }

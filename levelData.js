@@ -1,15 +1,15 @@
 const levelData = [],
-  canvas = document.getElementById("canvas1"),
-  ctx = canvas.getContext("2d");
+	canvas = document.getElementById('canvas1'),
+	ctx = canvas.getContext('2d');
 canvas.width = 1000;
 canvas.height = 700;
 
 class LevelInfo {
-  constructor(resources, enemies, spawn) {
-    this.numberOfResources = resources;
-    this.enemiesToSpawn = enemies;
-    this.enemiesInterval = spawn;
-  }
+	constructor(resources, enemies, spawn) {
+		this.numberOfResources = resources;
+		this.enemiesToSpawn = enemies;
+		this.enemiesInterval = spawn;
+	}
 }
 //level 1
 levelData.push(new LevelInfo(300, 30, 600));
