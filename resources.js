@@ -39,7 +39,7 @@ class Resource {
 	}
 }
 
-export default function handleResources(frame) {
+export default function handleResources(frame, gameOver, gameStarted) {
 	if (frame % 500 === 0 && !gameOver && gameStarted && frame > 0) {
 		resources.push(new Resource());
 	}

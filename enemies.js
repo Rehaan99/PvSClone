@@ -1,3 +1,4 @@
+import { cellSize, cellGap, canvas, ctx } from './globalConstants.js';
 const enemySprites = [],
 	enemyPosition = [],
 	enemies = [],
@@ -70,7 +71,7 @@ class Enemy {
 	}
 }
 
-export default function handleEnemies(frame, enemiesInterval) {
+export default function handleEnemies(frame, enemiesInterval, gameOver, gameStarted, hordeMode, enemiesToSpawn) {
 	for (let i = 0; i < enemies.length; i++) {
 		enemies[i].update(frame);
 		enemies[i].draw();
@@ -97,7 +98,7 @@ export default function handleEnemies(frame, enemiesInterval) {
 		}
 	}
 	if (frame % enemiesInterval === 0 && spawnedEnemies < enemiesToSpawn && (frame > 0 || !gameStarted)) {
-		let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+		const verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
 		enemies.push(new Enemy(verticalPosition));
 		enemyPosition.push(verticalPosition);
 		if (gameStarted && !hordeMode) {
@@ -108,3 +109,7 @@ export default function handleEnemies(frame, enemiesInterval) {
 		}
 	}
 }
+function getSpawnedEnemies() {
+	return spawnedEnemies;
+}
+export { handleEnemies, getSpawnedEnemies };

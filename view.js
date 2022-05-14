@@ -1,3 +1,4 @@
+import { canvas } from './globalConstants.js';
 let gameStarted = false,
 	hordeMode = false;
 
@@ -9,19 +10,27 @@ $(document).ready(function () {
 		$('.container').hide();
 		$('.button').hide();
 		gameStarted = true;
-		createListeners();
+		createListeners(canvas);
 	});
 	$('.horde').click(function () {
 		hordeMode = true;
 	});
 }, 1000);
 
+function getGameStart() {
+	return gameStarted;
+}
+
+function getHordeMode() {
+	return hordeMode;
+}
+
 function levelOverScreen() {
 	ctx.fillStyle = 'green';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-function animation() {
+export default function animation() {
 	var title1 = new TimelineMax();
 	title1.to('.button', 0, { visibility: 'hidden', opacity: 0 });
 	title1.staggerFromTo(
@@ -33,3 +42,5 @@ function animation() {
 	);
 	title1.to('.button', 0.2, { visibility: 'visible', opacity: 1 });
 }
+
+export { getGameStart, getHordeMode, levelOverScreen };

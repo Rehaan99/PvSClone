@@ -3,76 +3,51 @@
 		{
 			"levelNumber": 1,
 			"resources": 100,
-			"enemies": [
-				{
-					"enemyType": 1,
-					"spawnAmount": 30
-				},
-				{
-					"enemyType": 2,
-					"spawnAmount": 5
-				}
-			],
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
 			"spawnRate": 600
 		},
 		{
 			"levelNumber": 2,
 			"resources": 100,
-			"enemies": [
-				{
-					"enemyType": 1,
-					"spawnAmount": 30
-				},
-				{
-					"enemyType": 2,
-					"spawnAmount": 5
-				}
-			],
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
 			"spawnRate": 600
 		},
 		{
 			"levelNumber": 3,
 			"resources": 100,
-			"enemies": [
-				{
-					"enemyType": 1,
-					"spawnAmount": 30
-				},
-				{
-					"enemyType": 2,
-					"spawnAmount": 5
-				}
-			],
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
 			"spawnRate": 600
 		},
 		{
 			"levelNumber": 4,
 			"resources": 100,
-			"enemies": [
-				{
-					"enemyType": 1,
-					"spawnAmount": 30
-				},
-				{
-					"enemyType": 2,
-					"spawnAmount": 5
-				}
-			],
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
 			"spawnRate": 600
 		},
 		{
 			"levelNumber": 5,
 			"resources": 100,
-			"enemies": [
-				{
-					"enemyType": 1,
-					"spawnAmount": 30
-				},
-				{
-					"enemyType": 2,
-					"spawnAmount": 5
-				}
-			],
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
 			"spawnRate": 600
 		}
 	]

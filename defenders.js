@@ -70,7 +70,9 @@ for (let i = 1; i < 4; i++) {
 function getDefenderDescription() {
 	return defenderTypes[currentHover].description;
 }
-
+function getDefenderTypes() {
+	return defenderTypes;
+}
 class Defender {
 	constructor(
 		x,
@@ -324,4 +326,4 @@ function instantiateDefender(
 	buildDefender = false;
 }
 
-export { drawGhost, getDefenderDescription, chooseDefender, handleDefenders };
+export { drawGhost, getDefenderDescription, chooseDefender, handleDefenders, getDefenderTypes };

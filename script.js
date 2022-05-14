@@ -1,19 +1,17 @@
 import { canvas, cellSize, controlsBar, ctx, gameGrid, mouse } from './globalConstants.js';
 import levelData from './levelData.json' assert { type: 'json' };
-import { drawGhost, handleDefenders, chooseDefender } from './defenders.js';
+import { drawGhost, handleDefenders, chooseDefender, getDefenderTypes } from './defenders.js';
 import handleProjectiles from './projectiles.js';
-import handleEnemies from './enemies.js';
+import { handleEnemies, getSpawnedEnemies } from './enemies.js';
 import { handleFloatingMessages, handleTooltips } from './floatingMessages.js';
 import collision from './methodUtil.js';
 import handleResources from './resources.js';
+import { getGameStart, getHordeMode, levelOverScreen } from './view.js';
 
 let canvasPosition = canvas.getBoundingClientRect(),
 	currentLevel = 0,
 	{ resources: numberOfResources } = levelData.level[currentLevel],
 	frame = 0,
-	enemiesToSpawn = levelData.level[currentLevel].enemiesToSpawn,
-	enemiesInterval = 100,
-	gameOver = false,
 	score = 0,
 	//framerate
 	fpsInterval,
@@ -42,7 +40,7 @@ window.addEventListener('resize', function () {
 	canvasPosition = canvas.getBoundingClientRect();
 });
 
-function createListeners() {
+function createListeners(enemiesInterval, frame, enemies, enemyPosition) {
 	canvas.addEventListener('mouseup', function () {
 		mouse.clicked = true;
 	});
@@ -83,7 +81,8 @@ function handleGameGrid() {
 }
 
 //utilities
-function handleGameStatus(gameComplete) {
+function handleGameStatus(gameComplete, hordeMode, gameOver, enemiesToSpawn) {
+	const defenderTypes = getDefenderTypes();
 	if (!gameComplete) {
 		ctx.fillStyle = 'gold';
 		ctx.font = '30px Arial';
@@ -91,9 +90,9 @@ function handleGameStatus(gameComplete) {
 		ctx.fillText('Resources: ' + numberOfResources, defenderTypes[defenderTypes.length - 1].x + 90, 80);
 		hordeMode
 			? ctx.fillText('Horde Mode', canvas.width - 200, 60)
-			: ctx.fillText('Level ' + levelData[currentLevel].levelNumber, canvas.width - 120, 60);
+			: ctx.fillText('Level ' + levelData.level[currentLevel].levelNumber, canvas.width - 120, 60);
 	}
-	if (enemiesToSpawn <= spawnedEnemies && enemies.length <= 0 && deadEnemies.length <= 0) {
+	if (enemiesToSpawn <= getSpawnedEnemies() && enemies.length <= 0 && deadEnemies.length <= 0) {
 		ctx.fillStyle = 'blue';
 		ctx.font = '60px Arial';
 		ctx.fillText('Level Complete!', 300, 300);
@@ -115,6 +114,11 @@ function startAnimating() {
 function animate(newtime) {
 	now = newtime;
 	elapsed = now - then;
+	const gameStarted = getGameStart(),
+		hordeMode = getHordeMode(),
+		enemiesInterval = 100,
+		gameOver = false,
+		enemiesToSpawn = levelData.level[currentLevel].enemies.spawnTypeOneAmount;
 	if (elapsed > fpsInterval) {
 		then = now - (elapsed % fpsInterval);
 		const background = new Image();
@@ -122,7 +126,7 @@ function animate(newtime) {
 		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 		handleGameGrid();
 		handleProjectiles();
-		handleEnemies(frame);
+		handleEnemies(frame, enemiesInterval, gameOver, gameStarted, hordeMode, enemiesToSpawn);
 		if (gameStarted) {
 			ctx.fillStyle = 'darkgreen'; //#5D682F - colour of battleground (lighter area) #545D2A - darker area
 			ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
@@ -141,7 +145,7 @@ function animate(newtime) {
 		requestAnimationFrame(animate);
 	} else {
 		levelOverScreen();
-		handleGameStatus(true);
+		handleGameStatus(true, hordeMode, gameOver, enemiesToSpawn);
 	}
 }
 
