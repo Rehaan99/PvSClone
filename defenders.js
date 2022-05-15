@@ -29,6 +29,7 @@ for (let i = 1; i < 4; i++) {
         cost: 200,
         compensation: 175,
         health: 40,
+        maxHealth: 40,
         fireRate: 50,
         hardness: 0,
         firingRange: 5,
@@ -46,6 +47,7 @@ for (let i = 1; i < 4; i++) {
         cost: 300,
         compensation: 275,
         health: 200,
+        maxHealth: 200,
         fireRate: 90,
         hardness: 0,
         firingRange: 5,
@@ -71,6 +73,12 @@ for (let i = 1; i < 4; i++) {
 }
 
 class Defender {
+  healthbarWidth = 60;
+  healthbarHeight = 6;
+  drawHealthbar = drawHealthbar.bind(this);
+  healthbarXOffset = 14;
+  healthbarYOffset = -5;
+
   constructor(
     x,
     y,
@@ -78,6 +86,7 @@ class Defender {
     cost = 100,
     compensation = 75,
     health = 100,
+    maxHealth = 100,
     fireRate = 50,
     hardness = 0,
     firingRange = 5,
@@ -93,6 +102,7 @@ class Defender {
     this.height = cellSize - cellGap * 2;
     this.shooting = false;
     this.health = health;
+    this.maxHealth = maxHealth;
     this.cost = cost;
     this.compensation = compensation;
     this.projectiles = [];
@@ -115,9 +125,7 @@ class Defender {
   }
 
   draw() {
-    ctx.fillStyle = "lightgreen";
-    ctx.font = "15px Arial";
-    ctx.fillText(Math.floor(this.health), this.x + 30, this.y + 15);
+    this.drawHealthbar();
     ctx.drawImage(
       this.defenderType,
       this.frameX * this.spriteWidth,
@@ -130,6 +138,14 @@ class Defender {
       this.height
     );
   }
+
+  //   drawHealthbar() {
+  //     ctx.beginPath();
+  //     ctx.rect(this.x+14, this.y-17, this.healthbarWidth*(this.health/this.maxHealth), this.healthbarHeight);
+  //     ctx.fillStyle = calculateHealthBarColor(this.health, this.maxHealth);
+  //     ctx.closePath();
+  //     ctx.fill();
+  //   }
 
   update() {
     if (this.shooting) {
@@ -286,7 +302,6 @@ function chooseDefender() {
       defenderTypes[1].height * 0.8
     );
   }
-  
 }
 
 function wrapText(textYPos, tooltipWidth, text, fontSize) {
@@ -362,6 +377,7 @@ function instantiateDefender(
     compensation,
     chosenDefender,
     health,
+    maxHealth,
     fireRate,
     hardness,
     firingRange,
@@ -381,6 +397,7 @@ function instantiateDefender(
         cost,
         compensation,
         health,
+        maxHealth,
         fireRate,
         hardness,
         firingRange,

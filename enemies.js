@@ -4,6 +4,20 @@ const enemySprites = [],
   deadEnemies = [];
 let spawnedEnemies = 0;
 
+const calculateHealthBarColor = (health, maxHealth) => {
+  const healthPercentage = health / maxHealth;
+
+  if (healthPercentage > 0.8) {
+    return "green";
+  } else if (healthPercentage > 0.6) {
+    return "yellow";
+  } else if (healthPercentage > 0.4) {
+    return "orange";
+  } else {
+    return "red";
+  }
+};
+
 for (let i = 0; i < 12; i++) {
   let enemySprite = new Image();
   enemySprite.src = "./images/Goblin/Running/0_Goblin_Running_" + i + ".png";
@@ -21,6 +35,12 @@ for (let i = 0; i < 12; i++) {
 }
 
 class Enemy {
+  healthbarWidth = 60;
+  healthbarHeight = 6;
+  drawHealthbar = drawHealthbar.bind(this);
+  healthbarXOffset = -10;
+  healthbarYOffset = 0;
+
   constructor(
     verticalPosition,
     x = canvas.width,
@@ -69,10 +89,8 @@ class Enemy {
       this.height
     );
 
-    if (!this.dead) {
-      ctx.fillStyle = "darkred";
-      ctx.font = "20px Arial";
-      ctx.fillText(Math.floor(this.health), this.x, this.y + 20);
+    if (!this.dead && this.health >= 0) {
+      this.drawHealthbar();
     }
   }
 }
