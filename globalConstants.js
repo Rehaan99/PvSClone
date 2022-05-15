@@ -10,7 +10,8 @@ export const cellSize = 100,
 		y: undefined,
 		width: 0.1,
 		height: 0.1,
-		clicked: false
+		clicked: false,
+		rightClicked: false
 	},
 	controlsBar = {
 		width: canvas.width,

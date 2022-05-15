@@ -33,6 +33,7 @@ for (let i = 1; i < 4; i++) {
 			defenderValues = {
 				...positioning,
 				cost: 200,
+				compensation: 175,
 				health: 40,
 				maxHealth: 40,
 				fireRate: 50,
@@ -49,6 +50,7 @@ for (let i = 1; i < 4; i++) {
 			defenderValues = {
 				...positioning,
 				cost: 300,
+				compensation: 275,
 				health: 200,
 				maxHealth: 200,
 				fireRate: 90,
@@ -66,7 +68,7 @@ for (let i = 1; i < 4; i++) {
 			defenderValues = {
 				...positioning,
 				cost: 100,
-				maxHealth: 100,
+				compensation: 75,
 				description:
 					'Level 1 Tower /n Basic Tower average Firing rate, average health, low damage. /n Cost : 100'
 			};
@@ -91,6 +93,7 @@ class Defender {
 		y,
 		chosenDefender = 0,
 		cost = 100,
+		compensation = 75,
 		health = 100,
 		maxHealth = 100,
 		fireRate = 50,
@@ -110,6 +113,7 @@ class Defender {
 		this.health = health;
 		this.maxHealth = maxHealth;
 		this.cost = cost;
+		this.compensation = compensation;
 		this.projectiles = [];
 		this.timer = 0;
 		this.fireRate = fireRate;
@@ -158,6 +162,11 @@ class Defender {
 			this.timer++;
 		}
 	}
+	//Function to destroy the defender
+	sell(i) {
+		defenders.splice(i, 1); // Removes this defender from the defenders array
+		setResources(this.compensation); // Add the compensation back to Resources
+	}
 }
 
 export default function handleDefenders(enemyPosition, enemies) {
@@ -182,6 +191,10 @@ export default function handleDefenders(enemyPosition, enemies) {
 				i--;
 				enemies[j].movement = enemies[j].speed;
 			}
+		}
+		if (mouse.rightClicked && collision(defenders[i], mouse)) {
+			defenders[i].sell(i);
+			i--;
 		}
 	}
 }
@@ -301,6 +314,7 @@ function instantiateDefender(
 	gridPositionY,
 	{
 		cost,
+		compensation,
 		chosenDefender,
 		health,
 		maxHealth,
@@ -322,6 +336,7 @@ function instantiateDefender(
 				gridPositionY,
 				chosenDefender,
 				cost,
+				compensation,
 				health,
 				maxHealth,
 				fireRate,

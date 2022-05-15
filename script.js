@@ -63,6 +63,13 @@ function createListeners(enemiesInterval, frame, enemies, enemyPosition) {
 	canvas.addEventListener('click', function () {
 		createDefender(getResources());
 	});
+	// Event listener for right click ( ie, Context Menu )
+	canvas.addEventListener('contextmenu', function (e) {
+		// Disabling context menu
+		e.preventDefault();
+		e.stopPropagation();
+		mouse.rightClicked = true;
+	});
 	frame = 0;
 	enemies.splice(0, enemies.length);
 	enemyPosition.splice(0, enemyPosition.length);
@@ -148,6 +155,7 @@ function animate(newtime) {
 		handleTooltips();
 		frame++;
 		mouse.clicked = false;
+		mouse.rightClicked = false;
 	}
 	if (!getGameOver()) {
 		requestAnimationFrame(animate);
