@@ -1,9 +1,13 @@
 import collision from './methodUtil.js';
+import { canvas, ctx } from './globalConstants.js';
 const projectileTypes = [],
 	projectiles = [],
 	projectile1 = new Image();
 projectile1.src = './images/towerProjectile.png';
 projectileTypes.push(projectile1);
+function getProjectiles() {
+	return projectiles;
+}
 class Projectiles {
 	constructor(x, y, damage) {
 		this.x = x;
@@ -42,7 +46,7 @@ class Projectiles {
 	}
 }
 
-export default function handleProjectiles() {
+export default function handleProjectiles(enemies) {
 	for (let i = 0; i < projectiles.length; i++) {
 		projectiles[i].update();
 		projectiles[i].draw();
@@ -61,3 +65,8 @@ export default function handleProjectiles() {
 		}
 	}
 }
+function createProjectiles(x, y, damage) {
+	return new Projectiles(x, y, damage);
+}
+
+export { handleProjectiles, createProjectiles, getProjectiles };

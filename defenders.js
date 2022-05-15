@@ -1,5 +1,8 @@
 import { cellSize, ctx, mouse, cellGap } from './globalConstants.js';
-import collision from './methodUtil.js';
+import { collision, setResources } from './methodUtil.js';
+import { createProjectiles, getProjectiles } from './projectiles.js';
+import { FloatingMessage, floatingMessages } from './floatingMessages.js';
+
 const defenderSpriteTypes = [],
 	defenders = [],
 	defenderTypes = [];
@@ -135,7 +138,7 @@ class Defender {
 	update() {
 		if (this.shooting) {
 			if (this.timer % this.fireRate === 0 || this.timer === 0) {
-				projectiles.push(new Projectiles(this.x + 50, this.y + 50, this.damage));
+				getProjectiles().push(createProjectiles(this.x + 50, this.y + 50, this.damage));
 			}
 			this.timer++;
 			return;
@@ -148,7 +151,7 @@ class Defender {
 	}
 }
 
-export default function handleDefenders() {
+export default function handleDefenders(enemyPosition, enemies) {
 	for (let i = 0; i < defenders.length; i++) {
 		defenders[i].draw();
 		defenders[i].update();
@@ -268,7 +271,7 @@ function doesDefenderOccupySpace(gridPositionX, gridPositionY) {
 	return false;
 }
 
-function createDefender() {
+function createDefender(numberOfResources) {
 	if (!buildDefender) {
 		return;
 	}
@@ -281,7 +284,7 @@ function createDefender() {
 		return;
 	}
 	defenderTypes[globalChosenDefender].isSelected = false;
-	instantiateDefender(gridPositionX, gridPositionY, defenderTypes[globalChosenDefender]);
+	instantiateDefender(gridPositionX, gridPositionY, defenderTypes[globalChosenDefender], numberOfResources);
 }
 
 function instantiateDefender(
@@ -299,7 +302,8 @@ function instantiateDefender(
 		production,
 		damage,
 		description
-	}
+	},
+	numberOfResources
 ) {
 	if (numberOfResources >= cost) {
 		defenders.push(
@@ -319,11 +323,11 @@ function instantiateDefender(
 				description
 			)
 		);
-		numberOfResources -= cost;
+		setResources(-cost);
 	} else {
 		floatingMessages.push(new FloatingMessage('More Resources Required', mouse.x, mouse.y, 12, 'red'));
 	}
 	buildDefender = false;
 }
 
-export { drawGhost, getDefenderDescription, chooseDefender, handleDefenders, getDefenderTypes };
+export { drawGhost, getDefenderDescription, chooseDefender, handleDefenders, getDefenderTypes, createDefender };

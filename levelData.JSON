@@ -2,7 +2,7 @@
 	"level": [
 		{
 			"levelNumber": 1,
-			"resources": 100,
+			"resources": 500,
 			"enemies": {
 				"spawnTypeOneAmount": 30,
 				"spawnTypeTwoAmount": 10,

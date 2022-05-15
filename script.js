@@ -1,24 +1,29 @@
 import { canvas, cellSize, controlsBar, ctx, gameGrid, mouse } from './globalConstants.js';
 import levelData from './levelData.json' assert { type: 'json' };
-import { drawGhost, handleDefenders, chooseDefender, getDefenderTypes } from './defenders.js';
-import handleProjectiles from './projectiles.js';
-import { handleEnemies, getSpawnedEnemies } from './enemies.js';
+import { drawGhost, handleDefenders, chooseDefender, getDefenderTypes, createDefender } from './defenders.js';
+import { handleProjectiles } from './projectiles.js';
+import { handleEnemies, getSpawnedEnemies, enemies, deadEnemies, enemyPosition } from './enemies.js';
 import { handleFloatingMessages, handleTooltips } from './floatingMessages.js';
-import collision from './methodUtil.js';
+import {
+	collision,
+	getScore,
+	getResources,
+	getLevel,
+	getEnemiesToSpawn,
+	getGameOver,
+	setGameOver
+} from './methodUtil.js';
 import handleResources from './resources.js';
 import { getGameStart, getHordeMode, levelOverScreen } from './view.js';
 
 let canvasPosition = canvas.getBoundingClientRect(),
-	currentLevel = 0,
-	{ resources: numberOfResources } = levelData.level[currentLevel],
+	listenersAdded = false,
 	frame = 0,
-	score = 0,
 	//framerate
 	fpsInterval,
 	now,
 	then,
 	elapsed;
-
 class Cell {
 	constructor(x, y) {
 		this.x = x;
@@ -56,12 +61,12 @@ function createListeners(enemiesInterval, frame, enemies, enemyPosition) {
 	});
 
 	canvas.addEventListener('click', function () {
-		createDefender();
+		createDefender(getResources());
 	});
 	frame = 0;
 	enemies.splice(0, enemies.length);
 	enemyPosition.splice(0, enemyPosition.length);
-	enemiesInterval = levelData[currentLevel].enemiesInterval;
+	enemiesInterval = levelData.level.spawnRate;
 }
 
 function createGrid() {
@@ -81,23 +86,24 @@ function handleGameGrid() {
 }
 
 //utilities
-function handleGameStatus(gameComplete, hordeMode, gameOver, enemiesToSpawn) {
+function handleGameStatus(gameComplete, hordeMode, enemiesToSpawn, enemies) {
 	const defenderTypes = getDefenderTypes();
+	const numberOfResources = getResources();
 	if (!gameComplete) {
 		ctx.fillStyle = 'gold';
 		ctx.font = '30px Arial';
-		ctx.fillText('Score: ' + score, defenderTypes[defenderTypes.length - 1].x + 90, 40);
+		ctx.fillText('Score: ' + getScore(), defenderTypes[defenderTypes.length - 1].x + 90, 40);
 		ctx.fillText('Resources: ' + numberOfResources, defenderTypes[defenderTypes.length - 1].x + 90, 80);
 		hordeMode
 			? ctx.fillText('Horde Mode', canvas.width - 200, 60)
-			: ctx.fillText('Level ' + levelData.level[currentLevel].levelNumber, canvas.width - 120, 60);
+			: ctx.fillText('Level ' + getLevel(), canvas.width - 120, 60);
 	}
 	if (enemiesToSpawn <= getSpawnedEnemies() && enemies.length <= 0 && deadEnemies.length <= 0) {
 		ctx.fillStyle = 'blue';
 		ctx.font = '60px Arial';
 		ctx.fillText('Level Complete!', 300, 300);
-		gameOver = true;
-	} else if (gameOver) {
+		setGameOver(true);
+	} else if (getGameOver()) {
 		ctx.fillStyle = 'black';
 		ctx.font = '90px Arial';
 		ctx.fillText('GAME OVER', 135, 330);
@@ -116,24 +122,26 @@ function animate(newtime) {
 	elapsed = now - then;
 	const gameStarted = getGameStart(),
 		hordeMode = getHordeMode(),
-		enemiesInterval = 100,
-		gameOver = false,
-		enemiesToSpawn = levelData.level[currentLevel].enemies.spawnTypeOneAmount;
+		enemiesInterval = 100;
 	if (elapsed > fpsInterval) {
 		then = now - (elapsed % fpsInterval);
 		const background = new Image();
 		background.src = './images/battleground.png';
 		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 		handleGameGrid();
-		handleProjectiles();
-		handleEnemies(frame, enemiesInterval, gameOver, gameStarted, hordeMode, enemiesToSpawn);
+		handleProjectiles(enemies);
+		handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, getEnemiesToSpawn());
+		if (!listenersAdded && gameStarted) {
+			createListeners(enemiesInterval, frame, enemies, enemyPosition);
+			listenersAdded = true;
+		}
 		if (gameStarted) {
 			ctx.fillStyle = 'darkgreen'; //#5D682F - colour of battleground (lighter area) #545D2A - darker area
 			ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
-			handleDefenders();
+			handleDefenders(enemyPosition, enemies);
 			chooseDefender();
-			handleResources(frame);
-			handleGameStatus(false, enemiesInterval);
+			handleResources(frame, getGameOver());
+			handleGameStatus(false, hordeMode, getEnemiesToSpawn(), enemies);
 		}
 
 		handleFloatingMessages();
@@ -141,11 +149,11 @@ function animate(newtime) {
 		frame++;
 		mouse.clicked = false;
 	}
-	if (!gameOver) {
+	if (!getGameOver()) {
 		requestAnimationFrame(animate);
 	} else {
 		levelOverScreen();
-		handleGameStatus(true, hordeMode, gameOver, enemiesToSpawn);
+		handleGameStatus(true, hordeMode, getEnemiesToSpawn(), enemies);
 	}
 }
 

@@ -1,5 +1,7 @@
 import { cellSize, cellGap, canvas, ctx } from './globalConstants.js';
-const enemySprites = [],
+import { FloatingMessage, floatingMessages } from './floatingMessages.js';
+import { setScore, setResources, setGameOver } from './methodUtil.js';
+export const enemySprites = [],
 	enemyPosition = [],
 	enemies = [],
 	deadEnemies = [];
@@ -71,18 +73,19 @@ class Enemy {
 	}
 }
 
-export default function handleEnemies(frame, enemiesInterval, gameOver, gameStarted, hordeMode, enemiesToSpawn) {
+export default function handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, enemiesToSpawn) {
 	for (let i = 0; i < enemies.length; i++) {
 		enemies[i].update(frame);
 		enemies[i].draw();
 		if (enemies[i].x < 0 && gameStarted) {
-			gameOver = true;
+			setGameOver(true);
+			return;
 		}
 		if (enemies[i].health <= 0) {
 			const gainedResources = enemies[i].maxHealth / 10;
-			numberOfResources += gainedResources;
+			setResources(gainedResources);
 			floatingMessages.push(new FloatingMessage('+' + gainedResources, 250, 50, 30, 'gold'));
-			score += gainedResources;
+			setScore(gainedResources);
 			enemyPosition.splice(enemyPosition.indexOf(enemies[i].y), 1);
 			deadEnemies.push(new Enemy(enemies[i].y, enemies[i].x, 0, enemies[i].health, true, 0));
 			enemies.splice(i, 1);

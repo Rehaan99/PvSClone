@@ -1,4 +1,6 @@
-import collision from './methodUtil.js';
+import { FloatingMessage, floatingMessages } from './floatingMessages.js';
+import { ctx, mouse, canvas, cellSize } from './globalConstants.js';
+import { setResources, collision } from './methodUtil.js';
 const coinSprites = [],
 	resources = [],
 	amounts = [20, 30, 40];
@@ -39,15 +41,15 @@ class Resource {
 	}
 }
 
-export default function handleResources(frame, gameOver, gameStarted) {
-	if (frame % 500 === 0 && !gameOver && gameStarted && frame > 0) {
+export default function handleResources(frame, gameOver) {
+	if (frame % 500 === 0 && !gameOver && frame > 0) {
 		resources.push(new Resource());
 	}
 	for (let i = 0; i < resources.length; i++) {
 		resources[i].draw();
 		resources[i].update(frame);
 		if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)) {
-			numberOfResources += resources[i].amount;
+			setResources(resources[i].amount);
 			floatingMessages.push(
 				new FloatingMessage('+' + resources[i].amount, resources[i].x, resources[i].y, 30, 'gold')
 			);

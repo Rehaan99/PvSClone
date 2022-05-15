@@ -1,6 +1,7 @@
+import { ctx, mouse } from './globalConstants.js';
 import { getDefenderDescription, tooltip } from './defenders.js';
 
-const floatingMessages = [];
+export const floatingMessages = [];
 class FloatingMessage {
 	constructor(value, x, y, size, color) {
 		this.value = value;
@@ -97,4 +98,4 @@ function wrapText(textYPos, tooltipWidth, text, fontSize) {
 	return parameters;
 }
 
-export { handleTooltips, handleFloatingMessages };
+export { handleTooltips, handleFloatingMessages, FloatingMessage };

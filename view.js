@@ -1,4 +1,4 @@
-import { canvas } from './globalConstants.js';
+import { canvas, ctx } from './globalConstants.js';
 let gameStarted = false,
 	hordeMode = false;
 
@@ -10,7 +10,6 @@ $(document).ready(function () {
 		$('.container').hide();
 		$('.button').hide();
 		gameStarted = true;
-		createListeners(canvas);
 	});
 	$('.horde').click(function () {
 		hordeMode = true;
