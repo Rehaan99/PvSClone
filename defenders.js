@@ -169,7 +169,7 @@ class Defender {
 	}
 }
 
-export default function handleDefenders(enemyPosition, enemies) {
+function handleDefenders(enemyPosition, enemies) {
 	for (let i = 0; i < defenders.length; i++) {
 		defenders[i].draw();
 		defenders[i].update();

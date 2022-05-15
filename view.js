@@ -29,7 +29,7 @@ function levelOverScreen() {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-export default function animation() {
+function animation() {
 	var title1 = new TimelineMax();
 	title1.to('.button', 0, { visibility: 'hidden', opacity: 0 });
 	title1.staggerFromTo(

@@ -13,7 +13,7 @@ import {
 	getGameOver,
 	setGameOver
 } from './methodUtil.js';
-import handleResources from './resources.js';
+import { handleResources } from './resources.js';
 import { getGameStart, getHordeMode, levelOverScreen } from './view.js';
 
 let canvasPosition = canvas.getBoundingClientRect(),

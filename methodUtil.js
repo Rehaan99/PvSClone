@@ -5,7 +5,7 @@ let currentLevel = 0;
 let gameOver = false;
 let { resources: numberOfResources } = levelData.level[currentLevel];
 let enemiesToSpawn = levelData.level[currentLevel].enemies.spawnTypeOneAmount;
-export default function collision(first, second) {
+function collision(first, second) {
 	if (
 		first.x !== undefined &&
 		first.y !== undefined &&

@@ -28,7 +28,7 @@ class FloatingMessage {
 	}
 }
 
-export default function handleFloatingMessages() {
+function handleFloatingMessages() {
 	for (let i = 0; i < floatingMessages.length; i++) {
 		floatingMessages[i].update();
 		floatingMessages[i].draw();

@@ -1,4 +1,4 @@
-import collision from './methodUtil.js';
+import { collision } from './methodUtil.js';
 import { canvas, ctx } from './globalConstants.js';
 const projectileTypes = [],
 	projectiles = [],

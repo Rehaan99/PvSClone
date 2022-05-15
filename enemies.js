@@ -76,8 +76,7 @@ class Enemy {
 		}
 	}
 }
-
-export default function handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, enemiesToSpawn) {
+function handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, enemiesToSpawn) {
 	for (let i = 0; i < enemies.length; i++) {
 		enemies[i].update(frame);
 		enemies[i].draw();
