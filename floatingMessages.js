@@ -1,5 +1,5 @@
 import { getDefenderDescription, tooltip } from './defenders.js';
-import { ctx, mouse } from './globalConstants.js';
+import { ctx, MOUSE } from './globalConstants.js';
 
 export const floatingMessages = [];
 class FloatingMessage {
@@ -41,8 +41,8 @@ function handleFloatingMessages() {
 
 function handleTooltips() {
 	if (tooltip.displayTooltip) {
-		const tooltipX = mouse.x + 5,
-			tooltipY = mouse.y + 10,
+		const tooltipX = MOUSE.x + 5,
+			tooltipY = MOUSE.y + 10,
 			fontSize = 15,
 			text = getDefenderDescription();
 

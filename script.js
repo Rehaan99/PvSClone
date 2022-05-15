@@ -1,7 +1,7 @@
 import { chooseDefender, createDefender, drawGhost, getDefenderTypes, handleDefenders } from './defenders.js';
 import { deadEnemies, enemies, enemyPosition, getSpawnedEnemies, handleEnemies } from './enemies.js';
 import { handleFloatingMessages, handleTooltips } from './floatingMessages.js';
-import { canvas, cellSize, controlsBar, ctx, gameGrid, mouse } from './globalConstants.js';
+import { CANVAS, CELL_SIZE, CONTROL_BAR, ctx, gameGrid, MOUSE } from './globalConstants.js';
 import levelData from './levelData.JSON' assert { type: 'json' };
 import {
 	collision,
@@ -16,7 +16,7 @@ import { handleProjectiles } from './projectiles.js';
 import { handleResources } from './resources.js';
 import { getGameStart, getHordeMode, levelOverScreen } from './view.js';
 
-let canvasPosition = canvas.getBoundingClientRect(),
+let canvasPosition = CANVAS.getBoundingClientRect(),
 	listenersAdded = false,
 	frame = 0,
 	//framerate
@@ -38,11 +38,11 @@ class Cell {
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;
-		this.width = cellSize;
-		this.height = cellSize;
+		this.width = CELL_SIZE;
+		this.height = CELL_SIZE;
 	}
 	draw() {
-		if (mouse.x && mouse.y && collision(this, mouse)) {
+		if (MOUSE.x && MOUSE.y && collision(this, MOUSE)) {
 			ctx.fillStyle = 'darkgreen';
 			ctx.globalAlpha = 0.2;
 			ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -52,33 +52,33 @@ class Cell {
 }
 
 window.addEventListener('resize', function () {
-	canvasPosition = canvas.getBoundingClientRect();
+	canvasPosition = CANVAS.getBoundingClientRect();
 });
 
 function createListeners() {
-	canvas.addEventListener('mouseup', function () {
-		mouse.clicked = true;
+	CANVAS.addEventListener('mouseup', function () {
+		MOUSE.clicked = true;
 	});
 
-	canvas.addEventListener('mousemove', function (e) {
-		mouse.x = e.x - canvasPosition.left;
-		mouse.y = e.y - canvasPosition.top;
+	CANVAS.addEventListener('mousemove', function (e) {
+		MOUSE.x = e.x - canvasPosition.left;
+		MOUSE.y = e.y - canvasPosition.top;
 	});
 
-	canvas.addEventListener('mouseleave', function () {
-		mouse.x = undefined;
-		mouse.y = undefined;
+	CANVAS.addEventListener('mouseleave', function () {
+		MOUSE.x = undefined;
+		MOUSE.y = undefined;
 	});
 
-	canvas.addEventListener('click', function () {
+	CANVAS.addEventListener('click', function () {
 		createDefender(getResources());
 	});
 	// Event listener for right click ( ie, Context Menu )
-	canvas.addEventListener('contextmenu', function (e) {
+	CANVAS.addEventListener('contextmenu', function (e) {
 		// Disabling context menu
 		e.preventDefault();
 		e.stopPropagation();
-		mouse.rightClicked = true;
+		MOUSE.rightClicked = true;
 	});
 	frame = 0;
 	enemies.length = 0;
@@ -87,8 +87,8 @@ function createListeners() {
 }
 
 function createGrid() {
-	for (let y = cellSize; y < 600; y += cellSize) {
-		for (let x = 0; x < 900; x += cellSize) {
+	for (let y = CELL_SIZE; y < 600; y += CELL_SIZE) {
+		for (let x = 0; x < 900; x += CELL_SIZE) {
 			gameGrid.push(new Cell(x, y));
 		}
 	}
@@ -112,8 +112,8 @@ function handleGameStatus(gameComplete, hordeMode, enemiesToSpawn, enemies) {
 		ctx.fillText('Score: ' + getScore(), defenderTypes[defenderTypes.length - 1].x + 90, 40);
 		ctx.fillText('Resources: ' + numberOfResources, defenderTypes[defenderTypes.length - 1].x + 90, 80);
 		hordeMode
-			? ctx.fillText('Horde Mode', canvas.width - 200, 60)
-			: ctx.fillText('Level ' + getLevel(), canvas.width - 120, 60);
+			? ctx.fillText('Horde Mode', CANVAS.width - 200, 60)
+			: ctx.fillText('Level ' + getLevel(), CANVAS.width - 120, 60);
 	}
 	if (enemiesToSpawn <= getSpawnedEnemies() && enemies.length <= 0 && deadEnemies.length <= 0) {
 		ctx.fillStyle = 'blue';
@@ -143,7 +143,7 @@ function animate(newtime) {
 		then = now - (elapsed % fpsInterval);
 		const background = new Image();
 		background.src = './images/battleground.png';
-		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+		ctx.drawImage(background, 0, 0, CANVAS.width, CANVAS.height);
 		if (!listenersAdded && gameStarted) {
 			createListeners();
 			listenersAdded = true;
@@ -153,7 +153,7 @@ function animate(newtime) {
 		handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, getEnemiesToSpawn());
 		if (gameStarted) {
 			ctx.fillStyle = 'darkgreen'; //#5D682F - colour of battleground (lighter area) #545D2A - darker area
-			ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
+			ctx.fillRect(0, 0, CONTROL_BAR.width, CONTROL_BAR.height);
 			handleDefenders(enemyPosition, enemies);
 			chooseDefender();
 			handleResources(frame, getGameOver());
@@ -163,8 +163,8 @@ function animate(newtime) {
 		handleFloatingMessages();
 		handleTooltips();
 		frame++;
-		mouse.clicked = false;
-		mouse.rightClicked = false;
+		MOUSE.clicked = false;
+		MOUSE.rightClicked = false;
 	}
 	if (!getGameOver()) {
 		requestAnimationFrame(animate);

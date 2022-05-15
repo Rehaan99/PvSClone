@@ -1,5 +1,5 @@
 import { FloatingMessage, floatingMessages } from './floatingMessages.js';
-import { cellGap, cellSize, ctx, mouse } from './globalConstants.js';
+import { CELL_GAP, CELL_SIZE, ctx, MOUSE } from './globalConstants.js';
 import { collision, drawHealthbar, setResources } from './methodUtil.js';
 import { createProjectiles, getProjectiles } from './projectiles.js';
 
@@ -107,8 +107,8 @@ class Defender {
 	) {
 		this.x = x;
 		this.y = y;
-		this.width = cellSize - cellGap * 2;
-		this.height = cellSize - cellGap * 2;
+		this.width = CELL_SIZE - CELL_GAP * 2;
+		this.height = CELL_SIZE - CELL_GAP * 2;
 		this.shooting = false;
 		this.health = health;
 		this.maxHealth = maxHealth;
@@ -192,7 +192,7 @@ function handleDefenders(enemyPosition, enemies) {
 				enemies[j].movement = enemies[j].speed;
 			}
 		}
-		if (mouse.rightClicked && collision(defenders[i], mouse)) {
+		if (MOUSE.rightClicked && collision(defenders[i], MOUSE)) {
 			defenders[i].sell(i);
 			i--;
 		}
@@ -200,9 +200,9 @@ function handleDefenders(enemyPosition, enemies) {
 }
 
 function drawGhost(gridCell) {
-	const gridPositionX = gridCell.x + cellGap,
-		gridPositionY = gridCell.y + cellGap;
-	if (buildDefender && collision(gridCell, mouse) && !doesDefenderOccupySpace(gridPositionX, gridPositionY)) {
+	const gridPositionX = gridCell.x + CELL_GAP,
+		gridPositionY = gridCell.y + CELL_GAP;
+	if (buildDefender && collision(gridCell, MOUSE) && !doesDefenderOccupySpace(gridPositionX, gridPositionY)) {
 		ctx.globalAlpha = 0.4;
 		ctx.drawImage(
 			defenderSpriteTypes[globalChosenDefender],
@@ -212,8 +212,8 @@ function drawGhost(gridCell) {
 			195,
 			gridPositionX + 10,
 			gridPositionY,
-			cellSize - cellGap * 2 - 20,
-			cellSize - cellGap * 2
+			CELL_SIZE - CELL_GAP * 2 - 20,
+			CELL_SIZE - CELL_GAP * 2
 		);
 		ctx.globalAlpha = 1;
 		return true;
@@ -224,9 +224,9 @@ function drawGhost(gridCell) {
 
 function chooseDefender() {
 	for (let i = 0; i < defenderTypes.length; i++) {
-		if (collision(mouse, defenderTypes[i])) {
+		if (collision(MOUSE, defenderTypes[i])) {
 			currentHover = i;
-			if (mouse.clicked) {
+			if (MOUSE.clicked) {
 				if (defenderTypes[i].isSelected) {
 					for (let j = 0; j < defenderTypes.length; j++) {
 						defenderTypes[j].isSelected = false;
@@ -250,7 +250,7 @@ function chooseDefender() {
 				}
 			}
 		}
-		if (currentHover != undefined && !collision(mouse, defenderTypes[currentHover])) {
+		if (currentHover != undefined && !collision(MOUSE, defenderTypes[currentHover])) {
 			tooltip.displayTooltip = false;
 			tooltip.tooltipTimer = 0;
 		}
@@ -297,9 +297,9 @@ function createDefender(numberOfResources) {
 	if (!buildDefender) {
 		return;
 	}
-	const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap,
-		gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
-	if (gridPositionY < cellSize || gridPositionY > cellSize * 6 || gridPositionX > cellSize * 9) {
+	const gridPositionX = MOUSE.x - (MOUSE.x % CELL_SIZE) + CELL_GAP,
+		gridPositionY = MOUSE.y - (MOUSE.y % CELL_SIZE) + CELL_GAP;
+	if (gridPositionY < CELL_SIZE || gridPositionY > CELL_SIZE * 6 || gridPositionX > CELL_SIZE * 9) {
 		return;
 	}
 	if (doesDefenderOccupySpace(gridPositionX, gridPositionY)) {
@@ -351,7 +351,7 @@ function instantiateDefender(
 		);
 		setResources(-cost);
 	} else {
-		floatingMessages.push(new FloatingMessage('More Resources Required', mouse.x, mouse.y, 12, 'red'));
+		floatingMessages.push(new FloatingMessage('More Resources Required', MOUSE.x, MOUSE.y, 12, 'red'));
 	}
 	buildDefender = false;
 }

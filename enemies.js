@@ -1,5 +1,5 @@
 import { FloatingMessage, floatingMessages } from './floatingMessages.js';
-import { canvas, cellGap, cellSize, ctx } from './globalConstants.js';
+import { CANVAS, CELL_GAP, CELL_SIZE, ctx } from './globalConstants.js';
 import { drawHealthbar, setGameOver, setResources, setScore } from './methodUtil.js';
 export const enemySprites = [],
 	enemyPosition = [],
@@ -30,11 +30,11 @@ class Enemy {
 	healthbarXOffset = -10;
 	healthbarYOffset = 0;
 
-	constructor(verticalPosition, x = canvas.width, speed = 1.2, health = 100, dead = false, damage = 0.2) {
+	constructor(verticalPosition, x = CANVAS.width, speed = 1.2, health = 100, dead = false, damage = 0.2) {
 		this.x = x;
 		this.y = verticalPosition;
-		this.width = cellSize - cellGap * 2;
-		this.height = cellSize - cellGap * 2;
+		this.width = CELL_SIZE - CELL_GAP * 2;
+		this.height = CELL_SIZE - CELL_GAP * 2;
 		this.speed = Math.random() * 0.2 + speed;
 		this.movement = this.speed;
 		this.health = health;
@@ -107,7 +107,7 @@ function handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, enemiesTo
 		}
 	}
 	if (frame % enemiesInterval.getInterval === 0 && spawnedEnemies < enemiesToSpawn && (frame > 0 || !gameStarted)) {
-		const verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
+		const verticalPosition = Math.floor(Math.random() * 5 + 1) * CELL_SIZE + CELL_GAP;
 		enemies.push(new Enemy(verticalPosition));
 		enemyPosition.push(verticalPosition);
 		if (gameStarted && !hordeMode) {

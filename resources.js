@@ -1,5 +1,5 @@
 import { FloatingMessage, floatingMessages } from './floatingMessages.js';
-import { canvas, cellSize, ctx, mouse } from './globalConstants.js';
+import { CANVAS, CELL_SIZE, ctx, MOUSE } from './globalConstants.js';
 import { collision, setResources } from './methodUtil.js';
 const coinSprites = [],
 	resources = [],
@@ -12,10 +12,10 @@ for (let i = 1; i < 11; i++) {
 
 class Resource {
 	constructor() {
-		this.x = Math.random() * (canvas.width - 60) + 30;
-		this.y = Math.random() * 0.8 * (canvas.height - 200) + 1 * cellSize + 25;
-		this.width = cellSize * 0.4;
-		this.height = cellSize * 0.4;
+		this.x = Math.random() * (CANVAS.width - 60) + 30;
+		this.y = Math.random() * 0.8 * (CANVAS.height - 200) + 1 * CELL_SIZE + 25;
+		this.width = CELL_SIZE * 0.4;
+		this.height = CELL_SIZE * 0.4;
 		this.amount = amounts[Math.floor(Math.random() * amounts.length)];
 		this.frameX = 0;
 		this.frameY = 0;
@@ -48,7 +48,7 @@ function handleResources(frame, gameOver) {
 	for (let i = 0; i < resources.length; i++) {
 		resources[i].draw();
 		resources[i].update(frame);
-		if (resources[i] && mouse.x && mouse.y && collision(resources[i], mouse)) {
+		if (resources[i] && MOUSE.x && MOUSE.y && collision(resources[i], MOUSE)) {
 			setResources(resources[i].amount);
 			floatingMessages.push(
 				new FloatingMessage('+' + resources[i].amount, resources[i].x, resources[i].y, 30, 'gold')

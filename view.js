@@ -1,4 +1,4 @@
-import { canvas, ctx } from './globalConstants.js';
+import { CANVAS, ctx } from './globalConstants.js';
 let gameStarted = false,
 	hordeMode = false;
 
@@ -26,7 +26,7 @@ function getHordeMode() {
 
 function levelOverScreen() {
 	ctx.fillStyle = 'green';
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillRect(0, 0, CANVAS.width, CANVAS.height);
 }
 
 function animation() {

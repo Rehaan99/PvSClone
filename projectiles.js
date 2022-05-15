@@ -1,4 +1,4 @@
-import { canvas, ctx } from './globalConstants.js';
+import { CANVAS, ctx } from './globalConstants.js';
 import { collision } from './methodUtil.js';
 const projectileTypes = [],
 	projectiles = [],
@@ -59,7 +59,7 @@ function handleProjectiles(enemies) {
 			}
 		}
 
-		if (projectiles[i] && projectiles[i].x > canvas.width) {
+		if (projectiles[i] && projectiles[i].x > CANVAS.width) {
 			projectiles.splice(i, 1);
 			i--;
 		}
