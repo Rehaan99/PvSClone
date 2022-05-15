@@ -1,6 +1,6 @@
 import { FloatingMessage, floatingMessages } from './floatingMessages.js';
-import { ctx, mouse, canvas, cellSize } from './globalConstants.js';
-import { setResources, collision } from './methodUtil.js';
+import { canvas, cellSize, ctx, mouse } from './globalConstants.js';
+import { collision, setResources } from './methodUtil.js';
 const coinSprites = [],
 	resources = [],
 	amounts = [20, 30, 40];

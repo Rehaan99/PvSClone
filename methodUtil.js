@@ -1,5 +1,5 @@
-import levelData from './levelData.JSON' assert { type: 'json' };
 import { ctx } from './globalConstants.js';
+import levelData from './levelData.JSON' assert { type: 'json' };
 let score = 0;
 let currentLevel = 0;
 let gameOver = false;

@@ -1,6 +1,6 @@
-import { cellSize, cellGap, canvas, ctx } from './globalConstants.js';
 import { FloatingMessage, floatingMessages } from './floatingMessages.js';
-import { setScore, setResources, setGameOver, drawHealthbar } from './methodUtil.js';
+import { canvas, cellGap, cellSize, ctx } from './globalConstants.js';
+import { drawHealthbar, setGameOver, setResources, setScore } from './methodUtil.js';
 export const enemySprites = [],
 	enemyPosition = [],
 	enemies = [],
@@ -93,6 +93,8 @@ function handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, enemiesTo
 			deadEnemies.push(new Enemy(enemies[i].y, enemies[i].x, 0, enemies[i].health, true, 0));
 			enemies.splice(i, 1);
 			i--;
+		} else if (enemies[i].x < -100) {
+			enemies.splice(i, 1);
 		}
 	}
 	for (let i = 0; i < deadEnemies.length; i++) {
@@ -103,15 +105,15 @@ function handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, enemiesTo
 			i--;
 		}
 	}
-	if (frame % enemiesInterval === 0 && spawnedEnemies < enemiesToSpawn && (frame > 0 || !gameStarted)) {
+	if (frame % enemiesInterval.getInterval === 0 && spawnedEnemies < enemiesToSpawn && (frame > 0 || !gameStarted)) {
 		const verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize + cellGap;
 		enemies.push(new Enemy(verticalPosition));
 		enemyPosition.push(verticalPosition);
 		if (gameStarted && !hordeMode) {
 			spawnedEnemies++;
 		}
-		if (enemiesInterval > 120) {
-			enemiesInterval -= 50;
+		if (enemiesInterval.getInterval > 120) {
+			enemiesInterval.setInterval = enemiesInterval.getInterval - 50;
 		}
 	}
 }

@@ -1,5 +1,5 @@
-import { ctx, mouse } from './globalConstants.js';
 import { getDefenderDescription, tooltip } from './defenders.js';
+import { ctx, mouse } from './globalConstants.js';
 
 export const floatingMessages = [];
 class FloatingMessage {

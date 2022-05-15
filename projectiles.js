@@ -1,5 +1,5 @@
-import { collision } from './methodUtil.js';
 import { canvas, ctx } from './globalConstants.js';
+import { collision } from './methodUtil.js';
 const projectileTypes = [],
 	projectiles = [],
 	projectile1 = new Image();
@@ -46,7 +46,7 @@ class Projectiles {
 	}
 }
 
-export default function handleProjectiles(enemies) {
+function handleProjectiles(enemies) {
 	for (let i = 0; i < projectiles.length; i++) {
 		projectiles[i].update();
 		projectiles[i].draw();

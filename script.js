@@ -1,18 +1,18 @@
+import { chooseDefender, createDefender, drawGhost, getDefenderTypes, handleDefenders } from './defenders.js';
+import { deadEnemies, enemies, enemyPosition, getSpawnedEnemies, handleEnemies } from './enemies.js';
+import { handleFloatingMessages, handleTooltips } from './floatingMessages.js';
 import { canvas, cellSize, controlsBar, ctx, gameGrid, mouse } from './globalConstants.js';
 import levelData from './levelData.JSON' assert { type: 'json' };
-import { drawGhost, handleDefenders, chooseDefender, getDefenderTypes, createDefender } from './defenders.js';
-import { handleProjectiles } from './projectiles.js';
-import { handleEnemies, getSpawnedEnemies, enemies, deadEnemies, enemyPosition } from './enemies.js';
-import { handleFloatingMessages, handleTooltips } from './floatingMessages.js';
 import {
 	collision,
-	getScore,
-	getResources,
-	getLevel,
 	getEnemiesToSpawn,
 	getGameOver,
+	getLevel,
+	getResources,
+	getScore,
 	setGameOver
 } from './methodUtil.js';
+import { handleProjectiles } from './projectiles.js';
 import { handleResources } from './resources.js';
 import { getGameStart, getHordeMode, levelOverScreen } from './view.js';
 
@@ -23,7 +23,17 @@ let canvasPosition = canvas.getBoundingClientRect(),
 	fpsInterval,
 	now,
 	then,
-	elapsed;
+	elapsed,
+	arrayLevel = 0,
+	enemiesInterval = {
+		interval: 100,
+		get getInterval() {
+			return this.interval;
+		},
+		set setInterval(value) {
+			this.interval = value;
+		}
+	};
 class Cell {
 	constructor(x, y) {
 		this.x = x;
@@ -45,7 +55,7 @@ window.addEventListener('resize', function () {
 	canvasPosition = canvas.getBoundingClientRect();
 });
 
-function createListeners(enemiesInterval, frame, enemies, enemyPosition) {
+function createListeners() {
 	canvas.addEventListener('mouseup', function () {
 		mouse.clicked = true;
 	});
@@ -71,9 +81,9 @@ function createListeners(enemiesInterval, frame, enemies, enemyPosition) {
 		mouse.rightClicked = true;
 	});
 	frame = 0;
-	enemies.splice(0, enemies.length);
-	enemyPosition.splice(0, enemyPosition.length);
-	enemiesInterval = levelData.level.spawnRate;
+	enemies.length = 0;
+	enemyPosition.length = 0;
+	enemiesInterval.setInterval = levelData.level[arrayLevel].spawnRate;
 }
 
 function createGrid() {
@@ -128,20 +138,19 @@ function animate(newtime) {
 	now = newtime;
 	elapsed = now - then;
 	const gameStarted = getGameStart(),
-		hordeMode = getHordeMode(),
-		enemiesInterval = 100;
+		hordeMode = getHordeMode();
 	if (elapsed > fpsInterval) {
 		then = now - (elapsed % fpsInterval);
 		const background = new Image();
 		background.src = './images/battleground.png';
 		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+		if (!listenersAdded && gameStarted) {
+			createListeners();
+			listenersAdded = true;
+		}
 		handleGameGrid();
 		handleProjectiles(enemies);
 		handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, getEnemiesToSpawn());
-		if (!listenersAdded && gameStarted) {
-			createListeners(enemiesInterval, frame, enemies, enemyPosition);
-			listenersAdded = true;
-		}
 		if (gameStarted) {
 			ctx.fillStyle = 'darkgreen'; //#5D682F - colour of battleground (lighter area) #545D2A - darker area
 			ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);

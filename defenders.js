@@ -1,7 +1,7 @@
-import { cellSize, ctx, mouse, cellGap } from './globalConstants.js';
-import { collision, setResources, drawHealthbar } from './methodUtil.js';
-import { createProjectiles, getProjectiles } from './projectiles.js';
 import { FloatingMessage, floatingMessages } from './floatingMessages.js';
+import { cellGap, cellSize, ctx, mouse } from './globalConstants.js';
+import { collision, drawHealthbar, setResources } from './methodUtil.js';
+import { createProjectiles, getProjectiles } from './projectiles.js';
 
 const defenderSpriteTypes = [],
 	defenders = [],
