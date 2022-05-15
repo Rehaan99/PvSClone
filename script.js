@@ -42,6 +42,7 @@ class Cell {
     if (mouse.x && mouse.y && collision(this, mouse)) {
       ctx.fillStyle = "darkgreen";
       ctx.globalAlpha = 0.2;
+      //console.log(this.x, this.y)
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
     ctx.globalAlpha = 1;
@@ -70,6 +71,14 @@ function createListeners() {
   canvas.addEventListener("click", function () {
     createDefender();
   });
+
+  // Event listener for right click ( ie, Context Menu )
+  canvas.addEventListener("contextmenu", function(e) {
+    // Disabling context menu
+    e.preventDefault();
+    e.stopPropagation(); 
+    mouse.rightClicked = true;
+    });
   frame = 0;
   enemies.splice(0, enemies.length);
   enemyPosition.splice(0, enemyPosition.length);
@@ -158,6 +167,7 @@ function animate(newtime) {
     handleTooltips();
     frame++;
     mouse.clicked = false;
+    mouse.rightClicked = false;
   }
   if (!gameOver) {
     requestAnimationFrame(animate);
