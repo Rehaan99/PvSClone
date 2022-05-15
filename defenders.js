@@ -165,8 +165,8 @@ class Defender {
   }
 
   //Function to destroy the defender
-  sell(){
-    defenders.splice(defenders.findIndex((item)=>item==this)); // Removes this defender from the defenders array
+  sell(i) {
+    defenders.splice(i, 1); // Removes this defender from the defenders array
     numberOfResources += this.compensation; // Add the compensation back to Resources
   }
 }
@@ -196,8 +196,9 @@ function handleDefenders() {
     }
 
     // if the user right clicked on a defender
-    if(collision(defenders[i],mouse) && mouse.rightClicked){
-      defenders[i].sell();
+    if (collision(defenders[i], mouse) && mouse.rightClicked) {
+      defenders[i].sell(i);
+      i--;
     }
   }
 }
