@@ -1,4 +1,5 @@
 import levelData from './levelData.json' assert { type: 'json' };
+import { ctx } from './globalConstants.js';
 let score = 0;
 let currentLevel = 0;
 let gameOver = false;
@@ -21,6 +22,33 @@ export default function collision(first, second) {
 	}
 	return false;
 }
+const calculateHealthBarColor = (health, maxHealth) => {
+	const healthPercentage = health / maxHealth;
+
+	if (healthPercentage > 0.8) {
+		return 'green';
+	} else if (healthPercentage > 0.6) {
+		return 'yellow';
+	} else if (healthPercentage > 0.4) {
+		return 'orange';
+	} else {
+		return 'red';
+	}
+};
+
+function drawHealthbar() {
+	ctx.beginPath();
+	ctx.rect(
+		this.x + this.healthbarXOffset,
+		this.y + this.healthbarYOffset,
+		this.healthbarWidth * (this.health / this.maxHealth),
+		this.healthbarHeight
+	);
+	ctx.fillStyle = calculateHealthBarColor(this.health, this.maxHealth);
+	ctx.closePath();
+	ctx.fill();
+}
+
 function getScore() {
 	return score;
 }
@@ -63,5 +91,6 @@ export {
 	getEnemiesToSpawn,
 	setEnemiesToSpawn,
 	getGameOver,
-	setGameOver
+	setGameOver,
+	drawHealthbar
 };

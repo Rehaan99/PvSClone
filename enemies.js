@@ -1,6 +1,6 @@
 import { cellSize, cellGap, canvas, ctx } from './globalConstants.js';
 import { FloatingMessage, floatingMessages } from './floatingMessages.js';
-import { setScore, setResources, setGameOver } from './methodUtil.js';
+import { setScore, setResources, setGameOver, drawHealthbar } from './methodUtil.js';
 export const enemySprites = [],
 	enemyPosition = [],
 	enemies = [],
@@ -24,6 +24,12 @@ for (let i = 0; i < 12; i++) {
 }
 
 class Enemy {
+	healthbarWidth = 60;
+	healthbarHeight = 6;
+	drawHealthbar = drawHealthbar.bind(this);
+	healthbarXOffset = -10;
+	healthbarYOffset = 0;
+
 	constructor(verticalPosition, x = canvas.width, speed = 1.2, health = 100, dead = false, damage = 0.2) {
 		this.x = x;
 		this.y = verticalPosition;
@@ -65,10 +71,8 @@ class Enemy {
 			this.height
 		);
 
-		if (!this.dead) {
-			ctx.fillStyle = 'darkred';
-			ctx.font = '20px Arial';
-			ctx.fillText(Math.floor(this.health), this.x, this.y + 20);
+		if (!this.dead && this.health >= 0) {
+			this.drawHealthbar();
 		}
 	}
 }

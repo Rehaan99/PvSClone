@@ -1,5 +1,5 @@
 import { cellSize, ctx, mouse, cellGap } from './globalConstants.js';
-import { collision, setResources } from './methodUtil.js';
+import { collision, setResources, drawHealthbar } from './methodUtil.js';
 import { createProjectiles, getProjectiles } from './projectiles.js';
 import { FloatingMessage, floatingMessages } from './floatingMessages.js';
 
@@ -34,6 +34,7 @@ for (let i = 1; i < 4; i++) {
 				...positioning,
 				cost: 200,
 				health: 40,
+				maxHealth: 40,
 				fireRate: 50,
 				hardness: 0,
 				firingRange: 5,
@@ -49,6 +50,7 @@ for (let i = 1; i < 4; i++) {
 				...positioning,
 				cost: 300,
 				health: 200,
+				maxHealth: 200,
 				fireRate: 90,
 				hardness: 0,
 				firingRange: 5,
@@ -64,6 +66,7 @@ for (let i = 1; i < 4; i++) {
 			defenderValues = {
 				...positioning,
 				cost: 100,
+				maxHealth: 100,
 				description:
 					'Level 1 Tower /n Basic Tower average Firing rate, average health, low damage. /n Cost : 100'
 			};
@@ -77,12 +80,19 @@ function getDefenderTypes() {
 	return defenderTypes;
 }
 class Defender {
+	healthbarWidth = 60;
+	healthbarHeight = 6;
+	drawHealthbar = drawHealthbar.bind(this);
+	healthbarXOffset = 14;
+	healthbarYOffset = -5;
+
 	constructor(
 		x,
 		y,
 		chosenDefender = 0,
 		cost = 100,
 		health = 100,
+		maxHealth = 100,
 		fireRate = 50,
 		hardness = 0,
 		firingRange = 5,
@@ -98,6 +108,7 @@ class Defender {
 		this.height = cellSize - cellGap * 2;
 		this.shooting = false;
 		this.health = health;
+		this.maxHealth = maxHealth;
 		this.cost = cost;
 		this.projectiles = [];
 		this.timer = 0;
@@ -119,9 +130,7 @@ class Defender {
 	}
 
 	draw() {
-		ctx.fillStyle = 'lightgreen';
-		ctx.font = '15px Arial';
-		ctx.fillText(Math.floor(this.health), this.x + 30, this.y + 15);
+		this.drawHealthbar();
 		ctx.drawImage(
 			this.defenderType,
 			this.frameX * this.spriteWidth,
@@ -294,6 +303,7 @@ function instantiateDefender(
 		cost,
 		chosenDefender,
 		health,
+		maxHealth,
 		fireRate,
 		hardness,
 		firingRange,
@@ -313,6 +323,7 @@ function instantiateDefender(
 				chosenDefender,
 				cost,
 				health,
+				maxHealth,
 				fireRate,
 				hardness,
 				firingRange,
