@@ -95,6 +95,7 @@ function handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, enemiesTo
 			i--;
 		} else if (enemies[i].x < -100) {
 			enemies.splice(i, 1);
+			i--;
 		}
 	}
 	for (let i = 0; i < deadEnemies.length; i++) {
