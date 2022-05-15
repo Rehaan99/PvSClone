@@ -1,4 +1,4 @@
-import levelData from './levelData.json' assert { type: 'json' };
+import levelData from './levelData.JSON' assert { type: 'json' };
 import { ctx } from './globalConstants.js';
 let score = 0;
 let currentLevel = 0;

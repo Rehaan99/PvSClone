@@ -1,5 +1,5 @@
 import { canvas, cellSize, controlsBar, ctx, gameGrid, mouse } from './globalConstants.js';
-import levelData from './levelData.json' assert { type: 'json' };
+import levelData from './levelData.JSON' assert { type: 'json' };
 import { drawGhost, handleDefenders, chooseDefender, getDefenderTypes, createDefender } from './defenders.js';
 import { handleProjectiles } from './projectiles.js';
 import { handleEnemies, getSpawnedEnemies, enemies, deadEnemies, enemyPosition } from './enemies.js';
