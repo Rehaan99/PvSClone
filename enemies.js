@@ -80,7 +80,7 @@ function handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, enemiesTo
 	for (let i = 0; i < enemies.length; i++) {
 		enemies[i].update(frame);
 		enemies[i].draw();
-		if (enemies[i].x < 0 && gameStarted) {
+		if (gameStarted && enemies[i].x < 0) {
 			setGameOver(true);
 			return;
 		}

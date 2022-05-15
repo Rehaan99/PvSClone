@@ -1,4 +1,5 @@
 import { canvas, ctx } from './globalConstants.js';
+import { enemies } from './enemies.js';
 let gameStarted = false,
 	hordeMode = false;
 
@@ -9,6 +10,7 @@ $(document).ready(function () {
 	$('.button').click(function () {
 		$('.container').hide();
 		$('.button').hide();
+		enemies.length = 0;
 		gameStarted = true;
 	});
 	$('.horde').click(function () {
