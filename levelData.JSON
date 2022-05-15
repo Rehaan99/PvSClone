@@ -1,0 +1,54 @@
+{
+	"level": [
+		{
+			"levelNumber": 1,
+			"resources": 500,
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
+			"spawnRate": 600
+		},
+		{
+			"levelNumber": 2,
+			"resources": 100,
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
+			"spawnRate": 600
+		},
+		{
+			"levelNumber": 3,
+			"resources": 100,
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
+			"spawnRate": 600
+		},
+		{
+			"levelNumber": 4,
+			"resources": 100,
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
+			"spawnRate": 600
+		},
+		{
+			"levelNumber": 5,
+			"resources": 100,
+			"enemies": {
+				"spawnTypeOneAmount": 30,
+				"spawnTypeTwoAmount": 10,
+				"spawnTypeThreeAmount": 5
+			},
+			"spawnRate": 600
+		}
+	]
+}
