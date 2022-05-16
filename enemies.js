@@ -87,7 +87,7 @@ function handleEnemies(frame, enemiesInterval, gameStarted, hordeMode, enemiesTo
 		if (enemies[i].health <= 0) {
 			const gainedResources = enemies[i].maxHealth / 10;
 			setResources(gainedResources);
-			floatingMessages.push(new FloatingMessage('+' + gainedResources, 250, 50, 30, 'gold'));
+			floatingMessages.push(new FloatingMessage('+' + gainedResources, 350, 50, 30, 'gold'));
 			setScore(gainedResources);
 			enemyPosition.splice(enemyPosition.indexOf(enemies[i].y), 1);
 			deadEnemies.push(new Enemy(enemies[i].y, enemies[i].x, 0, enemies[i].health, true, 0));

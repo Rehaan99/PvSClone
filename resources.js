@@ -53,7 +53,7 @@ function handleResources(frame, gameOver) {
 			floatingMessages.push(
 				new FloatingMessage('+' + resources[i].amount, resources[i].x, resources[i].y, 30, 'gold')
 			);
-			floatingMessages.push(new FloatingMessage('+' + resources[i].amount, 250, 50, 30, 'gold'));
+			floatingMessages.push(new FloatingMessage('+' + resources[i].amount, 450, 60, 30, 'gold'));
 			resources.splice(i, 1);
 			i--;
 		}
